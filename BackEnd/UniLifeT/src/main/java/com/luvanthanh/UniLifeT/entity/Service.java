@@ -23,16 +23,10 @@ public class Service {
     @Column(name = "service_id")
     private Long serviceId;
 
-    @Column(name = "service_name", nullable = false, unique = true, length = 100)
     private String serviceName;
-
-    @Column(name = "service_price", precision = 12, scale = 2)
+    private int serviceTime;
     private BigDecimal servicePrice;
-
-    @Column(name = "service_icon", length = 255)
     private String serviceIcon;
-
-    @Column(name = "service_status", length = 200)
     private String serviceStatus;
 
     @ManyToMany(mappedBy = "services")

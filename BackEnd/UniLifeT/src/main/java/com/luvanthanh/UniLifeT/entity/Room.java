@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "rooms")
@@ -25,25 +26,13 @@ public class Room {
     @JoinColumn(name = "motel_id", nullable = false)
     private Motel motel;
 
-    @Column(name = "room_price", nullable = false, precision = 12, scale = 2)
     private BigDecimal roomPrice;
-
-    @Column(name = "room_deposit", precision = 12, scale = 2)
-    private BigDecimal roomDeposit = BigDecimal.ZERO;
-
-    @Column(name = "room_area")
+    private BigDecimal roomDeposit;
     private Double roomArea;
-
-    @Column(name = "room_address", length = 255)
     private String roomAddress;
-
-    @Column(name = "room_type", length = 100)
     private String roomType;
-
-    @Column(name = "room_status", length = 100)
     private String roomStatus;
-
-    @Column(name = "room_descrition", length = 6000)
+    private int roomView;
     private String roomDescription;
 
     @OneToMany(mappedBy = "room")
@@ -55,10 +44,10 @@ public class Room {
             joinColumns = @JoinColumn(name = "room_id"),
             inverseJoinColumns = @JoinColumn(name = "service_id")
     )
-    private List<UtilityService> services = new ArrayList<>();
+    private List<Service> services = new ArrayList<>();
 
     @OneToMany(mappedBy = "room")
-    private List<RoomAmenity> roomAmenities = new ArrayList<>();
+    private List<RoomAmenities> roomAmenities = new ArrayList<>();
 
     @OneToMany(mappedBy = "room")
     private List<Post> posts = new ArrayList<>();

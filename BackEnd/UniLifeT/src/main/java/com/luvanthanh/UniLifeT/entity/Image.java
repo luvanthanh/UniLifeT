@@ -2,7 +2,9 @@ package com.luvanthanh.UniLifeT.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-
+import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 @Entity
 @Table(name = "images")
 @Getter
@@ -27,10 +29,7 @@ public class Image {
     @JoinColumn(name = "motel_id")
     private Motel motel;
 
-    @Column(name = "image_name", length = 100)
     private String imageName;
-
-    @Column(name = "images_url", length = 200)
     private String imagesUrl;
 
 }

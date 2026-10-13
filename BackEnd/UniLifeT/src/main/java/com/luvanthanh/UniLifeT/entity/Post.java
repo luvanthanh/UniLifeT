@@ -2,6 +2,7 @@ package com.luvanthanh.UniLifeT.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -24,11 +25,11 @@ public class Post {
     @JoinColumn(name = "room_id", nullable = false)
     private Room room;
 
-    @Column(name = "post_name", length = 200)
-    private String postName;
-
-    @Column(name = "post_content", columnDefinition = "text")
+    private String postTitle;
     private String postContent;
+    private Date postCreateAt;
+    private String postStatus;
+    private int postView;
 
     @OneToMany(mappedBy = "post")
     private List<Image> images = new ArrayList<>();

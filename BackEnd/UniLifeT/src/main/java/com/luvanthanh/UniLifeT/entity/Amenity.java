@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "amenities")
@@ -24,5 +25,5 @@ public class Amenity {
     private String amenityName;
 
     @OneToMany(mappedBy = "amenity")
-    private List<RoomAmenity> roomAmenities = new ArrayList<>();
+    private List<RoomAmenities> roomAmenities = new ArrayList<>();
 }

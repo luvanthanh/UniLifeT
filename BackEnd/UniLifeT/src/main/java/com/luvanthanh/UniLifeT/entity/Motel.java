@@ -9,9 +9,11 @@ import lombok.Setter;
 import lombok.*;
 import java.util.ArrayList;
 import java.util.List;
+import jakarta.persistence.OneToMany;
 
 @Entity
 @Data
+@Table(name="motels")
 @Getter
 @Setter
 @AllArgsConstructor
@@ -25,14 +27,8 @@ public class Motel {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
-
-    @Column(name = "motel_name", length = 200)
     private String motelName;
-
-    @Column(name = "motel_address", length = 300)
     private String motelAddress;
-
-    @Column(name = "motel_owner", length = 300)
     private String motelOwner;
 
     @OneToMany(mappedBy = "motel")
@@ -48,6 +44,5 @@ public class Motel {
 
     @OneToMany(mappedBy = "motel")
     private List<Image> images = new ArrayList<>();
-
 
 }

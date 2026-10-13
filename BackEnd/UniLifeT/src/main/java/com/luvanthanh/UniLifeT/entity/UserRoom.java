@@ -25,15 +25,8 @@ public class UserRoom {
     @JoinColumn(name = "room_id", nullable = false)
     private Room room;
 
-    @Column(name = "start_date", nullable = false)
     private LocalDate startDate;
-
-    @Column(name = "end_date")
     private LocalDate endDate;
-
-    @Column(name = "monthly_rent", nullable = false, precision = 12, scale = 2)
     private BigDecimal monthlyRent;
-
-    @Column(name = "contract_status", length = 20)
     private String contractStatus;
 }
