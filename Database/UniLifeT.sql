@@ -1,3 +1,4 @@
+
 -- users
 create table users
 (
@@ -365,18 +366,66 @@ INSERT INTO motel_universities (motel_id, university_id) VALUES
 (3, 1), (3, 2),
 (4, 2), (4, 3);
 
--- SELECT
---     p.post_id,
---     p.post_title,
---     m.motel_name,
---     r.room_address,
---     r.room_price,
---     r.room_area,
---     r.room_status
--- FROM posts p
--- JOIN rooms r ON p.room_id = r.room_id
--- JOIN motels m ON r.motel_id = m.motel_id
--- ORDER BY p.post_id;
+INSERT INTO images (post_id, room_id, motel_id, image_name, images_url)
+VALUES
+-- Ảnh phòng trọ Louis City Hoàng Mai (tin Nhà Tốt)
+(NULL, 1, NULL, 'Louis City - Ảnh 1', 'https://cdn.chotot.com/kGafXZ-B3A2NMI8OFOGdRgEfhFM_PKm71iRaTjl0Q3Y/preset%3Aview/plain/1215808d4e00dd739ae8e6cc434c9a46-2974935649208558197.jpg'),
+(NULL, 1, NULL, 'Louis City - Ảnh 2', 'https://cdn.chotot.com/ejCruV6SF3fc8S_t3D-SY5WNn_aovDXX8hgVUp2cnsk/preset%3Aview/plain/2a1c1cc85886b11c66d8499b07786e46-2974935650289649483.jpg'),
+(NULL, 1, NULL, 'Louis City - Ảnh 3', 'https://cdn.chotot.com/Mrd_lg2l-rRSxlXl53dPX_Yj7RSsmpdEOTxWLoaTyIg/preset%3Aview/plain/fef92c26e36bdb5982964e0ac3fc6fa9-2974935649291549007.jpg'),
+(NULL, 1, NULL, 'Louis City - Ảnh 4', 'https://cdn.chotot.com/7gWJXBRkJHHv60NJI9ZcdLlvJPjmPzWQSe0Sk0MfiyE/preset%3Aview/plain/9cf90fd6d8730f9465bf0dc4b96b50a2-2974935649004686685.jpg'),
+(NULL, 1, NULL, 'Louis City - Ảnh 5', 'https://cdn.chotot.com/pUjbohYS6O8VOLp7C-y0Wqa2QHS8u7t64ZiJ6J4pLyI/preset%3Aview/plain/bc8d9277c62318c48ea96a711ad453e3-2974935649339841401.jpg'),
+
+-- Ảnh phòng trọ Louis Hoàng Mai (tin đăng khác)
+(NULL, 2, NULL, 'Louis Hoàng Mai - Ảnh 1', 'https://cdn.chotot.com/DZgMsVuBKPUWw0oCYRevx8WEn0VDJ4jgDv6eDqnrDLc/preset%3Aview/plain/ecec20768331f721e74d830454a12de2-3003547366140331671.jpg'),
+(NULL, 2, NULL, 'Louis Hoàng Mai - Ảnh 2', 'https://cdn.chotot.com/2z8Be1Ruzvh9DdK6Ht10XmhYNZoEOy9e0bELAo1nnEs/preset%3Aview/plain/8f7c21859d71fe73af5ed71241feb41b-3003547366200913335.jpg'),
+(NULL, 2, NULL, 'Louis Hoàng Mai - Ảnh 3', 'https://cdn.chotot.com/XPJGa0sT6RFXiAHs4jfPgqjvqu0q6uKHA-gRAMyUgpw/preset%3Aview/plain/7f535ffe4a87cc1bfba9d0cc1cf30bfd-3003547366230438437.jpg'),
+(NULL, 2, NULL, 'Louis Hoàng Mai - Ảnh 4', 'https://cdn.chotot.com/xzs6Ch3v0GSOQUz6YMK7neA_Xw6GuPaW9Y2WvpEY-28/preset%3Aview/plain/851b24586a49ce8ad74480c357c7a015-3003547366314462541.jpg'),
+(NULL, 2, NULL, 'Louis Hoàng Mai - Ảnh 5', 'https://cdn.chotot.com/P0clpOBogQWCH960i0Bh280kl06xiTK-jkAmliX6a74/preset%3Aview/plain/fb9d21d8aa686bbc479199eab7ec369a-3003547366315548081.jpg'),
+
+-- Thêm ảnh cho phòng 3, 4, 5
+(NULL, 3, NULL, 'Phòng trọ - Ảnh 1', 'https://cdn.chotot.com/kGafXZ-B3A2NMI8OFOGdRgEfhFM_PKm71iRaTjl0Q3Y/preset%3Aview/plain/1215808d4e00dd739ae8e6cc434c9a46-2974935649208558197.jpg'),
+(NULL, 3, NULL, 'Phòng trọ - Ảnh 2', 'https://cdn.chotot.com/2z8Be1Ruzvh9DdK6Ht10XmhYNZoEOy9e0bELAo1nnEs/preset%3Aview/plain/8f7c21859d71fe73af5ed71241feb41b-3003547366200913335.jpg'),
+(NULL, 3, NULL, 'Phòng trọ - Ảnh 3', 'https://cdn.chotot.com/Mrd_lg2l-rRSxlXl53dPX_Yj7RSsmpdEOTxWLoaTyIg/preset%3Aview/plain/fef92c26e36bdb5982964e0ac3fc6fa9-2974935649291549007.jpg'),
+(NULL, 3, NULL, 'Phòng trọ - Ảnh 4', 'https://cdn.chotot.com/XPJGa0sT6RFXiAHs4jfPgqjvqu0q6uKHA-gRAMyUgpw/preset%3Aview/plain/7f535ffe4a87cc1bfba9d0cc1cf30bfd-3003547366230438437.jpg'),
+(NULL, 3, NULL, 'Phòng trọ - Ảnh 5', 'https://cdn.chotot.com/pUjbohYS6O8VOLp7C-y0Wqa2QHS8u7t64ZiJ6J4pLyI/preset%3Aview/plain/bc8d9277c62318c48ea96a711ad453e3-2974935649339841401.jpg'),
+
+(NULL, 4, NULL, 'Phòng trọ - Ảnh 1', 'https://cdn.chotot.com/DZgMsVuBKPUWw0oCYRevx8WEn0VDJ4jgDv6eDqnrDLc/preset%3Aview/plain/ecec20768331f721e74d830454a12de2-3003547366140331671.jpg'),
+(NULL, 4, NULL, 'Phòng trọ - Ảnh 2', 'https://cdn.chotot.com/ejCruV6SF3fc8S_t3D-SY5WNn_aovDXX8hgVUp2cnsk/preset%3Aview/plain/2a1c1cc85886b11c66d8499b07786e46-2974935650289649483.jpg'),
+(NULL, 4, NULL, 'Phòng trọ - Ảnh 3', 'https://cdn.chotot.com/7gWJXBRkJHHv60NJI9ZcdLlvJPjmPzWQSe0Sk0MfiyE/preset%3Aview/plain/9cf90fd6d8730f9465bf0dc4b96b50a2-2974935649004686685.jpg'),
+(NULL, 4, NULL, 'Phòng trọ - Ảnh 4', 'https://cdn.chotot.com/2z8Be1Ruzvh9DdK6Ht10XmhYNZoEOy9e0bELAo1nnEs/preset%3Aview/plain/8f7c21859d71fe73af5ed71241feb41b-3003547366200913335.jpg'),
+(NULL, 4, NULL, 'Phòng trọ - Ảnh 5', 'https://cdn.chotot.com/P0clpOBogQWCH960i0Bh280kl06xiTK-jkAmliX6a74/preset%3Aview/plain/fb9d21d8aa686bbc479199eab7ec369a-3003547366315548081.jpg'),
+
+(NULL, 5, NULL, 'Phòng trọ - Ảnh 1', 'https://cdn.chotot.com/kGafXZ-B3A2NMI8OFOGdRgEfhFM_PKm71iRaTjl0Q3Y/preset%3Aview/plain/1215808d4e00dd739ae8e6cc434c9a46-2974935649208558197.jpg'),
+(NULL, 5, NULL, 'Phòng trọ - Ảnh 2', 'https://cdn.chotot.com/DZgMsVuBKPUWw0oCYRevx8WEn0VDJ4jgDv6eDqnrDLc/preset%3Aview/plain/ecec20768331f721e74d830454a12de2-3003547366140331671.jpg'),
+(NULL, 5, NULL, 'Phòng trọ - Ảnh 3', 'https://cdn.chotot.com/XPJGa0sT6RFXiAHs4jfPgqjvqu0q6uKHA-gRAMyUgpw/preset%3Aview/plain/7f535ffe4a87cc1bfba9d0cc1cf30bfd-3003547366230438437.jpg'),
+(NULL, 5, NULL, 'Phòng trọ - Ảnh 4', 'https://cdn.chotot.com/xzs6Ch3v0GSOQUz6YMK7neA_Xw6GuPaW9Y2WvpEY-28/preset%3Aview/plain/851b24586a49ce8ad74480c357c7a015-3003547366314462541.jpg'),
+(NULL, 5, NULL, 'Phòng trọ - Ảnh 5', 'https://cdn.chotot.com/ur4wawm28ecv1cTrIrV-xKj4I09QTxwU6YOkiCvUPkk/preset%3Aview/plain/a12772710150d72e58110dd6d0cdabd5-3006149894065610487.jpg'),
+
+-- Ảnh bài đăng 1-5
+(1, NULL, NULL, 'Bài đăng 1 - Ảnh 1', 'https://cdn.chotot.com/kGafXZ-B3A2NMI8OFOGdRgEfhFM_PKm71iRaTjl0Q3Y/preset%3Aview/plain/1215808d4e00dd739ae8e6cc434c9a46-2974935649208558197.jpg'),
+(1, NULL, NULL, 'Bài đăng 1 - Ảnh 2', 'https://cdn.chotot.com/ejCruV6SF3fc8S_t3D-SY5WNn_aovDXX8hgVUp2cnsk/preset%3Aview/plain/2a1c1cc85886b11c66d8499b07786e46-2974935650289649483.jpg'),
+(1, NULL, NULL, 'Bài đăng 1 - Ảnh 3', 'https://cdn.chotot.com/Mrd_lg2l-rRSxlXl53dPX_Yj7RSsmpdEOTxWLoaTyIg/preset%3Aview/plain/fef92c26e36bdb5982964e0ac3fc6fa9-2974935649291549007.jpg'),
+(1, NULL, NULL, 'Bài đăng 1 - Ảnh 4', 'https://cdn.chotot.com/DZgMsVuBKPUWw0oCYRevx8WEn0VDJ4jgDv6eDqnrDLc/preset%3Aview/plain/ecec20768331f721e74d830454a12de2-3003547366140331671.jpg'),
+(1, NULL, NULL, 'Bài đăng 1 - Ảnh 5', 'https://cdn.chotot.com/2z8Be1Ruzvh9DdK6Ht10XmhYNZoEOy9e0bELAo1nnEs/preset%3Aview/plain/8f7c21859d71fe73af5ed71241feb41b-3003547366200913335.jpg'),
+
+(2, NULL, NULL, 'Bài đăng 2 - Ảnh 1', 'https://cdn.chotot.com/XPJGa0sT6RFXiAHs4jfPgqjvqu0q6uKHA-gRAMyUgpw/preset%3Aview/plain/7f535ffe4a87cc1bfba9d0cc1cf30bfd-3003547366230438437.jpg'),
+(2, NULL, NULL, 'Bài đăng 2 - Ảnh 2', 'https://cdn.chotot.com/xzs6Ch3v0GSOQUz6YMK7neA_Xw6GuPaW9Y2WvpEY-28/preset%3Aview/plain/851b24586a49ce8ad74480c357c7a015-3003547366314462541.jpg'),
+(2, NULL, NULL, 'Bài đăng 2 - Ảnh 3', 'https://cdn.chotot.com/P0clpOBogQWCH960i0Bh280kl06xiTK-jkAmliX6a74/preset%3Aview/plain/fb9d21d8aa686bbc479199eab7ec369a-3003547366315548081.jpg'),
+(2, NULL, NULL, 'Bài đăng 2 - Ảnh 4', 'https://cdn.chotot.com/7gWJXBRkJHHv60NJI9ZcdLlvJPjmPzWQSe0Sk0MfiyE/preset%3Aview/plain/9cf90fd6d8730f9465bf0dc4b96b50a2-2974935649004686685.jpg'),
+(2, NULL, NULL, 'Bài đăng 2 - Ảnh 5', 'https://cdn.chotot.com/pUjbohYS6O8VOLp7C-y0Wqa2QHS8u7t64ZiJ6J4pLyI/preset%3Aview/plain/bc8d9277c62318c48ea96a711ad453e3-2974935649339841401.jpg'),
+
+-- Ảnh nhà trọ 1-4
+(NULL, NULL, 1, 'Nhà trọ Louis City - Ảnh 1', 'https://cdn.chotot.com/kGafXZ-B3A2NMI8OFOGdRgEfhFM_PKm71iRaTjl0Q3Y/preset%3Aview/plain/1215808d4e00dd739ae8e6cc434c9a46-2974935649208558197.jpg'),
+(NULL, NULL, 1, 'Nhà trọ Louis City - Ảnh 2', 'https://cdn.chotot.com/ejCruV6SF3fc8S_t3D-SY5WNn_aovDXX8hgVUp2cnsk/preset%3Aview/plain/2a1c1cc85886b11c66d8499b07786e46-2974935650289649483.jpg'),
+(NULL, NULL, 1, 'Nhà trọ Louis City - Ảnh 3', 'https://cdn.chotot.com/Mrd_lg2l-rRSxlXl53dPX_Yj7RSsmpdEOTxWLoaTyIg/preset%3Aview/plain/fef92c26e36bdb5982964e0ac3fc6fa9-2974935649291549007.jpg'),
+(NULL, NULL, 1, 'Nhà trọ Louis City - Ảnh 4', 'https://cdn.chotot.com/7gWJXBRkJHHv60NJI9ZcdLlvJPjmPzWQSe0Sk0MfiyE/preset%3Aview/plain/9cf90fd6d8730f9465bf0dc4b96b50a2-2974935649004686685.jpg'),
+(NULL, NULL, 1, 'Nhà trọ Louis City - Ảnh 5', 'https://cdn.chotot.com/pUjbohYS6O8VOLp7C-y0Wqa2QHS8u7t64ZiJ6J4pLyI/preset%3Aview/plain/bc8d9277c62318c48ea96a711ad453e3-2974935649339841401.jpg'),
+
+(NULL, NULL, 2, 'Nhà trọ Trương Định - Ảnh 1', 'https://cdn.chotot.com/DZgMsVuBKPUWw0oCYRevx8WEn0VDJ4jgDv6eDqnrDLc/preset%3Aview/plain/ecec20768331f721e74d830454a12de2-3003547366140331671.jpg'),
+(NULL, NULL, 2, 'Nhà trọ Trương Định - Ảnh 2', 'https://cdn.chotot.com/2z8Be1Ruzvh9DdK6Ht10XmhYNZoEOy9e0bELAo1nnEs/preset%3Aview/plain/8f7c21859d71fe73af5ed71241feb41b-3003547366200913335.jpg'),
+(NULL, NULL, 2, 'Nhà trọ Trương Định - Ảnh 3', 'https://cdn.chotot.com/XPJGa0sT6RFXiAHs4jfPgqjvqu0q6uKHA-gRAMyUgpw/preset%3Aview/plain/7f535ffe4a87cc1bfba9d0cc1cf30bfd-3003547366230438437.jpg'),
+(NULL, NULL, 2, 'Nhà trọ Trương Định - Ảnh 4', 'https://cdn.chotot.com/xzs6Ch3v0GSOQUz6YMK7neA_Xw6GuPaW9Y2WvpEY-28/preset%3Aview/plain/851b24586a49ce8ad74480c357c7a015-3003547366314462541.jpg'),
+(NULL, NULL, 2, 'Nhà trọ Trương Định - Ảnh 5', 'https://cdn.chotot.com/P0clpOBogQWCH960i0Bh280kl06xiTK-jkAmliX6a74/preset%3Aview/plain/fb9d21d8aa686bbc479199eab7ec369a-3003547366315548081.jpg');
 
 SELECT * FROM users;
 SELECT * FROM motels;
@@ -385,4 +434,5 @@ SELECT * FROM posts;
 SELECT * FROM services;
 SELECT * FROM amenities;
 SELECT * FROM universities;
+select * from images;
     
