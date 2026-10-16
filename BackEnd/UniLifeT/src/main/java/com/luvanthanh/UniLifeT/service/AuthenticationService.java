@@ -1,7 +1,9 @@
 package com.luvanthanh.UniLifeT.service;
 
 import com.luvanthanh.UniLifeT.dto.request.anthenticated.AuthenticationRequest;
+import com.luvanthanh.UniLifeT.dto.request.anthenticated.IntrospectRequest;
 import com.luvanthanh.UniLifeT.dto.response.authenticatedResponse.AuthenticationResponse;
+import com.luvanthanh.UniLifeT.dto.response.authenticatedResponse.IntrospectResponse;
 import com.luvanthanh.UniLifeT.entity.User;
 import com.luvanthanh.UniLifeT.exception.AppException;
 import com.luvanthanh.UniLifeT.exception.ErrorCode;
@@ -65,7 +67,7 @@ public class AuthenticationService {
         }
     }
 
-    public IntrospectResponse introspect( IntrospectRequest request)
+    public IntrospectResponse introspect(IntrospectRequest request)
             throws JOSEException, ParseException
     {
         var token = request.getToken();
