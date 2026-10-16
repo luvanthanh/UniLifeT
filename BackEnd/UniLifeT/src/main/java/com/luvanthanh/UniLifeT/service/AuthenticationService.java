@@ -2,11 +2,14 @@ package com.luvanthanh.UniLifeT.service;
 
 import com.luvanthanh.UniLifeT.dto.request.anthenticated.AuthenticationRequest;
 import com.luvanthanh.UniLifeT.dto.request.anthenticated.IntrospectRequest;
+import com.luvanthanh.UniLifeT.dto.request.anthenticated.LogoutRequest;
 import com.luvanthanh.UniLifeT.dto.response.authenticatedResponse.AuthenticationResponse;
 import com.luvanthanh.UniLifeT.dto.response.authenticatedResponse.IntrospectResponse;
+import com.luvanthanh.UniLifeT.entity.Token;
 import com.luvanthanh.UniLifeT.entity.User;
 import com.luvanthanh.UniLifeT.exception.AppException;
 import com.luvanthanh.UniLifeT.exception.ErrorCode;
+import com.luvanthanh.UniLifeT.reponsitory.TokenRepository;
 import com.luvanthanh.UniLifeT.reponsitory.UserRepository;
 import com.nimbusds.jose.*;
 import com.nimbusds.jose.crypto.MACSigner;
@@ -33,7 +36,7 @@ public class AuthenticationService {
     private UserRepository userRepository;
 
     @Autowired
-    private InvalidatedTokenRepository invalidatedTokenRepository;
+    private TokenRepository tokenRepository;
 
     @Value("${jwt.signerKey}")
     private String SINGER_KEY;
@@ -95,7 +98,7 @@ public class AuthenticationService {
         if(!(verified && expiryTime.after(new Date())))
             throw new AppException(ErrorCode.HETHAN_OR_NOT_VIRIFER);
 
-        if(invalidatedTokenRepository.existsById(signedJWT.getJWTClaimsSet().getJWTID())){
+        if(tokenRepository.existsByTokenId(signedJWT.getJWTClaimsSet().getJWTID())){
             throw new AppException(ErrorCode.NOT_AUTHENTICATED);
         }
 
@@ -103,11 +106,10 @@ public class AuthenticationService {
     }
 
     // check xem có đăng nhập đúng không
-    public AuthenticationResponse login(AuthenticationRequest request) {
+    public AuthenticationResponse authentication(AuthenticationRequest request) {
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
         var user = userRepository.findByUserName(request.getUserName())
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOTFIND));
-
 
         boolean checkPassword = passwordEncoder.matches(request.getUserPassword(), user.getUserPassword());
 
@@ -127,17 +129,12 @@ public class AuthenticationService {
         }
     }
 
-    public InvalidatedToken logout(LogoutRequest request) throws ParseException, JOSEException {
+    public Token logout(LogoutRequest request) throws ParseException, JOSEException {
         var signToken = verifyToken(request.getToken());
 
         String jit = signToken.getJWTClaimsSet().getJWTID();
         Date expiryTime = signToken.getJWTClaimsSet().getExpirationTime();
 
-        InvalidatedToken invalidatedToken = InvalidatedToken.builder()
-                .id(jit)
-                .expiryTime(expiryTime)
-                .build();
-
-        return invalidatedTokenRepository.save(invalidatedToken);
+        return tokenRepository.save(request.getToken());
     }
 }
