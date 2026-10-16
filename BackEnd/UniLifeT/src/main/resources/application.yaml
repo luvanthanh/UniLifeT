@@ -17,3 +17,5 @@ spring:
 server:
   port: 8080
 
+jwt:
+  signerKey: "iibCe8bCDuK8ziYesVMoeyJcZ6Lmp9jwwOGTMc7KzMYVi3wU18uypgq0Mh6YHNQN"
