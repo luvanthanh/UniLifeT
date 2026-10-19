@@ -31,6 +31,7 @@ public class User {
     private String userAddress;
     private String userRole;
 
+
     @OneToMany(mappedBy = "user")
     private List<Motel> motels = new ArrayList<>();
 

@@ -42,7 +42,31 @@ public class AuthenticationService {
     private String SINGER_KEY;
 
 
+//    Đăng nhập
+public AuthenticationResponse login(AuthenticationRequest request) {
+    PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
+    var user = userRepository.findByUserName(request.getUserName())
+            .orElseThrow(() -> new AppException(ErrorCode.USER_NOTFIND));
 
+    boolean checkPassword = passwordEncoder.matches(request.getUserPassword(), user.getUserPassword());
+
+    if(!checkPassword) {
+        throw new AppException(ErrorCode.PASSWORRD_INVALID);
+    }
+
+    else{
+        var token = generateToken(user); // sinh token khi đăng nhập với tài khoàn đúng
+
+        return AuthenticationResponse.builder()
+                .checkAuthenticated(true)
+                .token(token)
+                .userId(user.getUserId())
+                .build();
+
+    }
+}
+
+// sinh token
     private String generateToken(User user)
     {
         JWSHeader jwsHeader= new JWSHeader(JWSAlgorithm.HS512);
@@ -70,6 +94,7 @@ public class AuthenticationService {
         }
     }
 
+//     xác thực token
     public IntrospectResponse introspect(IntrospectRequest request)
             throws JOSEException, ParseException
     {

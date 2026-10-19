@@ -1,5 +1,6 @@
 package com.luvanthanh.UniLifeT.configuration;
 
+import com.luvanthanh.UniLifeT.service.AuthenticationService;
 import com.nimbusds.jose.JOSEException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
