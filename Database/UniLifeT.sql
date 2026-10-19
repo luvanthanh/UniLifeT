@@ -432,6 +432,11 @@ VALUES
 (NULL, NULL, 2, 'Nhà trọ Trương Định - Ảnh 4', 'https://cdn.chotot.com/xzs6Ch3v0GSOQUz6YMK7neA_Xw6GuPaW9Y2WvpEY-28/preset%3Aview/plain/851b24586a49ce8ad74480c357c7a015-3003547366314462541.jpg'),
 (NULL, NULL, 2, 'Nhà trọ Trương Định - Ảnh 5', 'https://cdn.chotot.com/P0clpOBogQWCH960i0Bh280kl06xiTK-jkAmliX6a74/preset%3Aview/plain/fb9d21d8aa686bbc479199eab7ec369a-3003547366315548081.jpg');
 
+SELECT setval(
+    pg_get_serial_sequence('users', 'user_id'),
+    COALESCE((SELECT MAX(user_id) FROM users), 1),
+    (SELECT COUNT(*) > 0 FROM users)
+);
 SELECT * FROM users;
 SELECT * FROM motels;
 SELECT * FROM rooms;

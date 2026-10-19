@@ -1,4 +1,5 @@
-package com.luvanthanh.UniLifeT.reponsitory;
+package com.luvanthanh.UniLifeT.repository;
+
 
 
 import com.luvanthanh.UniLifeT.entity.User;
@@ -9,8 +10,8 @@ import java.util.Optional;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
-    Boolean existsByUsername(String username);
-    Optional<User> findByEmail (String email);
+    Boolean existsByUserName(String username);
+    Optional<User> findByUserEmail (String email);
     Optional<User> findByUserName(String userName);
     Optional<User> findByUserId(Long id);
     void deleteUserByUserId(Long id);

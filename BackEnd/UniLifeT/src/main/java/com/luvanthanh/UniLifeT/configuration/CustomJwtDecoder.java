@@ -1,5 +1,6 @@
 package com.luvanthanh.UniLifeT.configuration;
 
+import com.luvanthanh.UniLifeT.dto.request.anthenticated.IntrospectRequest;
 import com.luvanthanh.UniLifeT.service.AuthenticationService;
 import com.nimbusds.jose.JOSEException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +33,7 @@ public class CustomJwtDecoder implements JwtDecoder {
                     .token(token)
                     .build());
 
-            if (!response.isCheckToken())
+            if (!response.getCheckToken())
                 throw new JwtException("Token invalid");
         } catch (JOSEException | ParseException e) {
             throw new JwtException(e.getMessage());

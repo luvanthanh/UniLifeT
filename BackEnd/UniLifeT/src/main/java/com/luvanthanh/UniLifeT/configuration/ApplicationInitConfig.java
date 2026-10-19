@@ -2,7 +2,7 @@ package com.luvanthanh.UniLifeT.configuration;
 
 import com.luvanthanh.UniLifeT.Enum.Role;
 import com.luvanthanh.UniLifeT.entity.User;
-import com.luvanthanh.UniLifeT.reponsitory.UserRepository;
+import com.luvanthanh.UniLifeT.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Bean;
@@ -22,6 +22,7 @@ public class ApplicationInitConfig {
 
                 User user = User.builder()
                         .userName("admin")
+                        .userEmail("admin@gmail.com")
                         .userPassword(passwordEncoder.encode("admin"))
                         .userRole(roles)
                         .build();

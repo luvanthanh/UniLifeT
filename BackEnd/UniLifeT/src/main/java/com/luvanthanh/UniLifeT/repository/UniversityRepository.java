@@ -1,4 +1,4 @@
-package com.luvanthanh.UniLifeT.reponsitory;
+package com.luvanthanh.UniLifeT.repository;
 
 import com.luvanthanh.UniLifeT.entity.University;
 import org.springframework.data.jpa.repository.JpaRepository;

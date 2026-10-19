@@ -3,14 +3,17 @@ package com.luvanthanh.UniLifeT.service;
 import com.luvanthanh.UniLifeT.dto.request.anthenticated.AuthenticationRequest;
 import com.luvanthanh.UniLifeT.dto.request.anthenticated.IntrospectRequest;
 import com.luvanthanh.UniLifeT.dto.request.anthenticated.LogoutRequest;
+import com.luvanthanh.UniLifeT.dto.request.userRequest.UserCreationRequest;
 import com.luvanthanh.UniLifeT.dto.response.authenticatedResponse.AuthenticationResponse;
 import com.luvanthanh.UniLifeT.dto.response.authenticatedResponse.IntrospectResponse;
+import com.luvanthanh.UniLifeT.dto.response.userResponse.UserResponse;
 import com.luvanthanh.UniLifeT.entity.Token;
 import com.luvanthanh.UniLifeT.entity.User;
 import com.luvanthanh.UniLifeT.exception.AppException;
 import com.luvanthanh.UniLifeT.exception.ErrorCode;
-import com.luvanthanh.UniLifeT.reponsitory.TokenRepository;
-import com.luvanthanh.UniLifeT.reponsitory.UserRepository;
+import com.luvanthanh.UniLifeT.mapper.UserMapper;
+import com.luvanthanh.UniLifeT.repository.TokenRepository;
+import com.luvanthanh.UniLifeT.repository.UserRepository;
 import com.nimbusds.jose.*;
 import com.nimbusds.jose.crypto.MACSigner;
 import com.nimbusds.jose.crypto.MACVerifier;
@@ -25,6 +28,7 @@ import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
 import java.time.Instant;
+import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.UUID;
@@ -38,10 +42,23 @@ public class AuthenticationService {
     @Autowired
     private TokenRepository tokenRepository;
 
+    @Autowired
+    UserMapper userMapper;
+
     @Value("${jwt.signerKey}")
     private String SINGER_KEY;
 
 
+//    Đăng kí
+public UserResponse register (UserCreationRequest request){
+    if(userRepository.existsByUserName(request.getUserName())){
+        throw new AppException(ErrorCode.USER_EXITS);
+    }
+    User  user = userMapper.toUser(request);
+    PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10); // tạo passwordEncoder
+    user.setUserPassword(passwordEncoder.encode(request.getUserPassword())); // set password cho user khi truyền request vào;
+    return userMapper.toUserResponse(userRepository.save(user));
+}
 //    Đăng nhập
 public AuthenticationResponse login(AuthenticationRequest request) {
     PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
@@ -154,12 +171,23 @@ public AuthenticationResponse login(AuthenticationRequest request) {
         }
     }
 
-    public Token logout(LogoutRequest request) throws ParseException, JOSEException {
-        var signToken = verifyToken(request.getToken());
+    public Token logout(LogoutRequest request)
+            throws ParseException, JOSEException {
 
-        String jit = signToken.getJWTClaimsSet().getJWTID();
-        Date expiryTime = signToken.getJWTClaimsSet().getExpirationTime();
+        var signedToken = verifyToken(request.getToken());
 
-        return tokenRepository.save(request.getToken());
+        String jwtId = signedToken.getJWTClaimsSet().getJWTID();
+        Date expiryTime = signedToken.getJWTClaimsSet().getExpirationTime();
+
+        Token token = Token.builder()
+                .tokenValue(request.getToken())
+                .tokenExpiryTime(
+                        expiryTime.toInstant()
+                                .atZone(ZoneId.systemDefault())
+                                .toLocalDateTime()
+                )
+                .build();
+
+        return tokenRepository.save(token);
     }
 }
