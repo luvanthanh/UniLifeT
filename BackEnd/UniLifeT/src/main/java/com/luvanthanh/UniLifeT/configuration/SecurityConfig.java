@@ -15,6 +15,7 @@ import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
 
 import java.util.List;
 
+import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.http.HttpMethod.POST;
 
 @Configuration
@@ -22,13 +23,26 @@ import static org.springframework.http.HttpMethod.POST;
 @EnableMethodSecurity
 
 public class SecurityConfig {
-    private final String[] PUBLIC_ENDPOINTS = {
+    private final String[] PUBLIC_POST_ENDPOINTS = {
             "/users",
             "/users/auth/login",
             "/users/auth/introspect",
             "/users/auth/logout"
     };
-
+    public final String[] PUBLIC_GET_ENDPOINTS = {
+            "/universities",
+            "/universities/*",
+            "/amenities",
+            "/amenities/*",
+            "/services",
+            "/services/*",
+            "/roms",
+            "/roms/*",
+            "/posts",
+            "/posts/*",
+            "/images",
+            "/images/*"
+    };
     private final CustomJwtDecoder customJwtDecoder;
 
     public SecurityConfig(CustomJwtDecoder customJwtDecoder) {
@@ -42,7 +56,8 @@ public class SecurityConfig {
 //               .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .cors(AbstractHttpConfigurer::disable)                                                  // tắt cors để không bị trùng công frontend
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(POST, PUBLIC_ENDPOINTS).permitAll()
+                        .requestMatchers(POST, PUBLIC_POST_ENDPOINTS).permitAll()
+                        .requestMatchers(GET, PUBLIC_GET_ENDPOINTS).permitAll()
                         .anyRequest().authenticated()
                 )
 
