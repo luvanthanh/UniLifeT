@@ -16,7 +16,8 @@ public enum ErrorCode {
     NOT_AUTHENTICATED(1006,"không thể xác thực", HttpStatus.UNAUTHORIZED),
     UNAUTHORIZED(1007," bạn không được phép truy cập",HttpStatus.FORBIDDEN),
     HETHAN_OR_NOT_VIRIFER(1008,"hết hạn token hoặc không đúng với virifer", HttpStatus.UNAUTHORIZED),
-    ERROR_INJwtAuthenticationEntryPoint(1009,"lỗi ở lớp JwtAuthenticationEntryPoint",HttpStatus.UNAUTHORIZED)
+    ERROR_INJwtAuthenticationEntryPoint(1009,"lỗi ở lớp JwtAuthenticationEntryPoint",HttpStatus.UNAUTHORIZED),
+    UNIVERSITY_NOT_FOUND(1010, "không có đại học trong cơ sở dữ liệu", HttpStatus.NOT_FOUND)
     ;
 
 
@@ -30,4 +31,3 @@ public enum ErrorCode {
         this.httpStatusCode = httpStatusCode;
     }
 }
-
