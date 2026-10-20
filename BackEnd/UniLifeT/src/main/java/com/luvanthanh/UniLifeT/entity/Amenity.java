@@ -20,8 +20,6 @@ public class Amenity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "amenity_id")
     private Long amenityId;
-
-    @Column(name = "amenity_name", length = 100)
     private String amenityName;
 
     @OneToMany(mappedBy = "amenity")

@@ -29,7 +29,7 @@ public class AmenityService {
         Amenity amenity = amenityMapper.toAmenity(request);
         return amenityMapper.toAmenityResponse(amenityRepository.save(amenity));
     }
-// lấy danh sách
+// lấy danh sách tiện ích
     public List<AmenityResponse> findAllAmenities() {
         List<Amenity> amenities = amenityRepository.findAll();
         List<AmenityResponse> amenityResponseList = new ArrayList<>();
@@ -38,20 +38,20 @@ public class AmenityService {
         }
         return amenityResponseList;
     }
-//
+// tìm kiếm theo id
     public AmenityResponse findAmenityById(Long amenityId) {
         Amenity amenity = amenityRepository.findById(amenityId)
                 .orElseThrow(() -> new AppException(ErrorCode.AMENITY_NOT_FOUND));
         return amenityMapper.toAmenityResponse(amenity);
     }
-
+// cập nhật theo id
     public AmenityResponse updateAmenity(Long amenityId, AmenityUpdateRequest request) {
         Amenity amenity = amenityRepository.findById(amenityId)
                 .orElseThrow(() -> new AppException(ErrorCode.AMENITY_NOT_FOUND));
         amenityMapper.toAmenityUpdate(amenity, request);
         return amenityMapper.toAmenityResponse(amenityRepository.save(amenity));
     }
-
+// xóa theo id
     public String deleteAmenity(Long amenityId) {
         Amenity amenity = amenityRepository.findById(amenityId)
                 .orElseThrow(() -> new AppException(ErrorCode.AMENITY_NOT_FOUND));

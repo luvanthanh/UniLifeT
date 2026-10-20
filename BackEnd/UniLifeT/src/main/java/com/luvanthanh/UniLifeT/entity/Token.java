@@ -19,10 +19,7 @@ public class Token {
     @Column(name = "token_id")
     private Long tokenId;
 
-    @Column(name = "token_value", nullable = false, unique = true, length = 500)
     private String tokenValue;
-
-    @Column(name = "token_expiry_time", nullable = false)
     private LocalDateTime tokenExpiryTime;
 
 }
