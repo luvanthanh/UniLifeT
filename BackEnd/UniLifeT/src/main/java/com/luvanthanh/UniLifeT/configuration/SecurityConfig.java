@@ -41,8 +41,17 @@ public class SecurityConfig {
             "/posts",
             "/posts/*",
             "/images",
-            "/images/*"
+            "/images/*",
+            "/motels",
+            "/motels/*"
     };
+
+    private final String[] PUBLIC_PUT_ENDPOINT = {
+
+    };
+
+    private final String[] PUBLIC_DELETE_ENDPOINTS3 = {};
+
     private final CustomJwtDecoder customJwtDecoder;
 
     public SecurityConfig(CustomJwtDecoder customJwtDecoder) {

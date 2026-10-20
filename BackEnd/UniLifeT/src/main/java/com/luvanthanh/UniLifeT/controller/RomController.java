@@ -3,7 +3,9 @@ package com.luvanthanh.UniLifeT.controller;
 import com.luvanthanh.UniLifeT.dto.ApiResponse;
 import com.luvanthanh.UniLifeT.dto.request.roomRequest.RoomCreationRequest;
 import com.luvanthanh.UniLifeT.dto.request.roomRequest.RoomUpdateRequest;
+import com.luvanthanh.UniLifeT.dto.response.motelResponse.MotelResponse;
 import com.luvanthanh.UniLifeT.dto.response.roomResponse.RoomResponse;
+import com.luvanthanh.UniLifeT.entity.Room;
 import com.luvanthanh.UniLifeT.service.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +21,7 @@ public class RomController {
     @Autowired
     private RoomService roomService;
 
+// tạo phòng mới
     @PostMapping
     public ApiResponse<RoomResponse> createRoom(@RequestBody RoomCreationRequest request) {
         var result = roomService.createRoom(request);
@@ -40,6 +43,7 @@ public class RomController {
                 .build();
     }
 
+//     lấy all phòng
     @GetMapping
     public ApiResponse<List<RoomResponse>> getAllRooms() {
         var result = roomService.findAllRooms();
@@ -50,6 +54,7 @@ public class RomController {
                 .build();
     }
 
+//    lấy phòng theo id
     @GetMapping("/{roomId}")
     public ApiResponse<RoomResponse> getRoomById(@PathVariable Long roomId) {
         var result = roomService.findRoomById(roomId);
@@ -60,6 +65,11 @@ public class RomController {
                 .build();
     }
 
+    @GetMapping("/motels/{motelId}")
+    public ApiResponse<List<MotelResponse>> getMotelsByMotelId(@PathVariable Long motelId) {
+        var
+    }
+//  xóa phòng theo id
     @DeleteMapping("/{roomId}")
     public ApiResponse<String> deleteRoom(@PathVariable Long roomId) {
         var result = roomService.deleteRoom(roomId);
@@ -69,4 +79,5 @@ public class RomController {
                 .data(result)
                 .build();
     }
+
 }

@@ -31,7 +31,7 @@ public class RoomService {
 
     @Autowired
     private RoomMapper roomMapper;
-
+// tạo phòng mới
     public RoomResponse createRoom(RoomCreationRequest request) {
         Room room = roomMapper.toRoom(request);
         room.setMotel(motelRepository.findById(request.getMotelId())
@@ -39,7 +39,7 @@ public class RoomService {
         room.setServices(findServices(request.getServiceIds()));
         return roomMapper.toRoomResponse(roomRepository.save(room));
     }
-
+// lấy tất phòng
     public List<RoomResponse> findAllRooms() {
         List<Room> rooms = roomRepository.findAll();
         List<RoomResponse> roomResponseList = new ArrayList<>();
@@ -48,13 +48,13 @@ public class RoomService {
         }
         return roomResponseList;
     }
-
+// lấy phòng theo id
     public RoomResponse findRoomById(Long roomId) {
         Room room = roomRepository.findById(roomId)
                 .orElseThrow(() -> new AppException(ErrorCode.ROOM_NOT_FOUND));
         return roomMapper.toRoomResponse(room);
     }
-
+//  cập nhật phòng
     public RoomResponse updateRoom(Long roomId, RoomUpdateRequest request) {
         Room room = roomRepository.findById(roomId)
                 .orElseThrow(() -> new AppException(ErrorCode.ROOM_NOT_FOUND));
@@ -69,7 +69,7 @@ public class RoomService {
         }
         return roomMapper.toRoomResponse(roomRepository.save(room));
     }
-
+//  xóa phòng theo id
     public String deleteRoom(Long roomId) {
         Room room = roomRepository.findById(roomId)
                 .orElseThrow(() -> new AppException(ErrorCode.ROOM_NOT_FOUND));
