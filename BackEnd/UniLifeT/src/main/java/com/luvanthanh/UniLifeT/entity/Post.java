@@ -32,5 +32,5 @@ public class Post {
     private int postView;
 
     @OneToMany(mappedBy = "post")
-    private List<Image> images = new ArrayList<>();
+    private List<PostImage> images = new ArrayList<>();
 }

@@ -1,4 +1,4 @@
-package com.luvanthanh.UniLifeT.dto.request.imageRequest;
+package com.luvanthanh.UniLifeT.dto.response.image;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,10 +9,9 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ImageUpdateRequest {
+public class PostImageResponse {
+    private Long imageId;
     private Long postId;
-    private Long roomId;
-    private Long motelId;
     private String imageName;
-    private String imagesUrl;
+    private String imageUrl;
 }

@@ -43,6 +43,6 @@ public class Motel {
     private List<University> universities = new ArrayList<>();
 
     @OneToMany(mappedBy = "motel")
-    private List<Image> images = new ArrayList<>();
+    private List<MotelImage> images = new ArrayList<>();
 
 }

@@ -40,8 +40,12 @@ public class SecurityConfig {
             "/roms/*",
             "/posts",
             "/posts/*",
-            "/images",
-            "/images/*",
+            "/post-images",
+            "/post-images/*",
+            "/motel-images",
+            "/motel-images/*",
+            "/room-images",
+            "/room-images/*",
             "/motels",
             "/motels/*"
     };

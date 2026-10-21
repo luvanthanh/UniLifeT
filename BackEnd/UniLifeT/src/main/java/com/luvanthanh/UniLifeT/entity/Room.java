@@ -53,5 +53,5 @@ public class Room {
     private List<Post> posts = new ArrayList<>();
 
     @OneToMany(mappedBy = "room")
-    private List<Image> images = new ArrayList<>();
+    private List<RoomImage> images = new ArrayList<>();
 }
