@@ -21,7 +21,7 @@ public class UserController {
     private UserService userService;
 
 // cập nhật user
-    @PutMapping("/update/{userId}")
+    @PutMapping("/{userId}")
     public ApiResponse<UserResponse>  updateUser (@PathVariable Long userId,  @RequestBody UserUpdateRequest request){
         var result = userService.updateUser(userId,request);
 

@@ -55,6 +55,9 @@ public UserResponse register (UserCreationRequest request){
     if(userRepository.existsByUserName(request.getUserName())){
         throw new AppException(ErrorCode.USER_EXITS);
     }
+    if(userRepository.existsByUserEmail(request.getUserName())){
+        throw new AppException(ErrorCode.USER_EMAIL_EXIST);
+    }
     User  user = userMapper.toUser(request);
     PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10); // tạo passwordEncoder
     user.setUserPassword(passwordEncoder.encode(request.getUserPassword()));// set password cho user khi truyền request vào;
@@ -141,7 +144,7 @@ public AuthenticationResponse login(AuthenticationRequest request) {
         if(!(verified && expiryTime.after(new Date())))
             throw new AppException(ErrorCode.HETHAN_OR_NOT_VIRIFER);
 
-        if(tokenRepository.existsByTokenId(signedJWT.getJWTClaimsSet().getJWTID())){
+        if(tokenRepository.existsByTokenValue(token)){
             throw new AppException(ErrorCode.NOT_AUTHENTICATED);
         }
 

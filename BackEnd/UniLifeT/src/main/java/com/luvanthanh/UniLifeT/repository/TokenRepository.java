@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface TokenRepository extends JpaRepository<Token,Long> {
-    Boolean  existsByTokenId(String tokenId);
-    Token findByTokenId(String tokenId);
+    boolean existsByTokenValue(String tokenValue);
+    Token findByTokenId(Long tokenId);
 }

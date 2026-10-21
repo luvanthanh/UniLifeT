@@ -1,0 +1,88 @@
+			athentication
+
+	POST   http://localhost:8080/users/auth/register
+	POST   http://localhost:8080/users/auth/login			ok
+	POST   http://localhost:8080/users/auth/introspect
+	POST   http://localhost:8080/users/auth/logout
+
+
+			rooms
+GET    http://localhost:8080/roms  					ok
+GET    http://localhost:8080/roms/2					ok
+POST   http://localhost:8080/roms					
+PUT    http://localhost:8080/roms/update/{roomId}
+DELETE http://localhost:8080/roms/{roomId}
+
+
+			motels
+GET    http://localhost:8080/motels
+GET    http://localhost:8080/motels/{motelId}
+POST   http://localhost:8080/motels
+PUT    http://localhost:8080/motels/update/{motelId}
+DELETE http://localhost:8080/motels/{motelId}
+
+
+
+
+			posts
+GET    http://localhost:8080/posts
+GET    http://localhost:8080/posts/{postId}
+POST   http://localhost:8080/posts
+PUT    http://localhost:8080/posts/update/{postId}
+DELETE http://localhost:8080/posts/{postId}
+
+
+	
+			user 		
+GET    http://localhost:8080/users
+GET    http://localhost:8080/users/{userId}
+PUT    http://localhost:8080/users/update/{userId}
+DELETE http://localhost:8080/users/{userId}
+
+
+		rooms
+GET    http://localhost:8080/user-room
+GET    http://localhost:8080/user-room/{userRoomId}
+POST   http://localhost:8080/user-room
+PUT    http://localhost:8080/user-room/update/{userRoomId}
+DELETE http://localhost:8080/user-room/{userRoomId}
+
+
+
+GET    http://localhost:8080/universities
+GET    http://localhost:8080/universities/{universityId}
+POST   http://localhost:8080/universities
+PUT    http://localhost:8080/universities/update/{universityId}
+DELETE http://localhost:8080/universities/{universityId}
+
+GET    http://localhost:8080/amenities
+GET    http://localhost:8080/amenities/{amenityId}
+POST   http://localhost:8080/amenities
+PUT    http://localhost:8080/amenities/update/{amenityId}
+DELETE http://localhost:8080/amenities/{amenityId}
+
+GET    http://localhost:8080/services
+GET    http://localhost:8080/services/{serviceId}
+POST   http://localhost:8080/services
+PUT    http://localhost:8080/services/update/{serviceId}
+DELETE http://localhost:8080/services/{serviceId}
+
+POST   http://localhost:8080/room_service
+
+GET    http://localhost:8080/room-images
+GET    http://localhost:8080/room-images/{imageId}
+POST   http://localhost:8080/room-images
+PUT    http://localhost:8080/room-images/update/{imageId}
+DELETE http://localhost:8080/room-images/{imageId}
+
+GET    http://localhost:8080/motel-images
+GET    http://localhost:8080/motel-images/{imageId}
+POST   http://localhost:8080/motel-images
+PUT    http://localhost:8080/motel-images/update/{imageId}
+DELETE http://localhost:8080/motel-images/{imageId}
+
+GET    http://localhost:8080/post-images
+GET    http://localhost:8080/post-images/{imageId}
+POST   http://localhost:8080/post-images
+PUT    http://localhost:8080/post-images/update/{imageId}
+DELETE http://localhost:8080/post-images/{imageId}

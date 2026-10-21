@@ -30,7 +30,7 @@ public class MotelController {
                 .build();
     }
 
-    @PutMapping("/update/{motelId}")
+    @PutMapping("/{motelId}")
     public ApiResponse<MotelResponse> updateMotel(
             @PathVariable Long motelId, @RequestBody MotelUpdateRequest request) {
         var result = motelService.updateMotel(motelId, request);

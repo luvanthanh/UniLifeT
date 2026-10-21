@@ -1,7 +1,15 @@
 package com.luvanthanh.UniLifeT.dto.response.userResponse;
 
+import lombok.*;
+
 import java.time.LocalDate;
 
+
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class UserResponse {
 
     private String userName;

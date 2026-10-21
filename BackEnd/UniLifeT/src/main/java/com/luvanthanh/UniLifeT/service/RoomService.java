@@ -50,7 +50,7 @@ public class RoomService {
     }
 // lấy phòng theo id
     public RoomResponse findRoomById(Long roomId) {
-        Room room = roomRepository.findById(roomId)
+        Room room = roomRepository.findByRoomId(roomId)
                 .orElseThrow(() -> new AppException(ErrorCode.ROOM_NOT_FOUND));
         return roomMapper.toRoomResponse(room);
     }

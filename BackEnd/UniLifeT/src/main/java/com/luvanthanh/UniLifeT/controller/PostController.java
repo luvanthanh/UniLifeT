@@ -29,7 +29,7 @@ public class PostController {
                 .build();
     }
 
-    @PutMapping("/update/{postId}")
+    @PutMapping("/{postId}")
     public ApiResponse<PostResponse> updatePost(
             @PathVariable Long postId, @RequestBody PostUpdateRequest request) {
         var result = postService.updatePost(postId, request);

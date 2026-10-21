@@ -15,19 +15,41 @@ import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
 
 import java.util.List;
 
-import static org.springframework.http.HttpMethod.GET;
-import static org.springframework.http.HttpMethod.POST;
+import static org.springframework.http.HttpMethod.*;
 
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
 
 public class SecurityConfig {
+    private final String[] PRIVATE_POST_ENDPOINTS ={
+            "/rooms",
+            "/motels"
+    };
+
+    private final String[] PRIVATE_PUT_ENDPOINTS={
+            "/rooms/{roomId}",
+            "/motels/{motelId}"
+
+    };
+    private final String[] PRIVATE_DELETE_ENDPOINTS={
+            "/rooms/{roomId}",
+            "/motels/{motelId}",
+
+    };
+
+    private final String[] PRIVATE_GET_ENDPOINTS={
+            "/users",
+            "/users/{userId}"
+    };
     private final String[] PUBLIC_POST_ENDPOINTS = {
             "/users",
+            "/users/auth/register",
             "/users/auth/login",
             "/users/auth/introspect",
-            "/users/auth/logout"
+            "/users/auth/logout",
+
+            "/posts"
     };
     public final String[] PUBLIC_GET_ENDPOINTS = {
             "/universities",
@@ -37,7 +59,7 @@ public class SecurityConfig {
             "/services",
             "/services/*",
             "/roms",
-            "/roms/*",
+            "/roms/{roomId}",
             "/posts",
             "/posts/*",
             "/post-images",
@@ -47,14 +69,17 @@ public class SecurityConfig {
             "/room-images",
             "/room-images/*",
             "/motels",
-            "/motels/*"
-    };
-
-    private final String[] PUBLIC_PUT_ENDPOINT = {
+            "/motels/*",
 
     };
 
-    private final String[] PUBLIC_DELETE_ENDPOINTS3 = {};
+    private final String[] PUBLIC_PUT_ENDPOINTS = {
+            "/posts/{postId}"
+    };
+
+    private final String[] PUBLIC_DELETE_ENDPOINTS = {
+
+    };
 
     private final CustomJwtDecoder customJwtDecoder;
 
@@ -71,6 +96,15 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(POST, PUBLIC_POST_ENDPOINTS).permitAll()
                         .requestMatchers(GET, PUBLIC_GET_ENDPOINTS).permitAll()
+                        .requestMatchers(PUT, PUBLIC_PUT_ENDPOINTS).permitAll()
+
+                        .requestMatchers(GET, PRIVATE_GET_ENDPOINTS).hasRole("ADMIN")
+                        .requestMatchers(POST, PRIVATE_POST_ENDPOINTS).hasAnyRole("ADMIN", "OWNER")
+                        .requestMatchers(PUT, PRIVATE_PUT_ENDPOINTS).hasAnyRole("ADMIN", "OWNER")
+                        .requestMatchers(DELETE, PRIVATE_DELETE_ENDPOINTS).hasAnyRole("ADMIN", "OWNER")
+                        .requestMatchers(DELETE,"/users/{userId}").hasRole("ADMIN")
+                        .requestMatchers(PUT,"/users/{userId}").hasRole("ADMIN")
+
                         .anyRequest().authenticated()
                 )
 

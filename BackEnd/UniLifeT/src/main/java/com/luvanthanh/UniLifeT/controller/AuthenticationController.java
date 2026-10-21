@@ -26,7 +26,7 @@ public class AuthenticationController {
 
 //    đăng kí
     @PostMapping("/register")
-    ApiResponse<UserResponse> register (UserCreationRequest request){
+    ApiResponse<UserResponse> register (@RequestBody  UserCreationRequest request){
         var result = authenticationService.register(request);
         return ApiResponse.<UserResponse>builder()
                 .code(200)
