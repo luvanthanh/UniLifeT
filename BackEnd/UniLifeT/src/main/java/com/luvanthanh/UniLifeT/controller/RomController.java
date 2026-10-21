@@ -65,10 +65,6 @@ public class RomController {
                 .build();
     }
 
-    @GetMapping("/motels/{motelId}")
-    public ApiResponse<List<MotelResponse>> getMotelsByMotelId(@PathVariable Long motelId) {
-        var
-    }
 //  xóa phòng theo id
     @DeleteMapping("/{roomId}")
     public ApiResponse<String> deleteRoom(@PathVariable Long roomId) {

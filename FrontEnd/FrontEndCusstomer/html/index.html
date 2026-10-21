@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Tìm phòng trọ phù hợp, an tâm bắt đầu cuộc sống mới cùng UniLifeT.">
+  <title>UniLifeT — Tìm chốn an cư</title>
+  <link rel="stylesheet" href="../../shared/base.css">
+  <link rel="stylesheet" href="../css/customer.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a class="brand" href="#home" aria-label="UniLifeT trang chủ"><span class="brand-mark">U</span><span>UniLife<span class="brand-t">T</span><small>FIND YOUR PLACE</small></span></a>
+      <nav class="main-nav" aria-label="Điều hướng chính">
+        <a class="active" href="#home">Trang chủ</a><a href="#rooms">Tìm phòng trọ</a><a href="#universities">Trường đại học</a><a href="#posts">Tin đăng</a>
+      </nav>
+      <div class="nav-actions"><button class="text-link" id="login-open">Đăng nhập</button><button class="text-link" id="register-open">Đăng ký</button><button class="text-link" id="account-open" hidden>Tài khoản</button><button class="text-link" id="logout-button" hidden>Đăng xuất</button><a class="btn" href="#rooms">Khám phá phòng <span>↗</span></a><button class="menu-toggle" id="menu-toggle" aria-label="Mở menu">☰</button></div>
+    </div>
+  </header>
+
+  <main id="home">
+    <section class="hero">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <span class="eyebrow"><span class="eyebrow-dot"></span> Tổ ấm mới, khởi đầu mới</span>
+          <h1>Tìm nơi bạn<br>muốn gọi là <em>nhà.</em></h1>
+          <p>Khám phá phòng trọ chất lượng gần trường học, nơi làm việc và những điều bạn yêu thích.</p>
+          <form class="search-panel" id="search-form">
+            <label class="search-field"><span>⌖</span><span><small>Khu vực</small><input id="search-location" type="search" placeholder="Quận, thành phố..."></span></label>
+            <label class="search-field"><span>⌂</span><span><small>Loại phòng</small><select id="search-type"><option value="">Tất cả loại phòng</option><option>Phòng riêng</option><option>Studio</option><option>Căn hộ</option><option>Ký túc xá</option></select></span></label>
+            <label class="search-field"><span>▤</span><span><small>Trường đại học</small><select id="search-university"><option value="">Tất cả trường</option></select></span></label>
+            <label class="search-field"><span>₫</span><span><small>Ngân sách</small><select id="search-budget"><option value="">Mọi mức giá</option><option value="3000000">Dưới 3 triệu</option><option value="5000000">Dưới 5 triệu</option><option value="8000000">Dưới 8 triệu</option></select></span></label>
+            <button class="btn search-submit" type="submit" aria-label="Tìm phòng">⌕ <span>Tìm phòng</span></button>
+          </form>
+          <div class="hero-proof"><div class="avatar-stack"><span>H</span><span>M</span><span>A</span><b>+</b></div><span><strong>1.200+</strong> người đã tìm thấy chốn ở</span><span class="proof-stars">★★★★★ <small>4.9/5</small></span></div>
+        </div>
+        <div class="hero-visual">
+          <img src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=1100&q=85" alt="Căn hộ sáng thoáng với nội thất hiện đại">
+          <div class="image-tag"><span class="tag-check">✓</span><span><strong>Không gian được yêu thích</strong><small>Đà Nẵng · Cập nhật hôm nay</small></span></div>
+          <div class="floating-note"><span class="note-icon">⌂</span><span><small>Giá thuê trung bình</small><strong>3,8 triệu <small>/ tháng</small></strong></span></div>
+          <div class="hero-sparkle">✳</div>
+        </div>
+      </div>
+      <div class="hero-bottom container"><span>Được sinh viên tin chọn</span><div class="trust-list"><b>ĐH BÁCH KHOA</b><b>UEF</b><b>VNU</b><b>ĐH KINH TẾ</b><b>FPT UNIVERSITY</b></div></div>
+    </section>
+
+    <section class="room-section container" id="rooms">
+      <div class="section-heading"><div><span class="eyebrow">Lựa chọn nổi bật</span><h2>Không gian dành cho bạn</h2><p>Những căn phòng được quan tâm gần đây</p></div><a class="view-all" href="#rooms">Xem tất cả <span>→</span></a></div>
+      <div id="api-notice" class="notice" role="status" hidden></div>
+      <div class="filter-row"><span class="result-count" id="result-count">Đang tìm phòng phù hợp...</span><div class="quick-filters"><button class="filter-chip active" data-kind="all">Tất cả</button><button class="filter-chip" data-kind="available">Còn phòng</button><button class="filter-chip" data-kind="low">Giá tốt</button></div></div>
+      <div class="advanced-filters" aria-label="Bộ lọc chi tiết">
+        <label class="field">Giá từ (đồng/tháng)<input id="search-min-price" type="number" min="0" step="100000" placeholder="Không giới hạn"></label>
+        <label class="field">Diện tích tối thiểu (m²)<input id="search-area" type="number" min="0" placeholder="Ví dụ: 20"></label>
+        <label class="field">Sắp xếp<select id="search-sort"><option value="recommended">Gợi ý phù hợp</option><option value="price-asc">Giá thấp đến cao</option><option value="price-desc">Giá cao đến thấp</option><option value="newest">Tin mới nhất</option></select></label>
+      </div>
+      <div class="room-grid" id="room-grid" aria-live="polite"></div>
+    </section>
+
+    <section class="directory-section" id="universities">
+      <div class="container">
+        <div class="section-heading"><div><span class="eyebrow">Gần nơi bạn học</span><h2>Trường đại học phổ biến</h2><p>Tìm chỗ ở thuận tiện cho hành trình đến trường</p></div></div>
+        <div class="university-grid" id="university-grid" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <section class="directory-section container" id="posts">
+      <div class="section-heading"><div><span class="eyebrow">Cập nhật mỗi ngày</span><h2>Tin đăng phòng trọ</h2><p>Khám phá những lựa chọn mới từ cộng đồng chủ trọ</p></div></div>
+      <div class="post-grid" id="post-grid" aria-live="polite"></div>
+    </section>
+
+    <section class="account-section container" id="account" hidden>
+      <div class="section-heading"><div><span class="eyebrow">Không gian của bạn</span><h2>Quản lý tài khoản</h2><p id="account-welcome">Thông tin và hoạt động thuê phòng của bạn</p></div></div>
+      <div class="account-tabs" role="tablist" aria-label="Quản lý tài khoản">
+        <button class="filter-chip active" type="button" data-account-tab="profile">Thông tin cá nhân</button>
+        <button class="filter-chip" type="button" data-account-tab="favorites">Phòng yêu thích</button>
+        <button class="filter-chip" type="button" data-account-tab="history">Lịch sử thuê</button>
+      </div>
+      <section class="account-panel" id="profile-panel">
+        <form id="profile-form" class="profile-form">
+          <label class="field">Họ và tên<input name="userName" required></label>
+          <label class="field">Email<input name="userEmail" type="email" required></label>
+          <label class="field">Số điện thoại<input name="userPhone" type="tel"></label>
+          <label class="field">Ngày sinh<input name="userBirthday" type="date"></label>
+          <label class="field profile-address">Địa chỉ<input name="userAddress"></label>
+          <label class="field">Mật khẩu mới (không bắt buộc)<input name="userPassword" type="password" autocomplete="new-password" minlength="8"></label>
+          <button class="btn" type="submit">Lưu thông tin</button>
+        </form>
+      </section>
+      <section class="account-panel" id="favorites-panel" hidden><div class="room-grid" id="favorite-grid"></div></section>
+      <section class="account-panel" id="history-panel" hidden><div id="history-content" class="history-content"></div></section>
+    </section>
+
+    <section class="why-section" id="how">
+      <div class="container why-grid"><div><span class="eyebrow">Ở tốt hơn, dễ dàng hơn</span><h2>Chọn đúng phòng.<br>An tâm tận hưởng.</h2><p>UniLifeT giúp hành trình tìm chỗ ở của bạn minh bạch, nhanh chóng và nhẹ nhàng hơn.</p><a class="btn" href="#rooms">Bắt đầu khám phá <span>→</span></a></div>
+        <div class="feature-list"><article><span class="feature-icon">⌕</span><div><h3>Tìm kiếm thông minh</h3><p>Lọc theo khu vực, ngân sách và nhu cầu của bạn.</p></div><span class="feature-number">01</span></article><article><span class="feature-icon">✓</span><div><h3>Thông tin rõ ràng</h3><p>Chi tiết phòng và mức giá được trình bày dễ hiểu.</p></div><span class="feature-number">02</span></article><article><span class="feature-icon">♡</span><div><h3>Lưu nơi bạn thích</h3><p>Đánh dấu các lựa chọn để so sánh và quay lại sau.</p></div><span class="feature-number">03</span></article></div>
+      </div>
+    </section>
+    <section class="cta-section container"><div><span class="eyebrow">Bạn có phòng trống?</span><h2>Cùng giúp ai đó tìm được nhà.</h2><p>Đăng tin và kết nối với những người đang tìm phòng.</p></div><a class="btn btn-light" href="../../FrontEndOwner/html/index.html">Dành cho chủ trọ <span>↗</span></a></section>
+  </main>
+  <footer class="site-footer"><div class="container footer-row"><a class="brand" href="#home"><span class="brand-mark">U</span><span>UniLife<span class="brand-t">T</span><small>FIND YOUR PLACE</small></span></a><span>© 2026 UniLifeT. Tìm nơi phù hợp, sống trọn mỗi ngày.</span><a href="../../FrontEndAdmin/html/index.html">Quản trị hệ thống</a></div></footer>
+
+  <div class="modal-backdrop" id="login-modal" hidden><section class="modal" role="dialog" aria-modal="true" aria-labelledby="login-title"><div class="modal-head"><div><span class="eyebrow">Chào mừng trở lại</span><h2 id="login-title">Đăng nhập UniLifeT</h2></div><button class="icon-btn" data-close aria-label="Đóng">×</button></div><form id="login-form" class="form-stack"><label class="field">Tên đăng nhập<input name="username" autocomplete="username" required></label><label class="field">Mật khẩu<input name="password" type="password" autocomplete="current-password" required></label><button class="btn" type="submit">Đăng nhập</button><p class="muted">Đăng nhập để lưu phòng yêu thích và quản lý tài khoản.</p><button class="text-link modal-switch" type="button" data-switch="register">Chưa có tài khoản? Đăng ký</button></form></section></div>
+  <div class="modal-backdrop" id="register-modal" hidden><section class="modal" role="dialog" aria-modal="true" aria-labelledby="register-title"><div class="modal-head"><div><span class="eyebrow">Bắt đầu hành trình</span><h2 id="register-title">Tạo tài khoản UniLifeT</h2></div><button class="icon-btn" data-close aria-label="Đóng">×</button></div><form id="register-form" class="form-stack"><label class="field">Họ và tên<input name="userName" autocomplete="name" required></label><label class="field">Email<input name="userEmail" type="email" autocomplete="email" required></label><label class="field">Số điện thoại<input name="userPhone" type="tel" autocomplete="tel" required></label><label class="field">Mật khẩu<input name="userPassword" type="password" autocomplete="new-password" minlength="8" required></label><button class="btn" type="submit">Đăng ký</button><button class="text-link modal-switch" type="button" data-switch="login">Đã có tài khoản? Đăng nhập</button></form></section></div>
+  <div class="modal-backdrop" id="room-modal" hidden><section class="modal room-modal" role="dialog" aria-modal="true" aria-labelledby="room-modal-title"><div class="modal-head"><div><span class="eyebrow">Thông tin phòng trọ</span><h2 id="room-modal-title">Chi tiết phòng</h2></div><button class="icon-btn" data-close aria-label="Đóng">×</button></div><div id="room-detail-content"></div></section></div>
+  <div class="toast" id="toast" role="status"></div>
+  <script type="module" src="../javascript/customer.js"></script>
+</body>
+</html>

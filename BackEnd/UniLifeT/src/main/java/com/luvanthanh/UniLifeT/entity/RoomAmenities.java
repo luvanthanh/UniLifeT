@@ -11,11 +11,14 @@ import lombok.*;
 @AllArgsConstructor
 public class RoomAmenities {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "room_amenity_id")
+    private Long roomAmenityId;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "room_id", nullable = false)
     private Room room;
 
-    @Id
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "amenity_id", nullable = false)
     private Amenity amenity;

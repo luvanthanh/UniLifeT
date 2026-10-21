@@ -1,5 +1,6 @@
 package com.luvanthanh.UniLifeT.service;
 
+import com.luvanthanh.UniLifeT.Enum.Role;
 import com.luvanthanh.UniLifeT.dto.request.anthenticated.AuthenticationRequest;
 import com.luvanthanh.UniLifeT.dto.request.anthenticated.IntrospectRequest;
 import com.luvanthanh.UniLifeT.dto.request.anthenticated.LogoutRequest;
@@ -43,20 +44,20 @@ public class AuthenticationService {
     private TokenRepository tokenRepository;
 
     @Autowired
-    UserMapper userMapper;
+    private UserMapper userMapper;
 
     @Value("${jwt.signerKey}")
     private String SINGER_KEY;
 
 
-//    Đăng kí
+//    Đăng kí người dùng
 public UserResponse register (UserCreationRequest request){
     if(userRepository.existsByUserName(request.getUserName())){
         throw new AppException(ErrorCode.USER_EXITS);
     }
     User  user = userMapper.toUser(request);
     PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10); // tạo passwordEncoder
-    user.setUserPassword(passwordEncoder.encode(request.getUserPassword())); // set password cho user khi truyền request vào;
+    user.setUserPassword(passwordEncoder.encode(request.getUserPassword()));// set password cho user khi truyền request vào;
     return userMapper.toUserResponse(userRepository.save(user));
 }
 //    Đăng nhập
