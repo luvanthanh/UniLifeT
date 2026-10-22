@@ -18,7 +18,7 @@ public class UserRomController {
 
     @Autowired
     private UserRomService userRomService;
-
+// tạo mới userroom
     @PostMapping
     public ApiResponse<UserRoomResponse> createUserRoom(@RequestBody UserRoomCreationRequest request) {
         var result = userRomService.createUserRoom(request);
@@ -29,7 +29,8 @@ public class UserRomController {
                 .build();
     }
 
-    @PutMapping("/update/{userRoomId}")
+//    sửa userroom
+    @PutMapping("/{userRoomId}")
     public ApiResponse<UserRoomResponse> updateUserRoom(
             @PathVariable Long userRoomId, @RequestBody UserRoomUpdateRequest request) {
         var result = userRomService.updateUserRoom(userRoomId, request);
@@ -39,7 +40,7 @@ public class UserRomController {
                 .data(result)
                 .build();
     }
-
+//lấy all userroom
     @GetMapping
     public ApiResponse<List<UserRoomResponse>> getAllUserRooms() {
         var result = userRomService.findAllUserRooms();
@@ -50,6 +51,7 @@ public class UserRomController {
                 .build();
     }
 
+//    lấy userroom theo id
     @GetMapping("/{userRoomId}")
     public ApiResponse<UserRoomResponse> getUserRoomById(@PathVariable Long userRoomId) {
         var result = userRomService.findUserRoomById(userRoomId);
@@ -60,6 +62,18 @@ public class UserRomController {
                 .build();
     }
 
+    //    lấy userroom theo id
+    @GetMapping("/users/{userId}")
+    public ApiResponse<List<UserRoomResponse>> getUserRoomByUserId(@PathVariable Long userId) {
+        var result = userRomService.getUserRoomByUserId(userId);
+        return ApiResponse.<List<UserRoomResponse>>builder()
+                .code(1000)
+                .message("Get user room successful")
+                .data(result)
+                .build();
+    }
+
+//  xóa
     @DeleteMapping("/{userRoomId}")
     public ApiResponse<String> deleteUserRoom(@PathVariable Long userRoomId) {
         var result = userRomService.deleteUserRoom(userRoomId);

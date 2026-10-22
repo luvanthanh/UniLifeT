@@ -70,7 +70,7 @@ public class SecurityConfig {
             "/room-images/*",
             "/motels",
             "/motels/*",
-
+            "/user-room/users/{userId}"
     };
 
     private final String[] PUBLIC_PUT_ENDPOINTS = {

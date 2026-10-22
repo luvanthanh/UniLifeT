@@ -1,66 +1,68 @@
 			athentication
 
-	POST   http://localhost:8080/users/auth/register
+	POST   http://localhost:8080/users/auth/register		ok
 	POST   http://localhost:8080/users/auth/login			ok
-	POST   http://localhost:8080/users/auth/introspect
-	POST   http://localhost:8080/users/auth/logout
+	POST   http://localhost:8080/users/auth/introspect		ok
+	POST   http://localhost:8080/users/auth/logout			ok
 
 
 			rooms
 GET    http://localhost:8080/roms  					ok
 GET    http://localhost:8080/roms/2					ok
-POST   http://localhost:8080/roms					
-PUT    http://localhost:8080/roms/update/{roomId}
-DELETE http://localhost:8080/roms/{roomId}
+POST   http://localhost:8080/roms					ok
+PUT    http://localhost:8080/roms/update/{roomId}			ok
+DELETE http://localhost:8080/roms/{roomId}				ok
 
 
-			motels
-GET    http://localhost:8080/motels
-GET    http://localhost:8080/motels/{motelId}
-POST   http://localhost:8080/motels
-PUT    http://localhost:8080/motels/update/{motelId}
-DELETE http://localhost:8080/motels/{motelId}
-
+			motels	
+GET    http://localhost:8080/motels					ok				
+GET    http://localhost:8080/motels/{motelId}				ok
+POST   http://localhost:8080/motels					ok
+PUT    http://localhost:8080/motels/{motelId}				ok
+DELETE http://localhost:8080/motels/{motelId}				ok
 
 
 
 			posts
-GET    http://localhost:8080/posts
-GET    http://localhost:8080/posts/{postId}
-POST   http://localhost:8080/posts
-PUT    http://localhost:8080/posts/update/{postId}
+GET    http://localhost:8080/posts					ok	
+GET    http://localhost:8080/posts/{postId}				ok
+POST   http://localhost:8080/posts					ok
+PUT    http://localhost:8080/posts/update/{postId}			ok
 DELETE http://localhost:8080/posts/{postId}
 
 
 	
 			user 		
-GET    http://localhost:8080/users
-GET    http://localhost:8080/users/{userId}
-PUT    http://localhost:8080/users/update/{userId}
+GET    http://localhost:8080/users					ok	
+GET    http://localhost:8080/users/{userId}				ok
+PUT    http://localhost:8080/users/{userId}				ok		
 DELETE http://localhost:8080/users/{userId}
 
 
-		rooms
-GET    http://localhost:8080/user-room
-GET    http://localhost:8080/user-room/{userRoomId}
+		user-rooms
+GET    http://localhost:8080/user-room					ok	
+GET    http://localhost:8080/user-room/{userRoomId}			
+       http://localhost:8080/user-room/users/{userId}			ok	
 POST   http://localhost:8080/user-room
 PUT    http://localhost:8080/user-room/update/{userRoomId}
 DELETE http://localhost:8080/user-room/{userRoomId}
 
 
-
+			university
 GET    http://localhost:8080/universities
 GET    http://localhost:8080/universities/{universityId}
 POST   http://localhost:8080/universities
 PUT    http://localhost:8080/universities/update/{universityId}
 DELETE http://localhost:8080/universities/{universityId}
 
+			amenity
 GET    http://localhost:8080/amenities
 GET    http://localhost:8080/amenities/{amenityId}
 POST   http://localhost:8080/amenities
 PUT    http://localhost:8080/amenities/update/{amenityId}
 DELETE http://localhost:8080/amenities/{amenityId}
 
+			service
 GET    http://localhost:8080/services
 GET    http://localhost:8080/services/{serviceId}
 POST   http://localhost:8080/services

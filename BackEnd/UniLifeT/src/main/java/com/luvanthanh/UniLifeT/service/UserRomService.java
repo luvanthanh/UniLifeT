@@ -73,6 +73,16 @@ public class UserRomService {
         userRoomRepository.delete(userRoom);
         return "User Room Deleted Successfully";
     }
+//    lấy userroom theo userid
+    public List<UserRoomResponse> getUserRoomByUserId(Long userId) {
+        List<UserRoom> lists = userRoomRepository.findByUser_UserId(userId);
+        List<UserRoomResponse> userRoomResponseList = new ArrayList<>();
+        for (UserRoom userRoom : lists) {
+            UserRoomResponse userRoomResponse = userRoomMapper.toUserRoomResponse(userRoom);
+            userRoomResponseList.add(userRoomResponse);
+        }
+        return userRoomResponseList;
+    }
 
     private User findUser(Long userId) {
         return userRepository.findById(userId)
