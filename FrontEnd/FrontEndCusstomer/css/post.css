@@ -1,0 +1,15 @@
+.posts-heading{max-width:760px;margin:12px 0 28px}
+.posts-heading h1{margin:8px 0;font:800 clamp(30px,4vw,42px) Manrope,sans-serif;letter-spacing:-.04em}
+.posts-heading p{margin:0;color:var(--muted);font-size:14px}
+.posts-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px;padding-bottom:60px}
+.post-card{overflow:hidden;border:1px solid var(--line);border-radius:15px;background:#fff;box-shadow:0 4px 18px rgba(23,43,36,.04)}
+.post-image{display:grid;min-height:190px;place-items:center;overflow:hidden;background:#f5f7f6}
+.post-image img{width:100%;height:240px;object-fit:cover}
+.post-no-image{padding:30px;color:var(--muted);font-size:13px}
+.post-content{padding:20px}
+.post-meta{display:flex;flex-wrap:wrap;gap:12px;color:var(--muted);font-size:12px}
+.post-title{margin:10px 0;color:var(--ink);font:800 20px/1.35 Manrope,sans-serif;overflow-wrap:anywhere}
+.post-body{margin:0;color:#475569;font-size:14px;line-height:1.75;overflow-wrap:anywhere;white-space:pre-wrap}
+.post-status{display:inline-flex;margin-top:15px;padding:5px 9px;border-radius:20px;color:var(--green);background:#eff6f2;font-size:11px;font-weight:700}
+.posts-empty{grid-column:1/-1;padding:30px;border:1px dashed var(--line);border-radius:12px;color:var(--muted);text-align:center}
+@media(max-width:700px){.posts-list{grid-template-columns:1fr;gap:16px}.post-image img{height:210px}.post-content{padding:16px}}

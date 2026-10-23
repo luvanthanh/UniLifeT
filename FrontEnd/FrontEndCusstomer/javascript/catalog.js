@@ -1,11 +1,10 @@
-import { API_ENDPOINTS } from "./config.js";
-import { apiRequest, escapeHtml, formatVnd, readFavorites, safeHttpUrl } from "./api.js";
+import { escapeHtml, formatVnd, parseApiResponse, safeHttpUrl } from "./common.js";
 
 export async function loadRooms() {
     const [rooms, motels, images] = await Promise.all([
-        apiRequest(API_ENDPOINTS.rooms),
-        apiRequest(API_ENDPOINTS.motels),
-        apiRequest("/room-images")
+        fetch("http://localhost:8080/roms").then(parseApiResponse),
+        fetch("http://localhost:8080/motels").then(parseApiResponse),
+        fetch("http://localhost:8080/room-images").then(parseApiResponse)
     ]);
     return {
         rooms: Array.isArray(rooms) ? rooms : [],
@@ -17,10 +16,10 @@ export async function loadRooms() {
 export async function loadRoomDirectory() {
     const [listingData, universities, services, amenities, roomAmenities] = await Promise.all([
         loadRooms(),
-        apiRequest(API_ENDPOINTS.universities),
-        apiRequest("/services"),
-        apiRequest("/amenities"),
-        apiRequest("/room-amenity")
+        fetch("http://localhost:8080/universities").then(parseApiResponse),
+        fetch("http://localhost:8080/services").then(parseApiResponse),
+        fetch("http://localhost:8080/amenities").then(parseApiResponse),
+        fetch("http://localhost:8080/room-amenity").then(parseApiResponse)
     ]);
     return {
         ...listingData,
@@ -53,7 +52,7 @@ export function isUnavailable(room) {
 }
 
 export function roomTitle(room) {
-    return room.roomType || room.roomDescription || `Phòng #${room.roomId}`;
+    return room.roomType || room.roomDescription || "API không cung cấp tiêu đề phòng";
 }
 
 export function filterRooms(rooms, motels, filters = {}) {
@@ -93,7 +92,6 @@ export function sortRooms(rooms, sort) {
 }
 
 export function renderRoomCards(rooms, motels, images, options = {}) {
-    const favorites = new Set(readFavorites());
     if (!rooms.length) {
         return `<div class="empty-state"><strong>Không tìm thấy phòng trọ phù hợp.</strong><br>Hãy thử thay đổi hoặc xóa bớt bộ lọc.</div>`;
     }
@@ -103,8 +101,7 @@ export function renderRoomCards(rooms, motels, images, options = {}) {
         const id = String(room.roomId);
         const title = roomTitle(room);
         const image = safeHttpUrl(roomImage(room, images));
-        const address = room.roomAddress || motel?.motelAddress || "Chưa có địa chỉ";
-        const favorite = favorites.has(id);
+        const address = room.roomAddress || motel?.motelAddress || "API không cung cấp địa chỉ";
         const detailHref = `${options.detailHrefPrefix || "./pages/room-detail.html"}?id=${encodeURIComponent(id)}`;
         const serviceNames = (room.serviceIds || [])
             .map(serviceId => options.services?.find(service => String(service.serviceId) === String(serviceId))?.serviceName)
@@ -119,11 +116,10 @@ export function renderRoomCards(rooms, motels, images, options = {}) {
             ${image ? `<img src="${escapeHtml(image)}" alt="${escapeHtml(title)}" loading="lazy">` : `<span class="no-image">Chưa có hình ảnh</span>`}
             <span class="room-badge ${isAvailable(room) ? "" : "unavailable"}">${isAvailable(room) ? "Còn phòng" : escapeHtml(room.roomStatus || "Trạng thái chưa rõ")}</span>
           </a>
-          <button class="favorite-btn ${favorite ? "saved" : ""}" type="button" data-favorite="${escapeHtml(id)}" aria-label="${favorite ? "Bỏ yêu thích" : "Thêm yêu thích"}">${favorite ? "♥" : "♡"}</button>
           <div class="room-content">
             <h3 class="room-title"><a href="${detailHref}">${escapeHtml(title)}</a></h3>
             <p class="room-location">⌖ ${escapeHtml(address)}</p>
-            <div class="room-meta"><span>${room.roomArea ? `${escapeHtml(room.roomArea)} m²` : "Chưa có diện tích"}</span><span>${escapeHtml(motel?.motelName || "Nhà trọ")}</span></div>
+            <div class="room-meta"><span>${room.roomArea ? `${escapeHtml(room.roomArea)} m²` : "API không cung cấp diện tích"}</span><span>${escapeHtml(motel?.motelName || "API không cung cấp tên nhà trọ")}</span></div>
             ${highlights.length ? `<div class="room-highlights">${highlights.map(name => `<span>${escapeHtml(name)}</span>`).join("")}</div>` : ""}
             <div class="room-price-line"><span class="room-price">${formatVnd(room.roomPrice)} <small>/ tháng</small></span><a class="room-detail" href="${detailHref}">Chi tiết →</a></div>
           </div>

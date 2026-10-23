@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Xem nhà trọ liên kết với trường đại học và phòng trong từng nhà trọ.">
+  <title>Nhà trọ | UniLifeT</title>
+  <link rel="stylesheet" href="../../css/common.css">
+  <link rel="stylesheet" href="../../css/customer.css">
+  <link rel="stylesheet" href="../../css/motels.css">
+</head>
+<body data-page="motels" data-root="../">
+  <header data-site-header></header>
+  <main class="container page-main">
+    <nav class="breadcrumb" aria-label="Breadcrumb"><a href="../index.html">Trang chủ</a><span>›</span><a href="./university.html">Trường đại học</a><span>›</span><span id="motel-breadcrumb">Nhà trọ</span></nav>
+    <section class="motels-heading">
+      <span class="eyebrow" id="motels-eyebrow">Nhà trọ theo trường</span>
+      <h1 id="motels-title">Nhà trọ</h1>
+      <p id="motels-description">Thông tin được lấy trực tiếp từ UniLifeT.</p>
+    </section>
+    <div id="motels-notice" class="notice" role="status" hidden></div>
+    <div id="motels-content" aria-live="polite">
+      <div class="loading-card">Đang tải dữ liệu…</div>
+    </div>
+  </main>
+  <footer data-site-footer></footer>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script type="module" src="../../javascript/motels.js"></script>
+</body>
+</html>

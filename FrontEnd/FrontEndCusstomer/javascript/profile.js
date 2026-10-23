@@ -1,6 +1,4 @@
-import { apiRequest, getSession, safeHttpUrl } from "./api.js";
-import { API_ENDPOINTS } from "./config.js";
-import { requireSignIn, showToast } from "./common.js";
+import { getSession, parseApiResponse, requireSignIn, safeHttpUrl, showToast } from "./common.js";
 
 const session = getSession();
 const form = document.querySelector("#profile-form");
@@ -24,7 +22,10 @@ async function loadProfile() {
         return;
     }
     try {
-        original = await apiRequest(API_ENDPOINTS.user(session.userId));
+        const response = await fetch(`http://localhost:8080/users/${encodeURIComponent(session.userId)}`, {
+            headers: { Authorization: `Bearer ${session.token}` }
+        });
+        original = await parseApiResponse(response);
         for (const key of ["userName", "userEmail", "userPhone", "userGender", "userBirthday", "userAddress"]) {
             form.elements[key].value = original[key] || "";
         }
@@ -38,8 +39,8 @@ async function loadProfile() {
             image.src = avatarUrl;
             image.alt = "Ảnh đại diện";
             avatar.append(image);
-        } else {
-            avatar.textContent = (original.userName || "U").slice(0, 1).toLocaleUpperCase("vi");
+        } else if (original.userName) {
+            avatar.textContent = original.userName.slice(0, 1).toLocaleUpperCase("vi");
         }
         form.hidden = false;
         document.querySelector("#profile-edit").disabled = false;

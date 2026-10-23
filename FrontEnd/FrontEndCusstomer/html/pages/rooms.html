@@ -21,15 +21,14 @@
       <aside class="filter-panel" id="filter-panel" aria-label="Bộ lọc phòng">
         <div class="filter-panel-head"><h2>Bộ lọc</h2><button type="button" class="icon-btn filter-close" id="filter-close" aria-label="Đóng bộ lọc">×</button></div>
         <form id="room-filters">
-          <label class="field">Từ khóa / tỉnh thành / khu vực<input name="q" type="search" placeholder="Ví dụ: Đà Nẵng, Hải Châu"></label>
-          <label class="field">Trường đại học<select name="university" disabled><option>API chưa trả mã trường để lọc</option></select></label>
+          <label class="field">Từ khóa / tỉnh thành / khu vực<input name="q" type="search" placeholder="Nhập khu vực hoặc địa chỉ"></label>
+          <a class="text-link" href="./university.html">Tìm nhà trọ theo trường đại học →</a>
           <div class="filter-pair"><label class="field">Giá từ<input name="minPrice" type="number" min="0" step="100000" placeholder="0"></label><label class="field">Đến<input name="maxPrice" type="number" min="0" step="100000" placeholder="Không giới hạn"></label></div>
           <div class="filter-pair"><label class="field">Diện tích từ (m²)<input name="minArea" type="number" min="0" step="1" placeholder="0"></label><label class="field">Đến (m²)<input name="maxArea" type="number" min="0" step="1" placeholder="Không giới hạn"></label></div>
           <label class="field">Loại phòng<select name="roomType" id="room-type-filter"><option value="">Tất cả loại phòng</option></select></label>
           <label class="field">Tình trạng<select name="status"><option value="">Tất cả tình trạng</option><option value="available">Còn phòng</option><option value="unavailable">Không còn trống</option></select></label>
           <fieldset class="check-group"><legend>Dịch vụ</legend><div id="service-filters" class="check-list"><span class="muted">Đang tải…</span></div></fieldset>
           <fieldset class="check-group"><legend>Tiện nghi</legend><div id="amenity-filters" class="check-list"><span class="muted">Đang tải…</span></div></fieldset>
-          <p class="filter-hint">Backend hiện chưa trả mã trường đại học trong danh sách trường, nên chưa thể lọc phòng theo trường một cách chính xác.</p>
           <div class="filter-actions"><button class="btn" type="submit">Áp dụng bộ lọc</button><button class="btn btn-secondary" type="reset" id="filter-reset">Xóa bộ lọc</button></div>
         </form>
       </aside>

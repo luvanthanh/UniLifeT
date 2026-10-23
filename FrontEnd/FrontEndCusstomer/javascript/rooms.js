@@ -1,7 +1,5 @@
-import { apiRequest, escapeHtml, readFavorites, writeFavorites } from "./api.js";
-import { API_ENDPOINTS } from "./config.js";
+import { escapeHtml } from "./common.js";
 import { filterFromSearchParams, filterRooms, loadRoomDirectory, renderRoomCards, sortRooms } from "./catalog.js";
-import { showToast } from "./common.js";
 
 const form = document.querySelector("#room-filters");
 const grid = document.querySelector("#room-grid");
@@ -153,17 +151,6 @@ document.querySelector("#room-sort").addEventListener("change", event => {
 document.querySelector("#load-more").addEventListener("click", () => {
     visibleLimit += 6;
     render();
-});
-
-grid.addEventListener("click", event => {
-    const button = event.target.closest("[data-favorite]");
-    if (!button) return;
-    const favorites = new Set(readFavorites());
-    const id = button.dataset.favorite;
-    favorites.has(id) ? favorites.delete(id) : favorites.add(id);
-    writeFavorites([...favorites]);
-    render();
-    showToast(favorites.has(id) ? "Đã lưu vào yêu thích trên thiết bị này." : "Đã bỏ khỏi yêu thích.");
 });
 
 function closeFilterDrawer() {

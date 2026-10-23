@@ -1,6 +1,4 @@
-import { apiRequest, saveSession } from "./api.js";
-import { API_ENDPOINTS } from "./config.js";
-import { showToast } from "./common.js";
+import { parseApiResponse, saveSession, showToast } from "./common.js";
 
 const loginForm = document.querySelector("#login-form");
 const registerForm = document.querySelector("#register-form");
@@ -44,13 +42,15 @@ if (loginForm) {
         const data = new FormData(loginForm);
         setLoading(loginForm, true, "Đang đăng nhập…");
         try {
-            const result = await apiRequest(API_ENDPOINTS.signIn, {
+            const response = await fetch("http://localhost:8080/users/auth/login", {
                 method: "POST",
+                headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                     userName: String(data.get("userName")).trim(),
                     userPassword: data.get("userPassword")
                 })
             });
+            const result = await parseApiResponse(response);
             if (!result.checkAuthenticated) throw new Error("Thông tin đăng nhập không hợp lệ.");
             saveSession({ token: result.token, userId: result.userId, userName: String(data.get("userName")).trim() });
             const returnTo = new URLSearchParams(location.search).get("return");
@@ -82,8 +82,9 @@ if (registerForm) {
         }
         setLoading(registerForm, true, "Đang tạo tài khoản…");
         try {
-            await apiRequest(API_ENDPOINTS.signUp, {
+            const response = await fetch("http://localhost:8080/users/auth/register", {
                 method: "POST",
+                headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                     userName: String(data.get("userName")).trim(),
                     userEmail: String(data.get("userEmail")).trim(),
@@ -91,6 +92,7 @@ if (registerForm) {
                     userPassword: password
                 })
             });
+            await parseApiResponse(response);
             setFormMessage("Đăng ký thành công. Chuyển đến trang đăng nhập…");
             showToast("Tài khoản đã được tạo.");
             setTimeout(() => { location.href = "./login.html"; }, 900);

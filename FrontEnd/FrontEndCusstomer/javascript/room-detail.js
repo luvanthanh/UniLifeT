@@ -1,5 +1,4 @@
-import { apiRequest, escapeHtml, formatVnd, readFavorites, safeHttpUrl, writeFavorites } from "./api.js";
-import { API_ENDPOINTS } from "./config.js";
+import { escapeHtml, formatVnd, parseApiResponse, safeHttpUrl } from "./common.js";
 import { isAvailable, roomTitle } from "./catalog.js";
 import { requireSignIn, showToast } from "./common.js";
 
@@ -26,32 +25,31 @@ function renderGallery() {
 
 function renderDetail(room, motel, roomServices, services, roomAmenities, amenities) {
     const title = roomTitle(room);
-    const address = room.roomAddress || motel?.motelAddress || "Chưa có địa chỉ";
-    const saved = readFavorites().includes(String(room.roomId));
+    const address = room.roomAddress || motel?.motelAddress || "API không cung cấp địa chỉ";
     const relatedServices = roomServices.map(link => services.find(item => String(item.serviceId) === String(link.serviceId))).filter(Boolean);
     const relatedAmenities = roomAmenities.map(link => amenities.find(item => String(item.amenityId) === String(link.amenityId))).filter(Boolean);
 
     content.innerHTML = `<div class="detail-titlebar">
       <div><span class="eyebrow">Thông tin phòng</span><h1>${escapeHtml(title)}</h1><p class="detail-address">⌖ ${escapeHtml(address)}</p></div>
-      <div class="detail-actions"><button class="btn btn-secondary" type="button" data-favorite="${escapeHtml(room.roomId)}">${saved ? "♥ Đã yêu thích" : "♡ Yêu thích"}</button><a class="btn btn-secondary" href="./rooms.html">Quay lại danh sách</a></div>
+      <div class="detail-actions"><a class="btn btn-secondary" href="./rooms.html">Quay lại danh sách</a></div>
     </div>
     <div class="detail-gallery" aria-label="Hình ảnh phòng">${renderGallery()}</div>
     <div class="detail-layout">
       <div class="detail-main">
         <div class="detail-summary">
           <div class="summary-item"><small>Giá thuê / tháng</small><strong class="room-price">${formatVnd(room.roomPrice)}</strong></div>
-          <div class="summary-item"><small>Diện tích</small><strong>${room.roomArea ? `${escapeHtml(room.roomArea)} m²` : "Chưa cập nhật"}</strong></div>
-          <div class="summary-item"><small>Tiền đặt cọc</small><strong>${room.roomDeposit == null ? "Chưa cập nhật" : formatVnd(room.roomDeposit)}</strong></div>
-          <div class="summary-item"><small>Tình trạng</small><strong>${isAvailable(room) ? "Còn phòng" : escapeHtml(room.roomStatus || "Chưa cập nhật")}</strong></div>
+          <div class="summary-item"><small>Diện tích</small><strong>${room.roomArea ? `${escapeHtml(room.roomArea)} m²` : "API không cung cấp"}</strong></div>
+          <div class="summary-item"><small>Tiền đặt cọc</small><strong>${room.roomDeposit == null ? "API không cung cấp" : formatVnd(room.roomDeposit)}</strong></div>
+          <div class="summary-item"><small>Tình trạng</small><strong>${isAvailable(room) ? "Còn phòng" : escapeHtml(room.roomStatus || "API không cung cấp")}</strong></div>
         </div>
-        <section class="detail-block"><h2>Mô tả phòng</h2><p>${escapeHtml(room.roomDescription || "Chưa có mô tả phòng.")}</p></section>
+        <section class="detail-block"><h2>Mô tả phòng</h2><p>${escapeHtml(room.roomDescription || "API không cung cấp mô tả phòng.")}</p></section>
         <section class="detail-block"><h2>Dịch vụ</h2>${relatedServices.length ? `<div class="detail-tags">${relatedServices.map(item => `<span class="detail-tag">${escapeHtml(item.serviceName)}${item.servicePrice != null ? ` · ${formatVnd(item.servicePrice)}` : ""}</span>`).join("")}</div>` : '<p>Chưa có thông tin dịch vụ liên kết.</p>'}</section>
         <section class="detail-block"><h2>Tiện nghi</h2>${relatedAmenities.length ? `<div class="detail-tags">${relatedAmenities.map(item => `<span class="detail-tag">${escapeHtml(item.amenityName)}</span>`).join("")}</div>` : '<p>Chưa có thông tin tiện nghi liên kết.</p>'}</section>
-        <section class="detail-block"><h2>Nhà trọ &amp; vị trí</h2><p><strong>${escapeHtml(motel?.motelName || "Chưa có tên nhà trọ")}</strong><br>${escapeHtml(motel?.motelAddress || address)}</p><div class="map-placeholder">Khu vực bản đồ<br>Chưa có tọa độ để hiển thị vị trí chính xác.</div>${motel?.universityIds?.length ? '<p class="muted">Nhà trọ có liên kết trường đại học, nhưng API hiện chưa trả mã trường trong danh sách trường để hiển thị tên.</p>' : ""}</section>
+        <section class="detail-block"><h2>Nhà trọ &amp; vị trí</h2><p><strong>${escapeHtml(motel?.motelName || "API không cung cấp tên nhà trọ")}</strong><br>${escapeHtml(motel?.motelAddress || address)}</p>${motel?.universityIds?.length ? '<p class="muted">Nhà trọ có liên kết với trường đại học trong hệ thống.</p>' : ""}</section>
         <section class="detail-block"><h2>Chi phí khác</h2><p>Backend chưa cung cấp chi tiết chi phí điện, nước hoặc phí phát sinh cho phòng này.</p></section>
       </div>
       <aside class="contact-card"><h2>Liên hệ nhà trọ</h2><p>Thông tin liên hệ phụ thuộc dữ liệu do backend cung cấp.</p>
-        <div class="contact-owner"><span class="owner-avatar">${escapeHtml((motel?.motelOwner || "Chủ").slice(0, 1))}</span><span><strong>${escapeHtml(motel?.motelOwner || "Chưa có tên chủ trọ")}</strong><small>${escapeHtml(motel?.motelName || "Chủ nhà trọ")}</small></span></div>
+        ${motel?.motelOwner ? `<div class="contact-owner"><span class="owner-avatar">${escapeHtml(motel.motelOwner.slice(0, 1))}</span><span><strong>${escapeHtml(motel.motelOwner)}</strong>${motel.motelName ? `<small>${escapeHtml(motel.motelName)}</small>` : ""}</span></div>` : '<p class="muted">API không cung cấp thông tin chủ trọ.</p>'}
         <button class="btn btn-secondary" type="button" data-contact>Thông tin liên hệ</button>
         <button class="btn" type="button" data-rent>Gửi yêu cầu thuê</button>
         <p class="muted">Chưa có API liên hệ hoặc gửi yêu cầu thuê. Nút yêu cầu sẽ không tạo giao dịch.</p>
@@ -73,14 +71,15 @@ async function init() {
     }
 
     try {
-        const room = await apiRequest(`${API_ENDPOINTS.rooms}/${encodeURIComponent(roomId)}`);
+        const roomResponse = await fetch(`http://localhost:8080/roms/${encodeURIComponent(roomId)}`);
+        const room = await parseApiResponse(roomResponse);
         const [motelsResult, imagesResult, roomServicesResult, servicesResult, roomAmenitiesResult, amenitiesResult] = await Promise.allSettled([
-            apiRequest(`${API_ENDPOINTS.motels}/${encodeURIComponent(room.motelId)}`),
-            apiRequest(API_ENDPOINTS.roomImages(roomId)),
-            apiRequest(API_ENDPOINTS.roomServices(roomId)),
-            apiRequest("/services"),
-            apiRequest(API_ENDPOINTS.roomAmenities(roomId)),
-            apiRequest("/amenities")
+            fetch(`http://localhost:8080/motels/${encodeURIComponent(room.motelId)}`).then(parseApiResponse),
+            fetch(`http://localhost:8080/room-images/get-room-image/${encodeURIComponent(roomId)}`).then(parseApiResponse),
+            fetch(`http://localhost:8080/room-service/get-room-service/${encodeURIComponent(roomId)}`).then(parseApiResponse),
+            fetch("http://localhost:8080/services").then(parseApiResponse),
+            fetch(`http://localhost:8080/room-amenity/get-room-amenity/${encodeURIComponent(roomId)}`).then(parseApiResponse),
+            fetch("http://localhost:8080/amenities").then(parseApiResponse)
         ]);
         const value = result => result.status === "fulfilled" ? result.value : [];
         const motel = motelsResult.status === "fulfilled" ? motelsResult.value : null;
@@ -106,15 +105,6 @@ content.addEventListener("click", event => {
         currentImage = Number(imageButton.dataset.gallery);
         updateLightbox();
         lightbox.hidden = false;
-        return;
-    }
-    const favorite = event.target.closest("[data-favorite]");
-    if (favorite) {
-        const ids = new Set(readFavorites());
-        ids.has(String(roomId)) ? ids.delete(String(roomId)) : ids.add(String(roomId));
-        writeFavorites([...ids]);
-        favorite.textContent = ids.has(String(roomId)) ? "♥ Đã yêu thích" : "♡ Yêu thích";
-        showToast(ids.has(String(roomId)) ? "Đã lưu yêu thích trên thiết bị này." : "Đã bỏ yêu thích.");
         return;
     }
     if (event.target.closest("[data-contact]")) {

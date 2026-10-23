@@ -1,0 +1,16 @@
+.motels-heading{max-width:780px;margin:12px 0 24px}
+.motels-heading h1{margin:8px 0;font:800 clamp(28px,4vw,40px) Manrope,sans-serif;letter-spacing:-.04em}
+.motels-heading p{margin:0;color:var(--muted);font-size:14px}
+.motel-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;padding-bottom:60px}
+.motel-card{display:flex;min-height:190px;flex-direction:column;gap:10px;padding:20px;border:1px solid var(--line);border-radius:14px;background:#fff;color:var(--ink);text-decoration:none;transition:transform .18s,box-shadow .18s}
+.motel-card:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
+.motel-card h2{margin:0;font:800 17px/1.4 Manrope,sans-serif;overflow-wrap:anywhere}
+.motel-card p{margin:0;color:var(--muted);font-size:13px;overflow-wrap:anywhere}
+.motel-owner{color:#475569!important}
+.motel-link{margin-top:auto;color:var(--green)!important;font-size:12px!important;font-weight:800}
+.motel-rooms{padding-bottom:60px}
+.motel-rooms .room-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+.motel-rooms .room-photo{height:195px}
+.motel-section-title{margin:24px 0 18px;font:800 22px Manrope,sans-serif}
+@media(max-width:900px){.motel-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.motel-rooms .room-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:620px){.motel-grid,.motel-rooms .room-grid{grid-template-columns:1fr}.motel-rooms .room-photo{height:220px}}

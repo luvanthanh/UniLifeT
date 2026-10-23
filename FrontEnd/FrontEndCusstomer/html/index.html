@@ -19,15 +19,11 @@
           <p>Gần trường – Đúng ngân sách – Đủ tiện nghi</p>
           <form class="search-panel" id="home-search">
             <label class="search-field"><span aria-hidden="true">⌕</span><span><small>Tên phòng, khu vực</small><input name="q" type="search" placeholder="Nhập tên trường, quận hoặc địa chỉ"></span></label>
-            <label class="search-field"><span aria-hidden="true">⌂</span><span><small>Trường đại học</small><select id="home-university" disabled><option>API chưa trả mã trường để lọc</option></select></span></label>
-            <label class="search-field"><span aria-hidden="true">₫</span><span><small>Giá tối đa / tháng</small><select name="maxPrice"><option value="">Không giới hạn</option><option value="3000000">Dưới 3 triệu</option><option value="5000000">Dưới 5 triệu</option><option value="8000000">Dưới 8 triệu</option></select></span></label>
+            <a class="search-field" href="./pages/university.html"><span aria-hidden="true">⌂</span><span><small>Trường đại học</small><strong>Xem danh sách trường</strong></span></a>
+            <label class="search-field"><span aria-hidden="true">₫</span><span><small>Giá tối đa / tháng</small><input name="maxPrice" type="number" min="0" step="100000" placeholder="Không giới hạn"></span></label>
             <button class="btn search-submit" type="submit">Tìm phòng</button>
           </form>
-          <p class="source-note">Thông tin phòng được tải từ UniLifeT. Bộ lọc theo trường sẽ bật khi backend trả mã trường trong dữ liệu.</p>
-        </div>
-        <div class="hero-visual">
-          <img src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=1100&q=85" alt="Không gian phòng trọ sáng và thoáng">
-          <div class="hero-caption"><span class="hero-mark">⌂</span><span><strong>Chọn nơi ở theo cách của bạn</strong><small>Tìm kiếm theo trường, giá và khu vực</small></span></div>
+          <p class="source-note">Thông tin phòng được tải từ UniLifeT. Mở danh sách trường để khám phá nhà trọ liên kết.</p>
         </div>
       </div>
     </section>
@@ -41,12 +37,13 @@
       <div class="room-grid" id="home-room-grid" aria-live="polite"><div class="loading-card">Đang tải danh sách phòng…</div></div>
     </section>
 
-    <section class="university-section section-pad" id="universities">
-      <div class="container">
-        <div class="section-heading"><div><span class="eyebrow">Tìm chỗ ở gần trường</span><h2>Trường đại học</h2><p>Chọn trường để lọc phòng theo khu vực học tập.</p></div></div>
-        <div id="university-notice" class="notice" role="status" hidden></div>
-        <div class="university-grid" id="home-university-grid" aria-live="polite"><div class="loading-card">Đang tải trường đại học…</div></div>
+    <section class="container help-band">
+      <div class="help-copy">
+        <span class="eyebrow">Tìm chỗ ở gần trường</span>
+        <h2>Khám phá nhà trọ quanh trường đại học</h2>
+        <p>Chọn trường để xem các nhà trọ và phòng liên kết trong hệ thống.</p>
       </div>
+      <a class="btn" href="./pages/university.html">Xem các trường <span aria-hidden="true">→</span></a>
     </section>
 
     <section class="container help-band">

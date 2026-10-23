@@ -11,6 +11,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class UniversityResponse {
 
+    private Long universityId;
     private String universityName;
     private String universityCode;
     private String universityAddress;
