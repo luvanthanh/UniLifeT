@@ -43,13 +43,13 @@ DELETE http://localhost:8080/users/{userId}
 GET    http://localhost:8080/user-room					ok	
 GET    http://localhost:8080/user-room/{userRoomId}			
        http://localhost:8080/user-room/users/{userId}			ok	
-POST   http://localhost:8080/user-room
-PUT    http://localhost:8080/user-room/update/{userRoomId}
-DELETE http://localhost:8080/user-room/{userRoomId}
+POST   http://localhost:8080/user-room					ok
+PUT    http://localhost:8080/user-room/{userRoomId}			ok
+DELETE http://localhost:8080/user-room/{userRoomId}			ok
 
 
 			university
-GET    http://localhost:8080/universities
+GET    http://localhost:8080/universities				
 GET    http://localhost:8080/universities/{universityId}
 POST   http://localhost:8080/universities
 PUT    http://localhost:8080/universities/update/{universityId}
