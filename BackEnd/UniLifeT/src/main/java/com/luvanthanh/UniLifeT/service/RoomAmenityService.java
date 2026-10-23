@@ -54,6 +54,14 @@ public class RoomAmenityService {
         return roomAmenityMapper.toRoomAmenityResponse(findRoomAmenity(roomAmenityId));
     }
 
+    public List<RoomAmenityResponse> findAllRoomAmenities(Long roomId) {
+        List<RoomAmenityResponse> responses = new ArrayList<>();
+        for (RoomAmenity roomAmenity : roomAmenityRepository.findByRoom_RoomId(roomId)) {
+            responses.add(roomAmenityMapper.toRoomAmenityResponse(roomAmenity));
+        }
+        return responses;
+    }
+
     public RoomAmenityResponse updateRoomAmenity(Long roomAmenityId, RoomAmenityUpdateRequest request) {
         RoomAmenity roomAmenity = findRoomAmenity(roomAmenityId);
         roomAmenityMapper.toRoomAmenityUpdate(roomAmenity, request);

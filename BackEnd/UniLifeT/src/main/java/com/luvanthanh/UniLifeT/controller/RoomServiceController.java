@@ -32,17 +32,7 @@ public class RoomServiceController {
                 .data(result)
                 .build();
     }
-//  câpj nhật id
-    @PutMapping("/{roomServiceId}")
-    public ApiResponse<RoomServiceResponse> updateRoomService(
-            @PathVariable Long roomServiceId, @RequestBody RoomServiceUpdateRequest request) {
-        var result = roomServiceService.updateRoomService(roomServiceId, request);
-        return ApiResponse.<RoomServiceResponse>builder()
-                .code(1000)
-                .message("Room service updated successfully")
-                .data(result)
-                .build();
-    }
+
 // lấy tất
     @GetMapping
     public ApiResponse<List<RoomServiceResponse>> getAllRoomServices() {

@@ -61,18 +61,6 @@ public class RoomServiceService {
         return  responses;
     }
 
-//    cập nhật
-    public RoomServiceResponse updateRoomService(Long roomServiceId, RoomServiceUpdateRequest request) {
-        RoomService roomService = findRoomService(roomServiceId);
-        roomServiceMapper.toRoomServiceUpdate(roomService, request);
-        if (request.getRoomId() != null) {
-            roomService.setRoom(findRoom(request.getRoomId()));
-        }
-        if (request.getServiceId() != null) {
-            roomService.setService(findService(request.getServiceId()));
-        }
-        return roomServiceMapper.toRoomServiceResponse(roomServiceRepository.save(roomService));
-    }
 //  xóa
     public String deleteRoomService(Long roomServiceId) {
         RoomService roomService = findRoomService(roomServiceId);

@@ -10,4 +10,6 @@ import java.util.List;
 @Repository
 public interface RoomServiceRepository extends JpaRepository<RoomService,Long> {
     List<RoomService>  findByRoom_RoomId(Long roomId);
+    boolean existsByRoom_RoomIdAndService_ServiceId(
+            Long roomId, Long serviceId);
 }
