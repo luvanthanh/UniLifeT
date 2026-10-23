@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="vi">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Lịch sử thuê | UniLifeT</title><link rel="stylesheet" href="../../css/common.css"><link rel="stylesheet" href="../../css/profile.css"></head>
+<body data-page="rentals" data-root="../">
+  <header data-site-header></header>
+  <main class="container page-main">
+    <nav class="breadcrumb" aria-label="Breadcrumb"><a href="../index.html">Trang chủ</a><span>›</span><span>Lịch sử thuê</span></nav>
+    <div class="section-heading"><div><span class="eyebrow">Tài khoản</span><h1>Yêu cầu thuê &amp; lịch sử</h1><p>Danh sách bản ghi thuê phòng gắn với tài khoản hiện tại.</p></div></div>
+    <div class="notice info">Backend hiện chỉ có dữ liệu UserRoom (hợp đồng/ghi nhận thuê), chưa có API yêu cầu thuê riêng. Trang không tạo trạng thái hoặc yêu cầu giả. Endpoint đọc UserRoom hiện chưa ràng buộc quyền sở hữu ở backend; giao diện chỉ hiển thị bản ghi có userId khớp phiên đăng nhập.</div>
+    <div id="rentals-notice" class="notice" role="status" hidden></div>
+    <div id="rentals-list" class="rental-list" aria-live="polite"><div class="loading-card">Đang tải lịch sử…</div></div>
+  </main>
+  <footer data-site-footer></footer><div class="toast" id="toast" role="status"></div>
+  <script type="module" src="../../javascript/my-rentals.js"></script>
+</body>
+</html>

@@ -41,6 +41,15 @@ public class MotelImageController {
                 .build();
     }
 
+    @GetMapping("/get-motel-image/{motelId}")
+    public ApiResponse<List<MotelImageResponse>> getMotelImagesByMotelId(@PathVariable Long motelId) {
+        return ApiResponse.<List<MotelImageResponse>>builder()
+                .code(1000)
+                .message("Get motel images successful")
+                .data(motelImageService.findMotelImagesByMotelId(motelId))
+                .build();
+    }
+
     @GetMapping("/{imageId}")
     public ApiResponse<MotelImageResponse> getMotelImageById(@PathVariable Long imageId) {
         return ApiResponse.<MotelImageResponse>builder()

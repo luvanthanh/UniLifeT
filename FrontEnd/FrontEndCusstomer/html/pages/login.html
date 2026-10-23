@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="vi">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Đăng nhập | UniLifeT</title><link rel="stylesheet" href="../../css/common.css"><link rel="stylesheet" href="../../css/auth.css"></head>
+<body data-page="login" data-root="../">
+  <header data-site-header></header>
+  <main class="auth-shell container">
+    <section class="auth-card"><span class="eyebrow">Chào mừng trở lại</span><h1>Đăng nhập UniLifeT</h1><p class="auth-lead">Đăng nhập để xem hồ sơ và quản lý hoạt động của bạn.</p>
+      <div id="form-message" class="notice" role="status" hidden></div>
+      <form id="login-form" class="form-stack">
+        <label class="field">Tên đăng nhập<input name="userName" autocomplete="username" required></label>
+        <label class="field">Mật khẩu<span class="password-field"><input name="userPassword" type="password" autocomplete="current-password" required><button type="button" data-toggle-password aria-label="Hiện hoặc ẩn mật khẩu">Hiện</button></span></label>
+        <div class="auth-row"><a href="./forgot-password.html">Quên mật khẩu?</a></div>
+        <button class="btn" type="submit">Đăng nhập</button>
+        <p class="muted">API backend xác thực bằng <code>userName</code>; hãy nhập tên đăng nhập đã đăng ký.</p>
+      </form>
+      <p class="auth-switch">Chưa có tài khoản? <a href="./register.html">Đăng ký</a></p>
+    </section>
+  </main>
+  <footer data-site-footer></footer><div class="toast" id="toast" role="status"></div>
+  <script type="module" src="../../javascript/auth.js"></script>
+</body>
+</html>

@@ -41,6 +41,15 @@ public class RoomImageController {
                 .build();
     }
 
+    @GetMapping("/get-room-image/{roomId}")
+    public ApiResponse<List<RoomImageResponse>> getRoomImagesByRoomId(@PathVariable Long roomId) {
+        return ApiResponse.<List<RoomImageResponse>>builder()
+                .code(1000)
+                .message("Get room images successful")
+                .data(roomImageService.findRoomImagesByRoomId(roomId))
+                .build();
+    }
+
     @GetMapping("/{imageId}")
     public ApiResponse<RoomImageResponse> getRoomImageById(@PathVariable Long imageId) {
         return ApiResponse.<RoomImageResponse>builder()

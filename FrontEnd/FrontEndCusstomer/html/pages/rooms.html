@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Lọc danh sách phòng trọ theo ngân sách, diện tích, dịch vụ và tiện nghi.">
+  <title>Tìm phòng trọ | UniLifeT</title>
+  <link rel="stylesheet" href="../../css/common.css">
+  <link rel="stylesheet" href="../../css/customer.css">
+  <link rel="stylesheet" href="../../css/rooms.css">
+</head>
+<body data-page="rooms" data-root="../">
+  <header data-site-header></header>
+  <main class="container page-main">
+    <nav class="breadcrumb" aria-label="Breadcrumb"><a href="../index.html">Trang chủ</a><span>›</span><span>Tìm phòng</span></nav>
+    <div class="listing-heading"><div><span class="eyebrow">Tìm kiếm phòng</span><h1>Phòng trọ phù hợp với bạn</h1><p id="listing-summary">Dữ liệu được lấy trực tiếp từ backend UniLifeT.</p></div>
+      <button type="button" class="btn btn-secondary mobile-filter-toggle" id="filter-open">☷ Bộ lọc</button>
+    </div>
+    <div id="listing-notice" class="notice" role="status" hidden></div>
+    <div class="listing-layout">
+      <aside class="filter-panel" id="filter-panel" aria-label="Bộ lọc phòng">
+        <div class="filter-panel-head"><h2>Bộ lọc</h2><button type="button" class="icon-btn filter-close" id="filter-close" aria-label="Đóng bộ lọc">×</button></div>
+        <form id="room-filters">
+          <label class="field">Từ khóa / tỉnh thành / khu vực<input name="q" type="search" placeholder="Ví dụ: Đà Nẵng, Hải Châu"></label>
+          <label class="field">Trường đại học<select name="university" disabled><option>API chưa trả mã trường để lọc</option></select></label>
+          <div class="filter-pair"><label class="field">Giá từ<input name="minPrice" type="number" min="0" step="100000" placeholder="0"></label><label class="field">Đến<input name="maxPrice" type="number" min="0" step="100000" placeholder="Không giới hạn"></label></div>
+          <div class="filter-pair"><label class="field">Diện tích từ (m²)<input name="minArea" type="number" min="0" step="1" placeholder="0"></label><label class="field">Đến (m²)<input name="maxArea" type="number" min="0" step="1" placeholder="Không giới hạn"></label></div>
+          <label class="field">Loại phòng<select name="roomType" id="room-type-filter"><option value="">Tất cả loại phòng</option></select></label>
+          <label class="field">Tình trạng<select name="status"><option value="">Tất cả tình trạng</option><option value="available">Còn phòng</option><option value="unavailable">Không còn trống</option></select></label>
+          <fieldset class="check-group"><legend>Dịch vụ</legend><div id="service-filters" class="check-list"><span class="muted">Đang tải…</span></div></fieldset>
+          <fieldset class="check-group"><legend>Tiện nghi</legend><div id="amenity-filters" class="check-list"><span class="muted">Đang tải…</span></div></fieldset>
+          <p class="filter-hint">Backend hiện chưa trả mã trường đại học trong danh sách trường, nên chưa thể lọc phòng theo trường một cách chính xác.</p>
+          <div class="filter-actions"><button class="btn" type="submit">Áp dụng bộ lọc</button><button class="btn btn-secondary" type="reset" id="filter-reset">Xóa bộ lọc</button></div>
+        </form>
+      </aside>
+      <div class="filter-shade" id="filter-shade"></div>
+      <section class="listing-results" aria-label="Kết quả phòng trọ">
+        <div class="results-toolbar"><span id="result-count" class="result-count">Đang tải phòng…</span><label class="sort-control">Sắp xếp<select id="room-sort"><option value="recommended">Theo thứ tự dữ liệu</option><option value="price-asc">Giá thấp đến cao</option><option value="price-desc">Giá cao đến thấp</option><option value="area-desc">Diện tích lớn đến nhỏ</option><option value="newest" disabled>Mới đăng (API chưa có ngày đăng)</option></select></label></div>
+        <div class="room-grid" id="room-grid" aria-live="polite"><div class="loading-card">Đang tải phòng trọ…</div></div>
+        <button type="button" class="btn btn-secondary load-more" id="load-more" hidden>Xem thêm phòng</button>
+      </section>
+    </div>
+  </main>
+  <footer data-site-footer></footer>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script type="module" src="../../javascript/rooms.js"></script>
+</body>
+</html>

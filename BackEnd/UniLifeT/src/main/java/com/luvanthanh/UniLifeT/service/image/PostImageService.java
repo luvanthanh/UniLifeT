@@ -41,6 +41,14 @@ public class PostImageService {
         return responses;
     }
 
+    public List<PostImageResponse> findPostImagesByPostId(Long postId) {
+        List<PostImageResponse> responses = new ArrayList<>();
+        for (PostImage postImage : postImageRepository.findByPost_PostId(postId)) {
+            responses.add(postImageMapper.toPostImageResponse(postImage));
+        }
+        return responses;
+    }
+
     public PostImageResponse findPostImageById(Long imageId) {
         return postImageMapper.toPostImageResponse(findPostImage(imageId));
     }

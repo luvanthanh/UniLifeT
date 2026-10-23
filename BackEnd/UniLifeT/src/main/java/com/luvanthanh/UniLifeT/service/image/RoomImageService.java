@@ -41,6 +41,14 @@ public class RoomImageService {
         return responses;
     }
 
+    public List<RoomImageResponse> findRoomImagesByRoomId(Long roomId) {
+        List<RoomImageResponse> responses = new ArrayList<>();
+        for (RoomImage roomImage : roomImageRepository.findByRoom_RoomId(roomId)) {
+            responses.add(roomImageMapper.toRoomImageResponse(roomImage));
+        }
+        return responses;
+    }
+
     public RoomImageResponse findRoomImageById(Long imageId) {
         return roomImageMapper.toRoomImageResponse(findRoomImage(imageId));
     }

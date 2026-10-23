@@ -86,10 +86,13 @@ public class SecurityConfig {
             "/posts/*",
             "/post-images",
             "/post-images/*",
+            "/post-images/get-post-image/*",
             "/motel-images",
             "/motel-images/*",
+            "/motel-images/get-motel-image/*",
             "/room-images",
             "/room-images/*",
+            "/room-images/get-room-image/*",
             "/motels",
             "/motels/*",
             "/user-room/users/{userId}"

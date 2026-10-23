@@ -41,6 +41,15 @@ public class PostImageController {
                 .build();
     }
 
+    @GetMapping("/get-post-image/{postId}")
+    public ApiResponse<List<PostImageResponse>> getPostImagesByPostId(@PathVariable Long postId) {
+        return ApiResponse.<List<PostImageResponse>>builder()
+                .code(1000)
+                .message("Get post images successful")
+                .data(postImageService.findPostImagesByPostId(postId))
+                .build();
+    }
+
     @GetMapping("/{imageId}")
     public ApiResponse<PostImageResponse> getPostImageById(@PathVariable Long imageId) {
         return ApiResponse.<PostImageResponse>builder()

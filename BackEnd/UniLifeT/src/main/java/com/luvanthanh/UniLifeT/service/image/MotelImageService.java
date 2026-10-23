@@ -41,6 +41,14 @@ public class MotelImageService {
         return responses;
     }
 
+    public List<MotelImageResponse> findMotelImagesByMotelId(Long motelId) {
+        List<MotelImageResponse> responses = new ArrayList<>();
+        for (MotelImage motelImage : motelImageRepository.findByMotel_MotelId(motelId)) {
+            responses.add(motelImageMapper.toMotelImageResponse(motelImage));
+        }
+        return responses;
+    }
+
     public MotelImageResponse findMotelImageById(Long imageId) {
         return motelImageMapper.toMotelImageResponse(findMotelImage(imageId));
     }
