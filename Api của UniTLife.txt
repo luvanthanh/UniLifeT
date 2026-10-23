@@ -66,11 +66,28 @@ DELETE http://localhost:8080/amenities/{amenityId}
 GET    http://localhost:8080/services					ok
 GET    http://localhost:8080/services/1					ok
 POST   http://localhost:8080/services					ok
-PUT    http://localhost:8080/services/update/{serviceId}		
-DELETE http://localhost:8080/services/{serviceId}
+PUT    http://localhost:8080/services/update/{serviceId}		ok
+DELETE http://localhost:8080/services/{serviceId}	
+			
 
-POST   http://localhost:8080/room_service
+		Room Service
 
+POST http://localhost:8080/room-service					
+PUT http://localhost:8080/room-service/update/1
+GET http://localhost:8080/room-service
+GET http://localhost:8080/room-service/1
+DELETE http://localhost:8080/room-service/1
+
+
+		Room Amenity
+
+POST http://localhost:8080/room-amenity
+PUT http://localhost:8080/room-amenity/update/1
+GET http://localhost:8080/room-amenity
+GET http://localhost:8080/room-amenity/1
+
+		images
+DELETE http://localhost:8080/room-amenity/1
 GET    http://localhost:8080/room-images
 GET    http://localhost:8080/room-images/{imageId}
 POST   http://localhost:8080/room-images

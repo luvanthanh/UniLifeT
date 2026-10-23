@@ -47,7 +47,7 @@ public class Room {
     private List<Service> services = new ArrayList<>();
 
     @OneToMany(mappedBy = "room")
-    private List<RoomAmenities> roomAmenities = new ArrayList<>();
+    private List<RoomAmenity> roomAmenities = new ArrayList<>();
 
     @OneToMany(mappedBy = "room")
     private List<Post> posts = new ArrayList<>();

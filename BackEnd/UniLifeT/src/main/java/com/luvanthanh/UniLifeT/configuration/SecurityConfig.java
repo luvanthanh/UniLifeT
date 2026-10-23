@@ -27,14 +27,17 @@ public class SecurityConfig {
             "/motels",
             "/universities",
             "/amenities",
-            "/services"
+            "/services",
+            "/room-service"
     };
 
     private final String[] PRIVATE_PUT_ENDPOINTS={
             "/rooms/{roomId}",
             "/motels/{motelId}",
             "/universities/{universityId}",
-            "/amenities/{amenityId}"
+            "/amenities/{amenityId}",
+            "/services/{serviceId}",
+            "/room-service/{roomServiceId}"
 
     };
     private final String[] PRIVATE_DELETE_ENDPOINTS={
@@ -65,6 +68,10 @@ public class SecurityConfig {
             "/services/*",
             "/roms",
             "/roms/{roomId}",
+            "/room-service",
+            "/room-service/{romServiceId}",
+            "/room-service/get-room-service/{roomId}",
+
             "/posts",
             "/posts/*",
             "/post-images",
@@ -76,10 +83,12 @@ public class SecurityConfig {
             "/motels",
             "/motels/*",
             "/user-room/users/{userId}"
+
     };
 
     private final String[] PUBLIC_PUT_ENDPOINTS = {
-            "/posts/{postId}"
+            "/posts/{postId}",
+
     };
 
     private final String[] PUBLIC_DELETE_ENDPOINTS = {

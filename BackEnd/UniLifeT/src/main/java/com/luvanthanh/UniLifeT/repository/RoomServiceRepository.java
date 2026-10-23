@@ -1,11 +1,13 @@
 package com.luvanthanh.UniLifeT.repository;
 
 
-import com.luvanthanh.UniLifeT.entity.RoomServices;
+import com.luvanthanh.UniLifeT.entity.RoomService;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-@Repository
-public interface RoomServiceRepository extends JpaRepository<RoomServices,Long> {
+import java.util.List;
 
+@Repository
+public interface RoomServiceRepository extends JpaRepository<RoomService,Long> {
+    List<RoomService>  findByRoom_RoomId(Long roomId);
 }

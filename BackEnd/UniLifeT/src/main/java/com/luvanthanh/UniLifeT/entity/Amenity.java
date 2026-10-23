@@ -23,5 +23,5 @@ public class Amenity {
     private String amenityName;
 
     @OneToMany(mappedBy = "amenity")
-    private List<RoomAmenities> roomAmenities = new ArrayList<>();
+    private List<RoomAmenity> roomAmenities = new ArrayList<>();
 }
