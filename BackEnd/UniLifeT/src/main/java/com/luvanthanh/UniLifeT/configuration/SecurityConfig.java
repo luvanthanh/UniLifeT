@@ -24,12 +24,17 @@ import static org.springframework.http.HttpMethod.*;
 public class SecurityConfig {
     private final String[] PRIVATE_POST_ENDPOINTS ={
             "/rooms",
-            "/motels"
+            "/motels",
+            "/universities",
+            "/amenities",
+            "/services"
     };
 
     private final String[] PRIVATE_PUT_ENDPOINTS={
             "/rooms/{roomId}",
-            "/motels/{motelId}"
+            "/motels/{motelId}",
+            "/universities/{universityId}",
+            "/amenities/{amenityId}"
 
     };
     private final String[] PRIVATE_DELETE_ENDPOINTS={

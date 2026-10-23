@@ -25,7 +25,8 @@ public enum ErrorCode {
     POST_NOT_FOUND(1014, "không có bài đăng trong cơ sở dữ liệu", HttpStatus.NOT_FOUND),
     MOTEL_NOT_FOUND(1015, "không có nhà trọ trong cơ sở dữ liệu", HttpStatus.NOT_FOUND),
     IMAGE_NOT_FOUND(1016, "không có hình ảnh trong cơ sở dữ liệu", HttpStatus.NOT_FOUND),
-    USER_ROOM_NOT_FOUND(1017, "không có hợp đồng thuê phòng trong cơ sở dữ liệu", HttpStatus.NOT_FOUND)
+    USER_ROOM_NOT_FOUND(1017, "không có hợp đồng thuê phòng trong cơ sở dữ liệu", HttpStatus.NOT_FOUND),
+    UNIVERSITY_HAVE_CODE(1018,"university đã có mã code này, lấy mã code khác", HttpStatus.BAD_REQUEST)
     ;
 
 

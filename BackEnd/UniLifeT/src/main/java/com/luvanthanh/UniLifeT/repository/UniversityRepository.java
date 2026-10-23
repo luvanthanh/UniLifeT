@@ -6,5 +6,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface UniversityRepository extends JpaRepository<University,Long> {
-
+    boolean existsByUniversityCodeAndUniversityIdNot(
+            String universityCode,
+            Long universityId
+    );
 }

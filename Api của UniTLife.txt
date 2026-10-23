@@ -49,24 +49,24 @@ DELETE http://localhost:8080/user-room/{userRoomId}			ok
 
 
 			university
-GET    http://localhost:8080/universities				
-GET    http://localhost:8080/universities/{universityId}
-POST   http://localhost:8080/universities
-PUT    http://localhost:8080/universities/update/{universityId}
+GET    http://localhost:8080/universities				ok				
+GET    http://localhost:8080/universities/{universityId}		ok
+POST   http://localhost:8080/universities				ok
+PUT    http://localhost:8080/universities/update/{universityId}		ok
 DELETE http://localhost:8080/universities/{universityId}
 
 			amenity
-GET    http://localhost:8080/amenities
-GET    http://localhost:8080/amenities/{amenityId}
-POST   http://localhost:8080/amenities
-PUT    http://localhost:8080/amenities/update/{amenityId}
+GET    http://localhost:8080/amenities					ok				
+GET    http://localhost:8080/amenities/1				ok
+POST   http://localhost:8080/amenities					ok
+PUT    http://localhost:8080/amenities/update/8				ok
 DELETE http://localhost:8080/amenities/{amenityId}
 
 			service
-GET    http://localhost:8080/services
-GET    http://localhost:8080/services/{serviceId}
-POST   http://localhost:8080/services
-PUT    http://localhost:8080/services/update/{serviceId}
+GET    http://localhost:8080/services					ok
+GET    http://localhost:8080/services/1					ok
+POST   http://localhost:8080/services					ok
+PUT    http://localhost:8080/services/update/{serviceId}		
 DELETE http://localhost:8080/services/{serviceId}
 
 POST   http://localhost:8080/room_service

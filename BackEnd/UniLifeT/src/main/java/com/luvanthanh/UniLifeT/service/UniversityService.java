@@ -24,12 +24,13 @@ public class UniversityService {
     @Autowired
     private UniversityMapper universityMapper;
 
+//     thêm
     public UniversityResponse createUniversity(UniversityCreationRequest request) {
         University university = universityMapper.toUniversity(request);
         University createdUniversity = universityRepository.save(university);
         return universityMapper.toUniversityResponse(createdUniversity);
     }
-
+// get all
     public List<UniversityResponse> findAllUniversities() {
         List<University> universities = universityRepository.findAll();
         List<UniversityResponse> universityResponseList = new ArrayList<>();
@@ -38,20 +39,33 @@ public class UniversityService {
         }
         return universityResponseList;
     }
-
+// lấy theo id
     public UniversityResponse findUniversityById(Long id) {
         University university = universityRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.UNIVERSITY_NOT_FOUND));
         return universityMapper.toUniversityResponse(university);
     }
+//  sửa theo id
 
-    public UniversityResponse updateUniversity(Long universityId, UniversityUpdateRequest request) {
+    public UniversityResponse updateUniversity(
+            Long universityId,
+            UniversityUpdateRequest request) {
+
         University university = universityRepository.findById(universityId)
                 .orElseThrow(() -> new AppException(ErrorCode.UNIVERSITY_NOT_FOUND));
+
+        if (universityRepository.existsByUniversityCodeAndUniversityIdNot(
+                request.getUniversityCode(), universityId)) {
+            throw new AppException(ErrorCode.UNIVERSITY_HAVE_CODE);
+        }
+
         universityMapper.toUniversityUpdate(university, request);
+
         University updatedUniversity = universityRepository.save(university);
+
         return universityMapper.toUniversityResponse(updatedUniversity);
     }
+
 
     public String deleteUniversity(Long universityId) {
         University university = universityRepository.findById(universityId)
