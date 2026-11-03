@@ -1,4 +1,4 @@
-const navItems = [
+﻿const navItems = [
   { id: "dashboard", label: "Tổng quan", icon: "⌂", href: "dashboard.html" },
   { id: "users", label: "Quản lý người dùng", icon: "👥", href: "users.html" },
   { id: "owners", label: "Quản lý chủ trọ", icon: "🏠", href: "owners.html" },
@@ -39,6 +39,161 @@ const statusMap = {
   maintenance: "warning",
   draft: "neutral"
 };
+
+const API_BASE_URL = "http://localhost:8080";
+const ADMIN_SESSION_KEY = "unilife_admin_token";
+const ADMIN_USER_KEY = "unilife_admin_user";
+
+const adminStore = {
+  token: localStorage.getItem(ADMIN_SESSION_KEY) || "",
+  user: JSON.parse(localStorage.getItem(ADMIN_USER_KEY) || "null"),
+  users: [],
+  motels: [],
+  rooms: [],
+  posts: [],
+  universities: [],
+  services: [],
+  amenities: []
+};
+
+function normalizeRole(role) {
+  const value = String(role || "").toUpperCase();
+  if (value === "ADMIN") return "Admin";
+  if (value === "OWNER") return "Chủ trọ";
+  if (value === "STUDENT") return "Sinh viên";
+  return role || "Khác";
+}
+
+function normalizeStatusLabel(status) {
+  const value = String(status || "").toUpperCase();
+  if (value === "ACTIVE") return "Hoạt động";
+  if (value === "AVAILABLE") return "Còn trống";
+  if (value === "RENTED") return "Đã thuê";
+  if (value === "PENDING") return "Chờ xử lý";
+  if (value === "APPROVED") return "Đã duyệt";
+  if (value === "REJECTED") return "Từ chối";
+  if (value === "MAINTENANCE") return "Bảo trì";
+  if (value === "INACTIVE") return "Khóa";
+  if (value === "OWNER") return "Chủ trọ";
+  if (value === "STUDENT") return "Sinh viên";
+  if (value === "ADMIN") return "Admin";
+  return status || "Không xác định";
+}
+
+function formatNumber(value) {
+  if (value === null || value === undefined || value === "") return 0;
+  const num = Number(value);
+  return Number.isFinite(num) ? num.toLocaleString("vi-VN") : value;
+}
+
+function getStoredAdminToken() {
+  return localStorage.getItem(ADMIN_SESSION_KEY) || "";
+}
+
+function storeAdminToken(token) {
+  if (!token) {
+    localStorage.removeItem(ADMIN_SESSION_KEY);
+    return;
+  }
+  localStorage.setItem(ADMIN_SESSION_KEY, token);
+  adminStore.token = token;
+}
+
+function storeAdminUser(user) {
+  if (!user) {
+    localStorage.removeItem(ADMIN_USER_KEY);
+    adminStore.user = null;
+    return;
+  }
+  localStorage.setItem(ADMIN_USER_KEY, JSON.stringify(user));
+  adminStore.user = user;
+}
+
+async function apiRequest(path, options = {}) {
+  const headers = {
+    "Content-Type": "application/json",
+    ...(options.headers || {})
+  };
+
+  const token = getStoredAdminToken() || adminStore.token;
+  if (token) {
+    headers.Authorization = `Bearer ${token}`;
+    adminStore.token = token;
+  }
+
+  const response = await fetch(`${API_BASE_URL}/${path}`, {
+    ...options,
+    headers
+  });
+
+  const text = await response.text();
+  let payload = null;
+
+  try {
+    payload = text ? JSON.parse(text) : null;
+  } catch (error) {
+    payload = { message: text };
+  }
+
+  if (!response.ok) {
+    throw new Error((payload && payload.message) || `Y?u c?u th?t b?i (${response.status})`);
+  }
+
+  return payload;
+}
+
+async function loginAdmin(username = "admin", password = "admin") {
+  const result = await apiRequest("users/auth/login", {
+    method: "POST",
+    body: JSON.stringify({
+      userName: username,
+      userPassword: password
+    })
+  });
+
+  const token = result && result.data && result.data.token;
+  if (!token) {
+    throw new Error("Không nhận được token đăng nhập từ máy chủ.");
+  }
+
+  storeAdminToken(token);
+  storeAdminUser({ userName: username, role: "ADMIN" });
+  return result.data;
+}
+
+async function ensureAdminSession() {
+  if (!adminStore.token) {
+    adminStore.token = getStoredAdminToken();
+  }
+
+  if (!adminStore.token) {
+    await loginAdmin();
+  }
+}
+
+async function loadAdminData() {
+  await ensureAdminSession();
+
+  const [usersRes, motelsRes, roomsRes, postsRes, universitiesRes, servicesRes, amenitiesRes] = await Promise.all([
+    apiRequest("users"),
+    apiRequest("motels"),
+    apiRequest("roms"),
+    apiRequest("posts"),
+    apiRequest("universities"),
+    apiRequest("services"),
+    apiRequest("amenities")
+  ]);
+
+  adminStore.users = (usersRes && usersRes.data) || [];
+  adminStore.motels = (motelsRes && motelsRes.data) || [];
+  adminStore.rooms = (roomsRes && roomsRes.data) || [];
+  adminStore.posts = (postsRes && postsRes.data) || [];
+  adminStore.universities = (universitiesRes && universitiesRes.data) || [];
+  adminStore.services = (servicesRes && servicesRes.data) || [];
+  adminStore.amenities = (amenitiesRes && amenitiesRes.data) || [];
+
+  return adminStore;
+}
 
 function makeInitials(name) {
   return (name || "Admin").trim().split(/\s+/).slice(0, 2).map(part => part[0].toUpperCase()).join("") || "A";
