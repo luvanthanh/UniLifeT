@@ -1,5 +1,6 @@
 package com.luvanthanh.UniLifeT.entity;
 
+import com.luvanthanh.UniLifeT.Enum.Role;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -29,8 +30,17 @@ public class User {
     private String userGender;
     private LocalDate userBirthday;
     private String userAddress;
+    @Column(name = "user_role", nullable = false)
     private String userRole;
 
+    @PrePersist
+    public void prePersist() {
+        if (userRole == null || userRole.isBlank()) {
+            userRole = Role.STUDENT.name();
+        } else {
+            userRole = userRole.trim().toUpperCase();
+        }
+    }
 
     @OneToMany(mappedBy = "user")
     private List<Motel> motels = new ArrayList<>();

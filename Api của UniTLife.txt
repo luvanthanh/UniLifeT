@@ -84,25 +84,29 @@ DELETE http://localhost:8080/room-service/1
 
 POST http://localhost:8080/room-amenity					ok
 PUT http://localhost:8080/room-amenity/get-room-amenity/{roomId}	ok
-GET http://localhost:8080/room-amenity
-GET http://localhost:8080/room-amenity/1
+GET http://localhost:8080/room-amenity					ok
+GET http://localhost:8080/room-amenity/1				ok
+DELETE http://localhost:8080/room-amenity/1				ok
 
-		images
-DELETE http://localhost:8080/room-amenity/1
-GET    http://localhost:8080/room-images
-GET    http://localhost:8080/room-images/{imageId}
-POST   http://localhost:8080/room-images
+
+			images
+GET    http://localhost:8080/room-images				ok
+GET    http://localhost:8080/room-images/{imageId}			ok
+GET    http://localhost:8080/room-images/get-room-image/{roomId}	ok
+POST   http://localhost:8080/room-images				
 PUT    http://localhost:8080/room-images/update/{imageId}
 DELETE http://localhost:8080/room-images/{imageId}
 
-GET    http://localhost:8080/motel-images
-GET    http://localhost:8080/motel-images/{imageId}
+GET    http://localhost:8080/motel-images				ok
+GET    http://localhost:8080/motel-images/{imageId}			ok
+GET    http://localhost:8080/motel-images/get-motel-image/{roomId}	ok
 POST   http://localhost:8080/motel-images
 PUT    http://localhost:8080/motel-images/update/{imageId}
 DELETE http://localhost:8080/motel-images/{imageId}
 
-GET    http://localhost:8080/post-images
-GET    http://localhost:8080/post-images/{imageId}
+GET    http://localhost:8080/post-images				ok
+GET    http://localhost:8080/post-images/{imageId}			ok
+GET    http://localhost:8080/post-images/get-post-image/{roomId}	ok
 POST   http://localhost:8080/post-images
 PUT    http://localhost:8080/post-images/update/{imageId}
 DELETE http://localhost:8080/post-images/{imageId}

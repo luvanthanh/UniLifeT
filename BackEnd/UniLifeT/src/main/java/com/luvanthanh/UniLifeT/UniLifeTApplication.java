@@ -9,5 +9,4 @@ public class UniLifeTApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(UniLifeTApplication.class, args);
 	}
-
 }

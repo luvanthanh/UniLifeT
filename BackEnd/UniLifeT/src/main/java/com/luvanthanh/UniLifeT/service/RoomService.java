@@ -69,6 +69,13 @@ public class RoomService {
         }
         return roomMapper.toRoomResponse(roomRepository.save(room));
     }
+//    tăng số lượng view
+    public RoomResponse updateRoomView(Long roomId) {
+        Room room = roomRepository.findByRoomId(roomId)
+                .orElseThrow(() -> new AppException(ErrorCode.ROOM_NOT_FOUND));
+        room.setRoomView(room.getRoomView() + 1);
+        return roomMapper.toRoomResponse(roomRepository.save(room));
+    }
 //  xóa phòng theo id
     public String deleteRoom(Long roomId) {
         Room room = roomRepository.findById(roomId)

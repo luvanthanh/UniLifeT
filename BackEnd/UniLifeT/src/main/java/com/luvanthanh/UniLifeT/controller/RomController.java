@@ -3,9 +3,7 @@ package com.luvanthanh.UniLifeT.controller;
 import com.luvanthanh.UniLifeT.dto.ApiResponse;
 import com.luvanthanh.UniLifeT.dto.request.roomRequest.RoomCreationRequest;
 import com.luvanthanh.UniLifeT.dto.request.roomRequest.RoomUpdateRequest;
-import com.luvanthanh.UniLifeT.dto.response.motelResponse.MotelResponse;
 import com.luvanthanh.UniLifeT.dto.response.roomResponse.RoomResponse;
-import com.luvanthanh.UniLifeT.entity.Room;
 import com.luvanthanh.UniLifeT.service.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,16 +30,6 @@ public class RomController {
                 .build();
     }
 
-    @PutMapping("/update/{roomId}")
-    public ApiResponse<RoomResponse> updateRoom(
-            @PathVariable Long roomId, @RequestBody RoomUpdateRequest request) {
-        var result = roomService.updateRoom(roomId, request);
-        return ApiResponse.<RoomResponse>builder()
-                .code(1000)
-                .message("Room updated successfully")
-                .data(result)
-                .build();
-    }
 
 //     lấy all phòng
     @GetMapping
@@ -61,6 +49,28 @@ public class RomController {
         return ApiResponse.<RoomResponse>builder()
                 .code(1000)
                 .message("Get room successful")
+                .data(result)
+                .build();
+    }
+    //    cập nhật hết
+    @PutMapping("/update/{roomId}")
+    public ApiResponse<RoomResponse> updateRoom(
+            @PathVariable Long roomId, @RequestBody RoomUpdateRequest request) {
+        var result = roomService.updateRoom(roomId, request);
+        return ApiResponse.<RoomResponse>builder()
+                .code(1000)
+                .message("Room updated successfully")
+                .data(result)
+                .build();
+    }
+
+//    cập nhật số lượng xem
+    @PutMapping("/{roomId}/views/")
+    public ApiResponse<RoomResponse> updateViewRoom(@PathVariable Long roomId) {
+        var result = roomService.updateRoomView(roomId);
+        return ApiResponse.<RoomResponse>builder()
+                .code(1000)
+                .message("Room updated successfully")
                 .data(result)
                 .build();
     }

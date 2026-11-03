@@ -55,9 +55,16 @@ public UserResponse register (UserCreationRequest request){
     if(userRepository.existsByUserName(request.getUserName())){
         throw new AppException(ErrorCode.USER_EXITS);
     }
-    if(userRepository.existsByUserEmail(request.getUserName())){
+    if(userRepository.existsByUserEmail(request.getUserEmail())){
         throw new AppException(ErrorCode.USER_EMAIL_EXIST);
     }
+
+    if (request.getUserRole() == null || request.getUserRole().isBlank()) {
+        request.setUserRole(Role.STUDENT.name());
+    } else {
+        request.setUserRole(request.getUserRole().trim().toUpperCase());
+    }
+
     User  user = userMapper.toUser(request);
     PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10); // tạo passwordEncoder
     user.setUserPassword(passwordEncoder.encode(request.getUserPassword()));// set password cho user khi truyền request vào;

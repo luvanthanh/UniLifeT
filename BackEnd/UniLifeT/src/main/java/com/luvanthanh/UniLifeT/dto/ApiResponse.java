@@ -1,6 +1,5 @@
 package com.luvanthanh.UniLifeT.dto;
 
-import com.luvanthanh.UniLifeT.entity.Amenity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
