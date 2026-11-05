@@ -11,6 +11,8 @@ import com.luvanthanh.UniLifeT.mapper.RoomMapper;
 import com.luvanthanh.UniLifeT.repository.MotelRepository;
 import com.luvanthanh.UniLifeT.repository.RoomRepository;
 import com.luvanthanh.UniLifeT.repository.ServiceRepository;
+
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -54,7 +56,34 @@ public class RoomService {
                 .orElseThrow(() -> new AppException(ErrorCode.ROOM_NOT_FOUND));
         return roomMapper.toRoomResponse(room);
     }
-//  cập nhật phòng
+
+//    lọc phòng theo giá tiền
+    public List<RoomResponse> filterRomeByPrice (BigDecimal priceMin, BigDecimal priceMax) {
+        List<RoomResponse> roomResponseList = new ArrayList<>();
+        List<Room> rooms = roomRepository.findByRoomPriceBetween(priceMin,priceMax)
+                .orElseThrow(() -> new AppException(ErrorCode.ROOM_NOT_FOUND));
+        for (Room room : rooms) {
+            roomResponseList.add(roomMapper.toRoomResponse(room));
+
+        }
+        return roomResponseList;
+    }
+
+    //    lọc phòng theo diện tích
+    public List<RoomResponse> filterRomeByRoomArea (double roomAreaMin, double roomAreaMax) {
+        List<RoomResponse> roomResponseList = new ArrayList<>();
+        List<Room> rooms = roomRepository.filterByArea(roomAreaMin,roomAreaMax)
+                .orElseThrow(() -> new AppException(ErrorCode.ROOM_NOT_FOUND));
+        for (Room room : rooms) {
+            roomResponseList.add(roomMapper.toRoomResponse(room));
+
+        }
+        return roomResponseList;
+    }
+
+
+
+    //  cập nhật phòng
     public RoomResponse updateRoom(Long roomId, RoomUpdateRequest request) {
         Room room = roomRepository.findById(roomId)
                 .orElseThrow(() -> new AppException(ErrorCode.ROOM_NOT_FOUND));
@@ -69,6 +98,7 @@ public class RoomService {
         }
         return roomMapper.toRoomResponse(roomRepository.save(room));
     }
+
 //    tăng số lượng view
     public RoomResponse updateRoomView(Long roomId) {
         Room room = roomRepository.findByRoomId(roomId)

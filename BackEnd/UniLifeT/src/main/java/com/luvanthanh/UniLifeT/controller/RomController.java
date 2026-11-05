@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
@@ -29,6 +30,7 @@ public class RomController {
                 .data(result)
                 .build();
     }
+
 
 
 //     lấy all phòng
@@ -52,6 +54,33 @@ public class RomController {
                 .data(result)
                 .build();
     }
+
+//    lọc phòng theo giá tiền
+    @GetMapping("/filter-by-price")
+    public ApiResponse<List<RoomResponse>> filterRoomsByPrice(
+            @RequestParam BigDecimal priceMin,
+            @RequestParam BigDecimal priceMax) {
+        var result = roomService.filterRomeByPrice(priceMin, priceMax);
+        return ApiResponse.<List<RoomResponse>>builder()
+                .code(1000)
+                .message("Get all rooms successful")
+                .data(result)
+                .build();
+    }
+
+//    lọc phòng theo diện tích
+    @GetMapping("/filter-by-price")
+    public ApiResponse<List<RoomResponse>> filterRoomsByRoomArea(
+            @RequestParam double areaMin,
+            @RequestParam double  areaMax) {
+        var result = roomService.filterRomeByRoomArea(areaMin, areaMax);
+        return ApiResponse.<List<RoomResponse>>builder()
+                .code(1000)
+                .message("Get all rooms successful")
+                .data(result)
+                .build();
+    }
+
     //    cập nhật hết
     @PutMapping("/update/{roomId}")
     public ApiResponse<RoomResponse> updateRoom(
