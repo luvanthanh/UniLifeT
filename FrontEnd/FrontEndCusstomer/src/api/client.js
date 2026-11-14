@@ -30,14 +30,15 @@ export function clearSession() {
 }
 
 export async function request(path, options = {}) {
-  const headers = new Headers(options.headers || {});
-  const token = getToken();
+  const { auth = true, ...fetchOptions } = options;
+  const headers = new Headers(fetchOptions.headers || {});
+  const token = auth ? getToken() : null;
   if (token) headers.set("Authorization", `Bearer ${token}`);
-  if (options.body && !(options.body instanceof FormData)) headers.set("Content-Type", "application/json");
+  if (fetchOptions.body && !(fetchOptions.body instanceof FormData)) headers.set("Content-Type", "application/json");
 
   let response;
   try {
-    response = await fetch(`${API_URL}${path}`, { ...options, headers });
+    response = await fetch(`${API_URL}${path}`, { ...fetchOptions, headers });
   } catch {
     throw new ApiError("Không kết nối được backend. Hãy kiểm tra API đang chạy.", 0);
   }
@@ -45,6 +46,10 @@ export async function request(path, options = {}) {
   const contentType = response.headers.get("content-type") || "";
   const payload = contentType.includes("application/json") ? await response.json() : await response.text();
   if (!response.ok) {
+    if (response.status === 401 && token) {
+      clearSession();
+      window.dispatchEvent(new Event("unitlife:session-expired"));
+    }
     throw new ApiError(typeof payload === "object" ? payload.message || "Yêu cầu không thành công." : payload || "Yêu cầu không thành công.", response.status);
   }
   return payload && typeof payload === "object" && "data" in payload ? payload.data : payload;
@@ -54,19 +59,19 @@ let motelRequest;
 const imageRequests = new Map();
 
 export const api = {
-  rooms: () => request("/rooms"),
-  room: (id) => request(`/rooms/${id}`),
-  motels: () => motelRequest ||= request("/motels"),
+  rooms: () => request("/rooms", { auth: false }),
+  room: (id) => request(`/rooms/${id}`, { auth: false }),
+  motels: () => motelRequest ||= request("/motels", { auth: false }),
   roomImages: (id) => {
-    if (!imageRequests.has(id)) imageRequests.set(id, request(`/room-images/get-room-image/${id}`));
+    if (!imageRequests.has(id)) imageRequests.set(id, request(`/room-images/get-room-image/${id}`, { auth: false }));
     return imageRequests.get(id);
   },
-  universities: () => request("/universities"),
-  services: () => request("/services"),
-  amenities: () => request("/amenities"),
-  roomAmenities: (roomId) => request(`/room-amenity/get-room-amenity/${roomId}`),
-  login: (body) => request("/users/auth/login", { method: "POST", body: JSON.stringify(body) }),
-  register: (body) => request("/users/auth/register", { method: "POST", body: JSON.stringify(body) }),
+  universities: () => request("/universities", { auth: false }),
+  services: () => request("/services", { auth: false }),
+  amenities: () => request("/amenities", { auth: false }),
+  roomAmenities: (roomId) => request(`/room-amenity/get-room-amenity/${roomId}`, { auth: false }),
+  login: (body) => request("/users/auth/login", { method: "POST", body: JSON.stringify(body), auth: false }),
+  register: (body) => request("/users/auth/register", { method: "POST", body: JSON.stringify(body), auth: false }),
   me: () => request("/users/me"),
   updateMe: (body) => request("/users/me", { method: "PATCH", body: JSON.stringify(body) }),
   favorites: () => request("/room-favorites/me"),
@@ -75,7 +80,7 @@ export const api = {
   rentals: () => request("/rental-requests/me"),
   requestRental: (body) => request("/rental-requests", { method: "POST", body: JSON.stringify(body) }),
   requestViewing: (body) => request("/viewing-appointments", { method: "POST", body: JSON.stringify(body) }),
-  reviews: (roomId) => request(`/room-reviews/room/${roomId}`),
+  reviews: (roomId) => request(`/room-reviews/room/${roomId}`, { auth: false }),
   createReview: (body) => request("/room-reviews", { method: "POST", body: JSON.stringify(body) })
 };
 

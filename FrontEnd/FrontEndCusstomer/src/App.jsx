@@ -11,6 +11,11 @@ function App() {
   const [token, setToken] = useState(getToken());
   const role = getRole(token);
   const signOut = () => { clearSession(); setToken(null); };
+  useEffect(() => {
+    const onSessionExpired = () => setToken(null);
+    window.addEventListener("unitlife:session-expired", onSessionExpired);
+    return () => window.removeEventListener("unitlife:session-expired", onSessionExpired);
+  }, []);
   return <SessionContext.Provider value={{ token, role, setToken, signOut }}>
     <div className="app-shell"><Header />
       <Routes>

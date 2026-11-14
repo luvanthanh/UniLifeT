@@ -10,11 +10,13 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql
+      - ./Database/UniLifeT.sql:/docker-entrypoint-initdb.d/001-unilifet.sql:ro
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres -d UniLifeT"]
-      interval: 10s
+      test: ["CMD-SHELL", "PGPASSWORD=\"$${POSTGRES_PASSWORD}\" psql -h 127.0.0.1 -v ON_ERROR_STOP=1 -U \"$${POSTGRES_USER}\" -d \"$${POSTGRES_DB}\" -tAc 'SELECT 1' > /dev/null"]
+      start_period: 30s
+      interval: 5s
       timeout: 5s
-      retries: 5
+      retries: 20
 
   backend:
     build:
