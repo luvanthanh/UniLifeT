@@ -70,13 +70,14 @@ public class RentalRequestController {
     @PreAuthorize("hasAnyRole('STUDENT', 'OWNER', 'ADMIN')")
     public ApiResponse<RentalRequestResponse> getRentalRequest(Authentication authentication,
             @PathVariable Long rentalRequestId) {
-        String role = authentication.getAuthorities().stream().map(a -> a.getAuthority())
-                .filter(a -> a.equals("ROLE_OWNER") || a.equals("ROLE_STUDENT"))
-                .findFirst().orElse("");
-        var result = role.equals("ROLE_ADMIN")
+        boolean isAdmin = authentication.getAuthorities().stream()
+                .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
+        boolean isOwner = authentication.getAuthorities().stream()
+                .anyMatch(a -> a.getAuthority().equals("ROLE_OWNER"));
+        var result = isAdmin
                 ? rentalRequestService.getAdminRentalRequest(rentalRequestId)
                 : rentalRequestService.getRentalRequest(authentication.getName(), rentalRequestId,
-                        role.equals("ROLE_OWNER"));
+                        isOwner);
         return ApiResponse.<RentalRequestResponse>builder().code(1000)
                 .message("Get rental request successful").data(result).build();
     }

@@ -116,4 +116,15 @@ public class UserRoomController {
                 .data(result)
                 .build();
     }
+
+    @GetMapping("/owner")
+    @PreAuthorize("hasRole('OWNER')")
+    public ApiResponse<List<UserRoomResponse>> getOwnerUserRooms(Authentication authentication) {
+        var result = userRoomService.getOwnerUserRooms(authentication.getName());
+        return ApiResponse.<List<UserRoomResponse>>builder()
+                .code(1000)
+                .message("Get tenants for owner's rooms successful")
+                .data(result)
+                .build();
+    }
 }

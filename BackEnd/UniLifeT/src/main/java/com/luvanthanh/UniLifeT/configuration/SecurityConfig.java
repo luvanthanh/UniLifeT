@@ -23,36 +23,6 @@ import static org.springframework.http.HttpMethod.*;
 @EnableMethodSecurity
 
 public class SecurityConfig {
-    private final String[] PRIVATE_POST_ENDPOINTS ={
-            "/rooms",
-            "/motels",
-            "/universities",
-            "/amenities",
-            "/services",
-            "/room-service",
-            "/room-amenity"
-    };
-
-    private final String[] PRIVATE_PUT_ENDPOINTS={
-            "/rooms/{roomId}",
-            "/motels/{motelId}",
-            "/universities/{universityId}",
-            "/amenities/{amenityId}",
-            "/services/{serviceId}",
-            "/room-service/{roomServiceId}"
-
-    };
-    private final String[] PRIVATE_DELETE_ENDPOINTS={
-            "/rooms/{roomId}",
-            "/motels/{motelId}",
-            "/universities/{universityId}",
-            "/amenities/{amenityId}",
-            "/services/{serviceId}",
-            "/room-service/{roomServiceId}",
-            "/room-amenity/{roomAmenityId}"
-
-    };
-
     private final String[] PRIVATE_GET_ENDPOINTS={
             "/users",
             "/users/{userId}"
@@ -62,9 +32,7 @@ public class SecurityConfig {
             "/users/auth/register",
             "/users/auth/login",
             "/users/auth/introspect",
-            "/users/auth/logout",
-
-            "/posts"
+            "/users/auth/logout"
     };
     public final String[] PUBLIC_GET_ENDPOINTS = {
             "/universities",
@@ -100,15 +68,6 @@ public class SecurityConfig {
 
     };
 
-    private final String[] PUBLIC_PUT_ENDPOINTS = {
-            "/posts/{postId}",
-
-    };
-
-    private final String[] PUBLIC_DELETE_ENDPOINTS = {
-
-    };
-
     private final CustomJwtDecoder customJwtDecoder;
 
     public SecurityConfig(CustomJwtDecoder customJwtDecoder) {
@@ -124,13 +83,26 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .requestMatchers(POST, PUBLIC_POST_ENDPOINTS).permitAll()
                         .requestMatchers(GET, PUBLIC_GET_ENDPOINTS).permitAll()
-                        .requestMatchers(PUT, PUBLIC_PUT_ENDPOINTS).permitAll()
-
                         .requestMatchers(GET, "/users/me").authenticated()
                         .requestMatchers(GET, PRIVATE_GET_ENDPOINTS).hasRole("ADMIN")
-                        .requestMatchers(POST, PRIVATE_POST_ENDPOINTS).hasAnyRole("ADMIN", "OWNER")
-                        .requestMatchers(PUT, PRIVATE_PUT_ENDPOINTS).hasAnyRole("ADMIN", "OWNER")
-                        .requestMatchers(DELETE, PRIVATE_DELETE_ENDPOINTS).hasAnyRole("ADMIN", "OWNER")
+                        .requestMatchers(POST, "/posts", "/room-service", "/room-amenity",
+                                "/room-images", "/motel-images", "/post-images",
+                                "/rooms", "/motels")
+                                .hasAnyRole("ADMIN", "OWNER")
+                        .requestMatchers(POST, "/universities", "/amenities", "/services")
+                                .hasRole("ADMIN")
+                        .requestMatchers(PUT, "/posts/**", "/rooms/update/**", "/motels/**",
+                                "/room-images/**", "/motel-images/**", "/post-images/**",
+                                "/room-service/**", "/room-amenity/**")
+                                .hasAnyRole("ADMIN", "OWNER")
+                        .requestMatchers(PUT, "/universities/**", "/amenities/**", "/services/**")
+                                .hasRole("ADMIN")
+                        .requestMatchers(DELETE, "/posts/**", "/rooms/**", "/motels/**",
+                                "/room-images/**", "/motel-images/**", "/post-images/**",
+                                "/room-service/**", "/room-amenity/**")
+                                .hasAnyRole("ADMIN", "OWNER")
+                        .requestMatchers(DELETE, "/universities/**", "/amenities/**", "/services/**")
+                                .hasRole("ADMIN")
                         .requestMatchers(DELETE,"/users/{userId}").hasRole("ADMIN")
                         .requestMatchers(PUT,"/users/{userId}").hasRole("ADMIN")
 
@@ -159,6 +131,8 @@ public class SecurityConfig {
                 "http://localhost:5501",
                 "http://127.0.0.1:5502",
                 "http://localhost:5502",
+                "http://127.0.0.1:5503",
+                "http://localhost:5503",
                 "http://localhost:8765",
                 "http://127.0.0.1:8765"
         ));

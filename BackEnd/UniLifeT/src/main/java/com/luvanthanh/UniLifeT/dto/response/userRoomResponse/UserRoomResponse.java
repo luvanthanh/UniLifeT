@@ -14,6 +14,8 @@ import lombok.Setter;
 public class UserRoomResponse {
     private Long userRoomId;
     private Long userId;
+    private String userName;
+    private String userPhone;
     private Long roomId;
     private LocalDate startDate;
     private LocalDate endDate;

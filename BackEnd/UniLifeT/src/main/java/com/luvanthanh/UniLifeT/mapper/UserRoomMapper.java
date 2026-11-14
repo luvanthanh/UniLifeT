@@ -15,6 +15,8 @@ public interface UserRoomMapper {
     UserRoom toUserRoom(UserRoomCreationRequest request);
 
     @Mapping(target = "userId", source = "user.userId")
+    @Mapping(target = "userName", source = "user.userName")
+    @Mapping(target = "userPhone", source = "user.userPhone")
     @Mapping(target = "roomId", source = "room.roomId")
     UserRoomResponse toUserRoomResponse(UserRoom userRoom);
 

@@ -9,4 +9,6 @@ import java.util.List;
 @Repository
 public interface UserRoomRepository extends JpaRepository<UserRoom, Long> {
     List<UserRoom>  findByUser_UserId(Long userId);
+
+    List<UserRoom> findByRoom_Motel_User_UserIdOrderByStartDateDesc(Long ownerId);
 }

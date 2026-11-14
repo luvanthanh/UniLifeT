@@ -117,6 +117,14 @@ public class UserRoomService {
         return getUserRoomByUserId(user.getUserId());
     }
 
+    @Transactional(readOnly = true)
+    public List<UserRoomResponse> getOwnerUserRooms(String username) {
+        User owner = userRepository.findByUserName(username)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOTFIND));
+        return userRoomRepository.findByRoom_Motel_User_UserIdOrderByStartDateDesc(owner.getUserId())
+                .stream().map(userRoomMapper::toUserRoomResponse).toList();
+    }
+
     private User findUser(Long userId) {
         return userRepository.findById(userId)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOTFIND));

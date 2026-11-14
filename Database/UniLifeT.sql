@@ -320,7 +320,31 @@ INSERT INTO motels (
 
 (7, 8, 'Nhà trọ Nguyễn Trãi',
  'Nguyễn Trãi, Thanh Xuân, Hà Nội', 'Chủ trọ mẫu 07');
- 
+
+ INSERT INTO motels (
+    user_id,
+    motel_name,
+    motel_address,
+    motel_owner
+) VALUES
+(
+    35,
+    'Nhà trọ Phương Thảo - Cầu Giấy',
+    'Ngõ 68 Xuân Thủy, Cầu Giấy, Hà Nội',
+    'Trần Phương Thảo'
+),
+(
+    35,
+    'Chung cư mini Phương Thảo - Mỹ Đình',
+    'Ngõ 20 Mỹ Đình, Nam Từ Liêm, Hà Nội',
+    'Trần Phương Thảo'
+),
+(
+    35,
+    'Nhà trọ Phương Thảo - Thanh Xuân',
+    'Ngõ 120 Nguyễn Trãi, Thanh Xuân, Hà Nội',
+    'Trần Phương Thảo'
+);
 
  INSERT INTO rooms (
     room_id, motel_id, room_price, room_deposit,

@@ -59,11 +59,8 @@ public UserResponse register (UserCreationRequest request){
         throw new AppException(ErrorCode.USER_EMAIL_EXIST);
     }
 
-    if (request.getUserRole() == null || request.getUserRole().isBlank()) {
-        request.setUserRole(Role.STUDENT.name());
-    } else {
-        request.setUserRole(request.getUserRole().trim().toUpperCase());
-    }
+    // Public registration must never allow a caller to create an OWNER or ADMIN account.
+    request.setUserRole(Role.STUDENT.name());
 
     User  user = userMapper.toUser(request);
     PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10); // tạo passwordEncoder

@@ -10,6 +10,7 @@ import com.luvanthanh.UniLifeT.repository.UserRepository;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,6 +61,7 @@ public class UserService {
         String role = user.getUserRole();
         userMapper.toUserUpdate(user, request);
         user.setUserRole(role);
+        updatePassword(user, request);
         return userMapper.toUserResponse(userRepository.save(user));
     }
 
@@ -69,6 +71,7 @@ public class UserService {
         User user = userRepository.findByUserId(userId)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOTFIND));
         userMapper.toUserUpdate(user,request);
+        updatePassword(user, request);
         User updatedUser = userRepository.save(user);
 
         return userMapper.toUserResponse(updatedUser);
@@ -78,5 +81,11 @@ public class UserService {
     public String deleteUser(Long userId){
         userRepository.deleteUserByUserId(userId);
         return "User Deleted Successfully";
+    }
+
+    private void updatePassword(User user, UserUpdateRequest request) {
+        if (request.getUserPassword() != null && !request.getUserPassword().isBlank()) {
+            user.setUserPassword(new BCryptPasswordEncoder(10).encode(request.getUserPassword()));
+        }
     }
 }
