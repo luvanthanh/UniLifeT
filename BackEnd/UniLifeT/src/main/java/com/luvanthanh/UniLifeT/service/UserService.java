@@ -7,6 +7,7 @@ import com.luvanthanh.UniLifeT.exception.AppException;
 import com.luvanthanh.UniLifeT.exception.ErrorCode;
 import com.luvanthanh.UniLifeT.mapper.UserMapper;
 import com.luvanthanh.UniLifeT.repository.UserRepository;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
@@ -44,6 +45,22 @@ public class UserService {
         User user = userRepository.findByUserName(name)
                 .orElseThrow(()-> new AppException(ErrorCode.USER_NOTFIND));
         return userMapper.toUserResponse(user);
+    }
+
+    public UserResponse findCurrentUser(String username) {
+        User user = userRepository.findByUserName(username)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOTFIND));
+        return userMapper.toUserResponse(user);
+    }
+
+    @Transactional
+    public UserResponse updateCurrentUser(String username, UserUpdateRequest request) {
+        User user = userRepository.findByUserName(username)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOTFIND));
+        String role = user.getUserRole();
+        userMapper.toUserUpdate(user, request);
+        user.setUserRole(role);
+        return userMapper.toUserResponse(userRepository.save(user));
     }
 
 

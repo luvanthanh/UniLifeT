@@ -14,8 +14,10 @@ import com.luvanthanh.UniLifeT.repository.UserRepository;
 import com.luvanthanh.UniLifeT.repository.UserRoomRepository;
 import java.util.ArrayList;
 import java.util.List;
+import java.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class UserRoomService {
@@ -74,6 +76,31 @@ public class UserRoomService {
         return "User Room Deleted Successfully";
     }
 //    lấy userroom theo userid
+    @Transactional
+    public UserRoomResponse endUserRoom(Long userRoomId, String username) {
+        User actor = userRepository.findByUserName(username)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOTFIND));
+        UserRoom userRoom = userRoomRepository.findById(userRoomId)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_ROOM_NOT_FOUND));
+
+        boolean isTenant = userRoom.getUser().getUserId().equals(actor.getUserId());
+        boolean isOwner = userRoom.getRoom().getMotel().getUser().getUserId().equals(actor.getUserId());
+        if (!isTenant && !isOwner) {
+            throw new AppException(ErrorCode.UNAUTHORIZED);
+        }
+        if (userRoom.getEndDate() != null
+                || "COMPLETED".equalsIgnoreCase(userRoom.getContractStatus())
+                || "ENDED".equalsIgnoreCase(userRoom.getContractStatus())) {
+            throw new AppException(ErrorCode.INVALID_USER_ROOM_STATUS);
+        }
+
+        userRoom.setEndDate(LocalDate.now());
+        userRoom.setContractStatus("COMPLETED");
+        userRoom.getRoom().setRoomStatus("AVAILABLE");
+        roomRepository.save(userRoom.getRoom());
+        return userRoomMapper.toUserRoomResponse(userRoomRepository.save(userRoom));
+    }
+
     public List<UserRoomResponse> getUserRoomByUserId(Long userId) {
         List<UserRoom> lists = userRoomRepository.findByUser_UserId(userId);
         List<UserRoomResponse> userRoomResponseList = new ArrayList<>();
@@ -82,6 +109,12 @@ public class UserRoomService {
             userRoomResponseList.add(userRoomResponse);
         }
         return userRoomResponseList;
+    }
+
+    public List<UserRoomResponse> getMyUserRooms(String username) {
+        User user = userRepository.findByUserName(username)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOTFIND));
+        return getUserRoomByUserId(user.getUserId());
     }
 
     private User findUser(Long userId) {

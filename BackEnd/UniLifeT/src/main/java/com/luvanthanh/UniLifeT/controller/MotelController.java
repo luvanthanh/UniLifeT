@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 
 @RestController
 @RequestMapping("/motels")
@@ -19,6 +21,14 @@ public class MotelController {
 
     @Autowired
     private MotelService motelService;
+
+    @GetMapping("/me")
+    @PreAuthorize("hasRole('OWNER')")
+    public ApiResponse<List<MotelResponse>> getMyMotels(Authentication authentication) {
+        return ApiResponse.<List<MotelResponse>>builder().code(1000)
+                .message("Get owner motels successful")
+                .data(motelService.findOwnerMotels(authentication.getName())).build();
+    }
 
     @PostMapping
     public ApiResponse<MotelResponse> createMotel(@RequestBody MotelCreationRequest request) {

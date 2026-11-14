@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface MotelRepository extends JpaRepository<Motel,Long> {
+    java.util.List<Motel> findByUser_UserId(Long userId);
 }

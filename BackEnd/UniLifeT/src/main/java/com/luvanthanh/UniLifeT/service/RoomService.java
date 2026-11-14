@@ -11,11 +11,14 @@ import com.luvanthanh.UniLifeT.mapper.RoomMapper;
 import com.luvanthanh.UniLifeT.repository.MotelRepository;
 import com.luvanthanh.UniLifeT.repository.RoomRepository;
 import com.luvanthanh.UniLifeT.repository.ServiceRepository;
+import com.luvanthanh.UniLifeT.repository.UserRepository;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +33,9 @@ public class RoomService {
 
     @Autowired
     private ServiceRepository serviceRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     private RoomMapper roomMapper;
@@ -49,6 +55,25 @@ public class RoomService {
             roomResponseList.add(roomMapper.toRoomResponse(room));
         }
         return roomResponseList;
+    }
+
+    public List<RoomResponse> findOwnerRooms(String username) {
+        var owner = userRepository.findByUserName(username)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOTFIND));
+        return roomRepository.findByMotel_User_UserId(owner.getUserId()).stream()
+                .map(roomMapper::toRoomResponse).toList();
+    }
+
+    public Page<RoomResponse> searchRooms(BigDecimal minPrice, BigDecimal maxPrice,
+            Double minArea, Double maxArea, String status, String roomType,
+            Long universityId, Long amenityId, Long serviceId, Pageable pageable) {
+        if ((minPrice != null && maxPrice != null && minPrice.compareTo(maxPrice) > 0)
+                || (minArea != null && maxArea != null && minArea > maxArea)) {
+            throw new AppException(ErrorCode.INVALID_ROOM_FILTER);
+        }
+        return roomRepository.searchRooms(minPrice, maxPrice, minArea, maxArea,
+                status, roomType, universityId, amenityId, serviceId, pageable)
+                .map(roomMapper::toRoomResponse);
     }
 // lấy phòng theo id
     public RoomResponse findRoomById(Long roomId) {

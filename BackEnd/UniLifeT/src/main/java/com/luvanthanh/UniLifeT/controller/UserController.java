@@ -8,6 +8,8 @@ import com.luvanthanh.UniLifeT.dto.response.userResponse.UserResponse;
 import com.luvanthanh.UniLifeT.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 import java.util.List;
 
@@ -19,6 +21,23 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @GetMapping("/me")
+    @PreAuthorize("isAuthenticated()")
+    public ApiResponse<UserResponse> getCurrentUser(Authentication authentication) {
+        return ApiResponse.<UserResponse>builder().code(1000)
+                .message("Get current user successful")
+                .data(userService.findCurrentUser(authentication.getName())).build();
+    }
+
+    @PatchMapping("/me")
+    @PreAuthorize("isAuthenticated()")
+    public ApiResponse<UserResponse> updateCurrentUser(
+            Authentication authentication, @RequestBody UserUpdateRequest request) {
+        return ApiResponse.<UserResponse>builder().code(1000)
+                .message("Current user updated successfully")
+                .data(userService.updateCurrentUser(authentication.getName(), request)).build();
+    }
 
 // cập nhật user
     @PutMapping("/{userId}")

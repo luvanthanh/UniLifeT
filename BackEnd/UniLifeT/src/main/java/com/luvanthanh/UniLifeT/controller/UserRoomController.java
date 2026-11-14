@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 
 import java.util.List;
 
@@ -20,6 +22,7 @@ public class UserRoomController {
     private UserRoomService userRoomService;
 // tạo mới userroom
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ApiResponse<UserRoomResponse> createUserRoom(@RequestBody UserRoomCreationRequest request) {
         var result = userRoomService.createUserRoom(request);
         return ApiResponse.<UserRoomResponse>builder()
@@ -31,6 +34,7 @@ public class UserRoomController {
 
 //    sửa userroom
     @PutMapping("/{userRoomId}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ApiResponse<UserRoomResponse> updateUserRoom(
             @PathVariable Long userRoomId, @RequestBody UserRoomUpdateRequest request) {
         var result = userRoomService.updateUserRoom(userRoomId, request);
@@ -42,6 +46,7 @@ public class UserRoomController {
     }
 //lấy all userroom
     @GetMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ApiResponse<List<UserRoomResponse>> getAllUserRooms() {
         var result = userRoomService.findAllUserRooms();
         return ApiResponse.<List<UserRoomResponse>>builder()
@@ -53,6 +58,7 @@ public class UserRoomController {
 
 //    lấy userroom theo id
     @GetMapping("/{userRoomId}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ApiResponse<UserRoomResponse> getUserRoomById(@PathVariable Long userRoomId) {
         var result = userRoomService.findUserRoomById(userRoomId);
         return ApiResponse.<UserRoomResponse>builder()
@@ -64,6 +70,7 @@ public class UserRoomController {
 
     //    lấy userroom theo id
     @GetMapping("/users/{userId}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ApiResponse<List<UserRoomResponse>> getUserRoomByUserId(@PathVariable Long userId) {
         var result = userRoomService.getUserRoomByUserId(userId);
         return ApiResponse.<List<UserRoomResponse>>builder()
@@ -74,12 +81,38 @@ public class UserRoomController {
     }
 
 //  xóa
+    @PatchMapping("/{userRoomId}/end")
+    @PreAuthorize("hasAnyRole('STUDENT', 'OWNER')")
+    public ApiResponse<UserRoomResponse> endUserRoom(
+            Authentication authentication,
+            @PathVariable Long userRoomId
+    ) {
+        var result = userRoomService.endUserRoom(userRoomId, authentication.getName());
+        return ApiResponse.<UserRoomResponse>builder()
+                .code(1000)
+                .message("Rental contract ended successfully")
+                .data(result)
+                .build();
+    }
+
     @DeleteMapping("/{userRoomId}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ApiResponse<String> deleteUserRoom(@PathVariable Long userRoomId) {
         var result = userRoomService.deleteUserRoom(userRoomId);
         return ApiResponse.<String>builder()
                 .code(1000)
                 .message("Delete user room successful")
+                .data(result)
+                .build();
+    }
+
+    @GetMapping("/me")
+    @PreAuthorize("hasRole('STUDENT')")
+    public ApiResponse<List<UserRoomResponse>> getMyUserRooms(Authentication authentication) {
+        var result = userRoomService.getMyUserRooms(authentication.getName());
+        return ApiResponse.<List<UserRoomResponse>>builder()
+                .code(1000)
+                .message("Get my rental contracts successful")
                 .data(result)
                 .build();
     }

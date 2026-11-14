@@ -39,6 +39,16 @@ public class UniversityService {
         }
         return universityResponseList;
     }
+
+    public List<UniversityResponse> searchUniversitiesByName(String name) {
+        if (name == null || name.isBlank()) {
+            return List.of();
+        }
+        return universityRepository.findByUniversityNameContainingIgnoreCase(name.trim())
+                .stream()
+                .map(universityMapper::toUniversityResponse)
+                .toList();
+    }
 // lấy theo id
     public UniversityResponse findUniversityById(Long id) {
         University university = universityRepository.findById(id)

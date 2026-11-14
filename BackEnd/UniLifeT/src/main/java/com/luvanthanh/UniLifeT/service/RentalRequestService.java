@@ -6,12 +6,14 @@ import com.luvanthanh.UniLifeT.dto.response.rentalRequest.RentalRequestResponse;
 import com.luvanthanh.UniLifeT.entity.RentalRequest;
 import com.luvanthanh.UniLifeT.entity.Room;
 import com.luvanthanh.UniLifeT.entity.User;
+import com.luvanthanh.UniLifeT.entity.UserRoom;
 import com.luvanthanh.UniLifeT.exception.AppException;
 import com.luvanthanh.UniLifeT.exception.ErrorCode;
 import com.luvanthanh.UniLifeT.mapper.RentalRequestMapper;
 import com.luvanthanh.UniLifeT.repository.RentalRequestRepository;
 import com.luvanthanh.UniLifeT.repository.RoomRepository;
 import com.luvanthanh.UniLifeT.repository.UserRepository;
+import com.luvanthanh.UniLifeT.repository.UserRoomRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
@@ -25,17 +27,20 @@ public class RentalRequestService {
     private final RoomRepository roomRepository;
     private final UserRepository userRepository;
     private final RentalRequestMapper rentalRequestMapper;
+    private final UserRoomRepository userRoomRepository;
 
     public RentalRequestService(
             RentalRequestRepository rentalRequestRepository,
             RoomRepository roomRepository,
             UserRepository userRepository,
-            RentalRequestMapper rentalRequestMapper
+            RentalRequestMapper rentalRequestMapper,
+            UserRoomRepository userRoomRepository
     ) {
         this.rentalRequestRepository = rentalRequestRepository;
         this.roomRepository = roomRepository;
         this.userRepository = userRepository;
         this.rentalRequestMapper = rentalRequestMapper;
+        this.userRoomRepository = userRoomRepository;
     }
 
     @Transactional
@@ -83,12 +88,41 @@ public class RentalRequestService {
     }
 
     @Transactional(Transactional.TxType.SUPPORTS)
+    public RentalRequestResponse getRentalRequest(String username, Long id, boolean ownerAccess) {
+        User user = findUser(username);
+        RentalRequest request = findRentalRequest(id);
+        boolean allowed = ownerAccess
+                ? request.getRoom().getMotel().getUser().getUserId().equals(user.getUserId())
+                : request.getStudent().getUserId().equals(user.getUserId());
+        if (!allowed) throw new AppException(ErrorCode.UNAUTHORIZED);
+        return rentalRequestMapper.toRentalRequestResponse(request);
+    }
+
+    @Transactional(Transactional.TxType.SUPPORTS)
+    public List<RentalRequestResponse> getStudentRentalRequests(String username, RentalRequestStatus status) {
+        User student = findUser(username);
+        var requests = status == null
+                ? rentalRequestRepository.findByStudent_UserIdOrderByCreatedAtDesc(student.getUserId())
+                : rentalRequestRepository.findByStudent_UserIdAndStatusOrderByCreatedAtDesc(student.getUserId(), status);
+        return requests.stream().map(rentalRequestMapper::toRentalRequestResponse).toList();
+    }
+
+    @Transactional(Transactional.TxType.SUPPORTS)
     public List<RentalRequestResponse> getOwnerRentalRequests(String username) {
         User owner = findUser(username);
         return rentalRequestRepository.findByRoom_Motel_User_UserIdOrderByCreatedAtDesc(owner.getUserId())
                 .stream()
                 .map(rentalRequestMapper::toRentalRequestResponse)
                 .toList();
+    }
+
+    @Transactional(Transactional.TxType.SUPPORTS)
+    public List<RentalRequestResponse> getOwnerRentalRequests(String username, RentalRequestStatus status) {
+        User owner = findUser(username);
+        var requests = status == null
+                ? rentalRequestRepository.findByRoom_Motel_User_UserIdOrderByCreatedAtDesc(owner.getUserId())
+                : rentalRequestRepository.findByRoom_Motel_User_UserIdAndStatusOrderByCreatedAtDesc(owner.getUserId(), status);
+        return requests.stream().map(rentalRequestMapper::toRentalRequestResponse).toList();
     }
 
     @Transactional
@@ -115,6 +149,15 @@ public class RentalRequestService {
             }
             room.setRoomStatus("RENTED");
             roomRepository.save(room);
+
+            UserRoom userRoom = new UserRoom();
+            userRoom.setUser(rentalRequest.getStudent());
+            userRoom.setRoom(room);
+            userRoom.setStartDate(rentalRequest.getRequestedStartDate());
+            userRoom.setMonthlyRent(rentalRequest.getRequestedRent());
+            userRoom.setContractStatus("ACTIVE");
+            userRoomRepository.save(userRoom);
+
             rentalRequestRepository.findByRoom_RoomIdAndStatus(
                             room.getRoomId(), RentalRequestStatus.PENDING
                     ).stream()

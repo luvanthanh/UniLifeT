@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 
 @RestController
 @RequestMapping("/posts")
@@ -18,6 +20,14 @@ public class PostController {
 
     @Autowired
     private PostService postService;
+
+    @GetMapping("/me")
+    @PreAuthorize("hasRole('OWNER')")
+    public ApiResponse<List<PostResponse>> getMyPosts(Authentication authentication) {
+        return ApiResponse.<List<PostResponse>>builder().code(1000)
+                .message("Get my posts successful")
+                .data(postService.findMyPosts(authentication.getName())).build();
+    }
 
     @PostMapping
     public ApiResponse<PostResponse> createPost(@RequestBody PostCreationRequest request) {

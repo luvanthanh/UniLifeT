@@ -12,6 +12,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.util.List;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 
 @RestController
 @RequestMapping("/rooms")
@@ -19,6 +23,36 @@ public class RoomController {
 
     @Autowired
     private RoomService roomService;
+
+    @GetMapping("/search")
+    public ApiResponse<org.springframework.data.domain.Page<RoomResponse>> searchRooms(
+            @RequestParam(required = false) BigDecimal minPrice,
+            @RequestParam(required = false) BigDecimal maxPrice,
+            @RequestParam(required = false) Double minArea,
+            @RequestParam(required = false) Double maxArea,
+            @RequestParam(required = false) String status,
+            @RequestParam(required = false) String roomType,
+            @RequestParam(required = false) Long universityId,
+            @RequestParam(required = false) Long amenityId,
+            @RequestParam(required = false) Long serviceId,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "20") int size) {
+        int safePage = Math.max(0, page);
+        int safeSize = Math.max(1, Math.min(size, 100));
+        var result = roomService.searchRooms(minPrice, maxPrice, minArea, maxArea,
+                status, roomType, universityId, amenityId, serviceId,
+                PageRequest.of(safePage, safeSize, Sort.by(Sort.Direction.DESC, "roomId")));
+        return ApiResponse.<org.springframework.data.domain.Page<RoomResponse>>builder()
+                .code(1000).message("Room search successful").data(result).build();
+    }
+
+    @GetMapping("/owner")
+    @PreAuthorize("hasRole('OWNER')")
+    public ApiResponse<List<RoomResponse>> getOwnerRooms(Authentication authentication) {
+        return ApiResponse.<List<RoomResponse>>builder().code(1000)
+                .message("Get owner rooms successful")
+                .data(roomService.findOwnerRooms(authentication.getName())).build();
+    }
 
 // tạo phòng mới
     @PostMapping

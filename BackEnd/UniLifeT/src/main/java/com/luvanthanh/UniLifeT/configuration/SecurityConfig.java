@@ -85,6 +85,7 @@ public class SecurityConfig {
 
             "/posts",
             "/posts/*",
+            "/room-reviews/room/*",
             "/post-images",
             "/post-images/*",
             "/post-images/get-post-image/*",
@@ -95,8 +96,7 @@ public class SecurityConfig {
             "/room-images/*",
             "/room-images/get-room-image/*",
             "/motels",
-            "/motels/*",
-            "/user-room/users/{userId}"
+            "/motels/*"
 
     };
 
@@ -120,13 +120,13 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-                .cors(AbstractHttpConfigurer::disable)                                                  // tắt cors để không bị trùng công frontend
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .requestMatchers(POST, PUBLIC_POST_ENDPOINTS).permitAll()
                         .requestMatchers(GET, PUBLIC_GET_ENDPOINTS).permitAll()
                         .requestMatchers(PUT, PUBLIC_PUT_ENDPOINTS).permitAll()
 
+                        .requestMatchers(GET, "/users/me").authenticated()
                         .requestMatchers(GET, PRIVATE_GET_ENDPOINTS).hasRole("ADMIN")
                         .requestMatchers(POST, PRIVATE_POST_ENDPOINTS).hasAnyRole("ADMIN", "OWNER")
                         .requestMatchers(PUT, PRIVATE_PUT_ENDPOINTS).hasAnyRole("ADMIN", "OWNER")

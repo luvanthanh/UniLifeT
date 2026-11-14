@@ -32,7 +32,16 @@ public enum ErrorCode {
     RENTAL_REQUEST_NOT_FOUND(1021, "không có yêu cầu thuê phòng trong cơ sở dữ liệu", HttpStatus.NOT_FOUND),
     ROOM_NOT_AVAILABLE(1022, "phòng hiện không còn trống", HttpStatus.CONFLICT),
     RENTAL_REQUEST_ALREADY_EXISTS(1023, "bạn đã có yêu cầu đang chờ xử lý cho phòng này", HttpStatus.CONFLICT),
-    INVALID_RENTAL_REQUEST(1024, "thông tin hoặc trạng thái yêu cầu thuê phòng không hợp lệ", HttpStatus.BAD_REQUEST)
+    INVALID_RENTAL_REQUEST(1024, "thông tin hoặc trạng thái yêu cầu thuê phòng không hợp lệ", HttpStatus.BAD_REQUEST),
+    ROOM_FAVORITE_NOT_FOUND(1025, "Phòng yêu thích không tồn tại", HttpStatus.NOT_FOUND),
+    ROOM_FAVORITE_ALREADY_EXISTS(1026, "Phòng đã có trong danh sách yêu thích", HttpStatus.CONFLICT),
+    VIEWING_APPOINTMENT_NOT_FOUND(1027, "Lịch xem phòng không tồn tại", HttpStatus.NOT_FOUND),
+    INVALID_VIEWING_APPOINTMENT(1028, "Thông tin hoặc trạng thái lịch xem phòng không hợp lệ", HttpStatus.BAD_REQUEST),
+    ROOM_REVIEW_NOT_FOUND(1029, "Đánh giá phòng không tồn tại", HttpStatus.NOT_FOUND),
+    ROOM_REVIEW_ALREADY_EXISTS(1030, "Lượt thuê này đã được đánh giá", HttpStatus.CONFLICT),
+    INVALID_ROOM_REVIEW(1031, "Đánh giá không hợp lệ hoặc hợp đồng chưa kết thúc", HttpStatus.BAD_REQUEST),
+    INVALID_USER_ROOM_STATUS(1032, "Trạng thái lượt thuê không thể chuyển đổi", HttpStatus.CONFLICT),
+    INVALID_ROOM_FILTER(1033, "Khoảng giá hoặc diện tích không hợp lệ", HttpStatus.BAD_REQUEST)
     ;
 
 

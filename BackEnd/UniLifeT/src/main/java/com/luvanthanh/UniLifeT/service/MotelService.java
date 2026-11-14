@@ -50,6 +50,13 @@ public class MotelService {
         return motelResponseList;
     }
 
+    public List<MotelResponse> findOwnerMotels(String username) {
+        User owner = userRepository.findByUserName(username)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOTFIND));
+        return motelRepository.findByUser_UserId(owner.getUserId()).stream()
+                .map(motelMapper::toMotelResponse).toList();
+    }
+
     public MotelResponse findMotelById(Long motelId) {
         Motel motel = motelRepository.findById(motelId)
                 .orElseThrow(() -> new AppException(ErrorCode.MOTEL_NOT_FOUND));

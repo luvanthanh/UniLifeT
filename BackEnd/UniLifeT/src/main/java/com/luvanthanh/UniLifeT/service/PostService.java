@@ -48,6 +48,13 @@ public class PostService {
         return postResponseList;
     }
 
+    public List<PostResponse> findMyPosts(String username) {
+        User user = userRepository.findByUserName(username)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOTFIND));
+        return postRepository.findByUser_UserId(user.getUserId()).stream()
+                .map(postMapper::toPostResponse).toList();
+    }
+
     public PostResponse findPostById(Long postId) {
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new AppException(ErrorCode.POST_NOT_FOUND));

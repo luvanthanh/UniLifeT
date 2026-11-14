@@ -51,6 +51,17 @@ public class UniversityController {
                 .build();
     }
 
+    @GetMapping("/search")
+    public ApiResponse<List<UniversityResponse>> searchUniversitiesByName(
+            @RequestParam String name) {
+        var result = universityService.searchUniversitiesByName(name);
+        return ApiResponse.<List<UniversityResponse>>builder()
+                .code(1000)
+                .message("University search successful")
+                .data(result)
+                .build();
+    }
+
     @GetMapping("/{universityId}")
     public ApiResponse<UniversityResponse> getUniversityById(@PathVariable Long universityId) {
         var result = universityService.findUniversityById(universityId);
