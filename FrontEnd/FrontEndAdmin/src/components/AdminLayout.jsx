@@ -11,6 +11,9 @@ const links = [
   ["/universities", "Trường đại học"],
   ["/services", "Dịch vụ"],
   ["/amenities", "Tiện nghi"],
+  ["/rental-requests", "Yêu cầu thuê"],
+  ["/viewing-appointments", "Lịch xem phòng"],
+  ["/reviews", "Đánh giá phòng"],
   ["/contracts", "Hợp đồng thuê"]
 ];
 

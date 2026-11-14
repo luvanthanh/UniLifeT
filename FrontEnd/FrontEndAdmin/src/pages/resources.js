@@ -51,5 +51,20 @@ export const resources = {
   contracts: {
     title:"Hợp đồng thuê",itemName:"hợp đồng",path:"/user-room",idKey:"userRoomId",deletePath:r=>`/user-room/${r.userRoomId}`,
     description:"Danh sách lượt thuê hiện tại từ API user-room.",columns:[{key:"userRoomId",label:"ID"},{key:"userId",label:"User ID"},{key:"roomId",label:"Room ID"},{key:"startDate",label:"Ngày bắt đầu"},{key:"endDate",label:"Ngày kết thúc"},{key:"monthlyRent",label:"Tiền thuê / tháng"},{key:"contractStatus",label:"Trạng thái"}]
+  },
+  "rental-requests": {
+    title:"Yêu cầu thuê",itemName:"yêu cầu thuê",path:"/rental-requests/admin",idKey:"rentalRequestId",
+    description:"Yêu cầu thuê từ sinh viên; trạng thái do chủ trọ xử lý.",statusOptions:[["PENDING","Đang chờ"],["ACCEPTED","Đã chấp nhận"],["REJECTED","Đã từ chối"],["CANCELLED","Đã hủy"]],
+    columns:[{key:"rentalRequestId",label:"ID"},{key:"studentName",label:"Sinh viên"},{key:"studentPhone",label:"Điện thoại"},{key:"roomId",label:"Room ID"},{key:"requestedStartDate",label:"Ngày bắt đầu"},{key:"requestedRent",label:"Giá thuê"},{key:"status",label:"Trạng thái"},{key:"createdAt",label:"Ngày gửi",format:v=>new Date(v).toLocaleString("vi-VN")}]
+  },
+  "viewing-appointments": {
+    title:"Lịch xem phòng",itemName:"lịch xem",path:"/viewing-appointments/admin",idKey:"appointmentId",
+    description:"Theo dõi các lịch xem phòng và trạng thái xử lý.",statusOptions:[["PENDING","Đang chờ"],["CONFIRMED","Đã xác nhận"],["REJECTED","Đã từ chối"],["CANCELLED","Đã hủy"],["COMPLETED","Hoàn tất"]],
+    columns:[{key:"appointmentId",label:"ID"},{key:"studentName",label:"Sinh viên"},{key:"studentPhone",label:"Điện thoại"},{key:"roomId",label:"Room ID"},{key:"motelName",label:"Nhà trọ"},{key:"requestedAt",label:"Thời gian yêu cầu",format:v=>new Date(v).toLocaleString("vi-VN")},{key:"scheduledAt",label:"Lịch hẹn",format:v=>v?new Date(v).toLocaleString("vi-VN"):"—"},{key:"status",label:"Trạng thái"}]
+  },
+  reviews: {
+    title:"Đánh giá phòng",itemName:"đánh giá",path:"/room-reviews/admin",idKey:"reviewId",deletePath:r=>`/room-reviews/${r.reviewId}`,
+    description:"Kiểm duyệt nội dung đánh giá do sinh viên gửi.",
+    columns:[{key:"reviewId",label:"ID"},{key:"studentName",label:"Sinh viên"},{key:"roomId",label:"Room ID"},{key:"rating",label:"Điểm"},{key:"reviewContent",label:"Nội dung"},{key:"createdAt",label:"Ngày gửi",format:v=>new Date(v).toLocaleString("vi-VN")}]
   }
 };

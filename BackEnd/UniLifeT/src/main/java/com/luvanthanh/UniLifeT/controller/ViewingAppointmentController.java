@@ -4,6 +4,7 @@ import com.luvanthanh.UniLifeT.dto.ApiResponse;
 import com.luvanthanh.UniLifeT.dto.request.viewingAppointmentRequest.ViewingAppointmentCreationRequest;
 import com.luvanthanh.UniLifeT.dto.request.viewingAppointmentRequest.ViewingAppointmentStatusUpdateRequest;
 import com.luvanthanh.UniLifeT.dto.response.viewingAppointmentResponse.ViewingAppointmentResponse;
+import com.luvanthanh.UniLifeT.Enum.ViewingAppointmentStatus;
 import com.luvanthanh.UniLifeT.service.ViewingAppointmentService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -51,6 +53,15 @@ public class ViewingAppointmentController {
         var result = appointmentService.getOwnerAppointments(authentication.getName());
         return ApiResponse.<List<ViewingAppointmentResponse>>builder()
                 .code(1000).message("Get owner viewing appointments successful").data(result).build();
+    }
+
+    @GetMapping("/admin")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ApiResponse<List<ViewingAppointmentResponse>> getAllForAdmin(
+            @RequestParam(required = false) ViewingAppointmentStatus status) {
+        var result = appointmentService.getAdminAppointments(status);
+        return ApiResponse.<List<ViewingAppointmentResponse>>builder()
+                .code(1000).message("Get all viewing appointments successful").data(result).build();
     }
 
     @GetMapping("/{appointmentId}")

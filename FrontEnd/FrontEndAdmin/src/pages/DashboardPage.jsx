@@ -8,6 +8,9 @@ const cards = [
   ["Nhà trọ", "/motels", "motels"],
   ["Phòng", "/rooms", "rooms"],
   ["Tin đăng", "/posts", "posts"],
+  ["Yêu cầu thuê", "/rental-requests", "rentalRequests"],
+  ["Lịch xem phòng", "/viewing-appointments", "appointments"],
+  ["Đánh giá phòng", "/reviews", "reviews"],
   ["Hợp đồng thuê", "/contracts", "contracts"]
 ];
 
@@ -15,7 +18,7 @@ export default function DashboardPage() {
   const [data, setData] = useState(null); const [error, setError] = useState(""); const [loading, setLoading] = useState(true);
   async function load() {
     setLoading(true); setError("");
-    const paths = ["/users", "/users", "/motels", "/rooms", "/posts", "/user-room"];
+    const paths = ["/users", "/users", "/motels", "/rooms", "/posts", "/rental-requests/admin", "/viewing-appointments/admin", "/room-reviews/admin", "/user-room"];
     const results = await Promise.allSettled(paths.map(path => api.list(path)));
     const failed = results.find(result => result.status === "rejected");
     setData(Object.fromEntries(cards.map(([, , key], index) => [key, results[index].status === "fulfilled" ? results[index].value : null])));

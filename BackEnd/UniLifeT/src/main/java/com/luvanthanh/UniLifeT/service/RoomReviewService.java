@@ -81,6 +81,20 @@ public class RoomReviewService {
                 .stream().map(reviewMapper::toRoomReviewResponse).toList();
     }
 
+    @Transactional(readOnly = true)
+    public List<RoomReviewResponse> getAllForAdmin() {
+        return reviewRepository.findAllByOrderByCreatedAtDesc()
+                .stream().map(reviewMapper::toRoomReviewResponse).toList();
+    }
+
+    @Transactional
+    public void deleteForAdmin(Long reviewId) {
+        if (!reviewRepository.existsById(reviewId)) {
+            throw new AppException(ErrorCode.ROOM_REVIEW_NOT_FOUND);
+        }
+        reviewRepository.deleteById(reviewId);
+    }
+
     private boolean isCompleted(com.luvanthanh.UniLifeT.entity.UserRoom userRoom) {
         if (userRoom.getEndDate() != null && !userRoom.getEndDate().isAfter(LocalDate.now())) {
             return true;

@@ -12,5 +12,7 @@ public interface RoomReviewRepository extends JpaRepository<RoomReview, Long> {
 
     List<RoomReview> findByUserRoom_User_UserIdOrderByCreatedAtDesc(Long userId);
 
+    List<RoomReview> findAllByOrderByCreatedAtDesc();
+
     boolean existsByUserRoom_UserRoomId(Long userRoomId);
 }

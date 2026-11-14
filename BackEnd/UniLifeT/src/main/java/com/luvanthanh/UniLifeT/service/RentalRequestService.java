@@ -99,6 +99,19 @@ public class RentalRequestService {
     }
 
     @Transactional(Transactional.TxType.SUPPORTS)
+    public List<RentalRequestResponse> getAdminRentalRequests(RentalRequestStatus status) {
+        var requests = status == null
+                ? rentalRequestRepository.findAllByOrderByCreatedAtDesc()
+                : rentalRequestRepository.findByStatusOrderByCreatedAtDesc(status);
+        return requests.stream().map(rentalRequestMapper::toRentalRequestResponse).toList();
+    }
+
+    @Transactional(Transactional.TxType.SUPPORTS)
+    public RentalRequestResponse getAdminRentalRequest(Long id) {
+        return rentalRequestMapper.toRentalRequestResponse(findRentalRequest(id));
+    }
+
+    @Transactional(Transactional.TxType.SUPPORTS)
     public List<RentalRequestResponse> getStudentRentalRequests(String username, RentalRequestStatus status) {
         User student = findUser(username);
         var requests = status == null

@@ -52,15 +52,16 @@ function Editor({ config, row, onClose, onSave }) {
 
 export default function ResourcePage({ config }) {
   const [rows, setRows] = useState([]); const [loading, setLoading] = useState(true); const [error, setError] = useState("");
-  const [search, setSearch] = useState(""); const [editorRow, setEditorRow] = useState(undefined);
+  const [search, setSearch] = useState(""); const [editorRow, setEditorRow] = useState(undefined); const [statusFilter, setStatusFilter] = useState("");
   const reload = useCallback(async () => {
     setLoading(true); setError("");
     try {
-      const data = await api.list(config.path);
+      const query = statusFilter ? `?status=${encodeURIComponent(statusFilter)}` : "";
+      const data = await api.list(`${config.path}${query}`);
       setRows(config.filter ? data.filter(config.filter) : data);
     } catch (e) { setError(e.message); }
     finally { setLoading(false); }
-  }, [config]);
+  }, [config, statusFilter]);
   useEffect(() => { reload(); }, [reload]);
 
   const filtered = useMemo(() => {
@@ -82,7 +83,7 @@ export default function ResourcePage({ config }) {
 
   return <main className="content">
     <div className="page-title"><div><h1>{config.title}</h1><p>{config.description}</p></div>{config.fields?.length > 0 && <button className="button primary" onClick={() => setEditorRow(null)}>Thêm {config.itemName}</button>}</div>
-    <section className="panel"><div className="toolbar"><input type="search" value={search} onChange={e => setSearch(e.target.value)} placeholder={`Tìm trong ${config.title.toLocaleLowerCase("vi")}…`} /><button className="button secondary" onClick={reload}>Tải lại</button><span>{loading ? "Đang tải…" : `${formatNumber(filtered.length)} bản ghi`}</span></div>
+    <section className="panel"><div className="toolbar"><input type="search" value={search} onChange={e => setSearch(e.target.value)} placeholder={`Tìm trong ${config.title.toLocaleLowerCase("vi")}…`} />{config.statusOptions&&<select className="status-filter" value={statusFilter} onChange={e=>setStatusFilter(e.target.value)}><option value="">Tất cả trạng thái</option>{config.statusOptions.map(([value,label])=><option key={value} value={value}>{label}</option>)}</select>}<button className="button secondary" onClick={reload}>Tải lại</button><span>{loading ? "Đang tải…" : `${formatNumber(filtered.length)} bản ghi`}</span></div>
       {error && <div className="error-banner">{error}</div>}
       {loading ? <div className="empty-state">Đang tải dữ liệu từ backend…</div> : filtered.length === 0 ? <div className="empty-state">{error ? "Không tải được dữ liệu." : "API không có bản ghi phù hợp."}</div> : <div className="table-wrap"><table><thead><tr>{config.columns.map(col => <th key={col.key}>{col.label}</th>)}{(config.fields?.length || config.deletePath) && <th>Thao tác</th>}</tr></thead><tbody>{filtered.map((row, index) => <tr key={row[config.idKey] ?? index}>{config.columns.map(col => <td key={col.key}>{valueFor(row, col)}</td>)}{(config.fields?.length || config.deletePath) && <td><div className="row-actions">{config.fields?.length > 0 && config.allowEdit !== false && <button className="text-button" onClick={() => setEditorRow(row)}>Sửa</button>}{config.deletePath && <button className="text-button danger" onClick={() => remove(row)}>Xóa</button>}</div></td>}</tr>)}</tbody></table></div>}
     </section>

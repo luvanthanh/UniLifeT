@@ -10,4 +10,4 @@ React admin app built with Vite. Tables, dashboard counts, and profile details a
 
 Sign in with an account whose backend role is `ADMIN`. Set `VITE_API_URL` in `.env` if the backend uses another URL. Admin API calls are proxied by Vite during development.
 
-The backend currently has no admin API for rental requests. The admin app therefore shows rental contracts from `GET /user-room` instead.
+Admin lists rental requests and viewing appointments through role-protected backend endpoints. Rental contracts are shown separately from `GET /user-room`.

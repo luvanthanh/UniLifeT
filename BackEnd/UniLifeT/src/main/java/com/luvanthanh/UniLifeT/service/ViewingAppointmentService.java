@@ -77,6 +77,14 @@ public class ViewingAppointmentService {
     }
 
     @Transactional(readOnly = true)
+    public List<ViewingAppointmentResponse> getAdminAppointments(ViewingAppointmentStatus status) {
+        var appointments = status == null
+                ? appointmentRepository.findAllByOrderByCreatedAtDesc()
+                : appointmentRepository.findByStatusOrderByCreatedAtDesc(status);
+        return appointments.stream().map(appointmentMapper::toViewingAppointmentResponse).toList();
+    }
+
+    @Transactional(readOnly = true)
     public ViewingAppointmentResponse getById(String username, Long appointmentId) {
         var user = findUser(username);
         ViewingAppointment appointment = findAppointment(appointmentId);

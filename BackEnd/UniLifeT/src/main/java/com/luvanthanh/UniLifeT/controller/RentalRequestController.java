@@ -57,15 +57,26 @@ public class RentalRequestController {
                 .build();
     }
 
+    @GetMapping("/admin")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ApiResponse<List<RentalRequestResponse>> getAllRentalRequestsForAdmin(
+            @RequestParam(required = false) RentalRequestStatus status) {
+        var result = rentalRequestService.getAdminRentalRequests(status);
+        return ApiResponse.<List<RentalRequestResponse>>builder()
+                .code(1000).message("Get all rental requests successful").data(result).build();
+    }
+
     @GetMapping("/{rentalRequestId}")
-    @PreAuthorize("hasAnyRole('STUDENT', 'OWNER')")
+    @PreAuthorize("hasAnyRole('STUDENT', 'OWNER', 'ADMIN')")
     public ApiResponse<RentalRequestResponse> getRentalRequest(Authentication authentication,
             @PathVariable Long rentalRequestId) {
         String role = authentication.getAuthorities().stream().map(a -> a.getAuthority())
                 .filter(a -> a.equals("ROLE_OWNER") || a.equals("ROLE_STUDENT"))
                 .findFirst().orElse("");
-        var result = rentalRequestService.getRentalRequest(authentication.getName(), rentalRequestId,
-                role.equals("ROLE_OWNER"));
+        var result = role.equals("ROLE_ADMIN")
+                ? rentalRequestService.getAdminRentalRequest(rentalRequestId)
+                : rentalRequestService.getRentalRequest(authentication.getName(), rentalRequestId,
+                        role.equals("ROLE_OWNER"));
         return ApiResponse.<RentalRequestResponse>builder().code(1000)
                 .message("Get rental request successful").data(result).build();
     }

@@ -17,6 +17,10 @@ public interface RentalRequestRepository extends JpaRepository<RentalRequest, Lo
 
     List<RentalRequest> findByRoom_Motel_User_UserIdAndStatusOrderByCreatedAtDesc(Long ownerId, RentalRequestStatus status);
 
+    List<RentalRequest> findByStatusOrderByCreatedAtDesc(RentalRequestStatus status);
+
+    List<RentalRequest> findAllByOrderByCreatedAtDesc();
+
     List<RentalRequest> findByRoom_RoomIdAndStatus(Long roomId, RentalRequestStatus status);
 
     boolean existsByStudent_UserIdAndRoom_RoomIdAndStatus(
