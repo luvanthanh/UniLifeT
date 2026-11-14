@@ -1,29 +1,13 @@
-# UniLifeT Admin Frontend
+# UniLifeT Admin
 
-Giao diện quản trị dành cho Admin, xây dựng bằng HTML, CSS và JavaScript thuần.
+React admin app built with Vite. Tables, dashboard counts, and profile details are loaded from the UniLifeT backend API; no demo records are embedded in the interface.
 
-## Chạy thử
+## Run locally
 
-1. Mở thư mục `FrontEnd/FrontEndAdmin` trong VS Code.
-2. Dùng Live Server mở file `html/dashboard.html`.
-3. Các trang admin được render từ `javascript/admin.js` và mang theme thương hiệu UniLifeT theo đúng palette hệ thống.
+1. Start the backend at `http://localhost:8080`.
+2. From this folder, run `npm install`.
+3. Run `npm run dev` and open `http://127.0.0.1:5502`.
 
-## Các trang chính
+Sign in with an account whose backend role is `ADMIN`. Set `VITE_API_URL` in `.env` if the backend uses another URL. Admin API calls are proxied by Vite during development.
 
-- `html/dashboard.html`: tổng quan dashboard.
-- `html/users.html`: quản lý người dùng.
-- `html/owners.html`: quản lý chủ trọ.
-- `html/motels.html`: quản lý nhà trọ.
-- `html/rooms.html`: quản lý phòng trọ.
-- `html/posts.html`: quản lý tin đăng.
-- `html/universities.html`: quản lý trường đại học.
-- `html/services.html`: quản lý dịch vụ.
-- `html/amenities.html`: quản lý tiện nghi.
-- `html/rental-requests.html`: quản lý yêu cầu thuê.
-- `html/reports.html`: thống kê & báo cáo.
-- `html/profile.html`: hồ sơ quản trị.
-
-## Lưu ý
-
-- Đây là giao diện frontend mock/demo, không thay đổi backend hoặc database.
-- Tất cả các màn hình đều chuẩn bị sẵn cho việc tích hợp API Spring Boot khi backend hoàn thiện.
+The backend currently has no admin API for rental requests. The admin app therefore shows rental contracts from `GET /user-room` instead.
