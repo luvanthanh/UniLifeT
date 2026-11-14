@@ -16,7 +16,7 @@ async function loadRentals() {
             fetch(`http://localhost:8080/user-room/users/${encodeURIComponent(session.userId)}`, {
                 headers: { Authorization: `Bearer ${session.token}` }
             }).then(parseApiResponse),
-            fetch("http://localhost:8080/roms").then(parseApiResponse)
+            fetch("http://localhost:8080/rooms").then(parseApiResponse)
         ]);
         const roomList = Array.isArray(rooms) ? rooms : [];
         const rentals = Array.isArray(records)

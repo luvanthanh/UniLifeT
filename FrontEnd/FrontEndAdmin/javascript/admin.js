@@ -177,7 +177,7 @@ async function loadAdminData() {
   const [usersRes, motelsRes, roomsRes, postsRes, universitiesRes, servicesRes, amenitiesRes] = await Promise.all([
     apiRequest("users"),
     apiRequest("motels"),
-    apiRequest("roms"),
+    apiRequest("rooms"),
     apiRequest("posts"),
     apiRequest("universities"),
     apiRequest("services"),

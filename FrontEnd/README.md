@@ -18,7 +18,8 @@ Thông tin phòng, nhà trọ, hình ảnh, dịch vụ, tiện nghi, trường 
 - API trường trả `universityId` để liên kết trường với `MotelResponse.universityIds`; trang nhà trọ lọc theo quan hệ này, sau đó lọc phòng theo `RoomResponse.motelId`.
 - Endpoint đọc/cập nhật hồ sơ người dùng hiện được bảo vệ theo quyền ADMIN, nên CUSTOMER có thể nhận HTTP 403.
 - API cập nhật người dùng hiện ánh xạ toàn bộ `UserUpdateRequest`, trong đó có mật khẩu; phản hồi hồ sơ không trả mật khẩu. Giao diện không gửi cập nhật hồ sơ để tránh ghi đè thông tin mật khẩu khi backend chưa hỗ trợ cập nhật từng phần.
-- Backend chưa có endpoint gửi yêu cầu thuê hoặc liên hệ chủ trọ; `UserRoom` chỉ tạo bản ghi thuê/hợp đồng nên giao diện không giả lập việc gửi yêu cầu.
+- Backend có các endpoint gửi, xem, hủy và xử lý yêu cầu thuê tại `/rental-requests`; giao diện customer hiện chưa kết nối các endpoint này.
+- Khi dùng database đã có, cần chạy `Database/migrations/20261113_create_rental_requests.sql` trước khi khởi động backend. Với database mới, bảng này đã có trong `Database/UniLifeT.sql`.
 - Backend chưa có API quên mật khẩu.
 - Endpoint `GET /user-room/users/{userId}` hiện được mở công khai trong cấu hình security. Giao diện chỉ gọi với userId nhận khi đăng nhập và lọc lại kết quả, nhưng backend cần xác thực quyền sở hữu để bảo đảm riêng tư trước khi phát hành.
 - Backend hiện cho phép CORS từ `http://localhost:8765`, `http://localhost:5500`, `http://127.0.0.1:5500`, `http://localhost:5501` và `http://127.0.0.1:5501`. Nếu Live Server chạy ở origin khác, cần thêm origin đó trong cấu hình CORS backend.

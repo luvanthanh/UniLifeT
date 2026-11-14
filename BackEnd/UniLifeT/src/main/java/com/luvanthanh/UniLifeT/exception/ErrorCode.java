@@ -28,7 +28,11 @@ public enum ErrorCode {
     USER_ROOM_NOT_FOUND(1017, "không có hợp đồng thuê phòng trong cơ sở dữ liệu", HttpStatus.NOT_FOUND),
     UNIVERSITY_HAVE_CODE(1018,"university đã có mã code này, lấy mã code khác", HttpStatus.BAD_REQUEST),
     ROOM_AMENITY_NOT_FOUND(1019, "không có tiện ích phòng trong cơ sở dữ liệu", HttpStatus.NOT_FOUND),
-    ROOM_SERVICE_NOT_FOUND(1020, "không có dịch vụ phòng trong cơ sở dữ liệu", HttpStatus.NOT_FOUND)
+    ROOM_SERVICE_NOT_FOUND(1020, "không có dịch vụ phòng trong cơ sở dữ liệu", HttpStatus.NOT_FOUND),
+    RENTAL_REQUEST_NOT_FOUND(1021, "không có yêu cầu thuê phòng trong cơ sở dữ liệu", HttpStatus.NOT_FOUND),
+    ROOM_NOT_AVAILABLE(1022, "phòng hiện không còn trống", HttpStatus.CONFLICT),
+    RENTAL_REQUEST_ALREADY_EXISTS(1023, "bạn đã có yêu cầu đang chờ xử lý cho phòng này", HttpStatus.CONFLICT),
+    INVALID_RENTAL_REQUEST(1024, "thông tin hoặc trạng thái yêu cầu thuê phòng không hợp lệ", HttpStatus.BAD_REQUEST)
     ;
 
 

@@ -62,7 +62,7 @@ async function loadMotelsForUniversity() {
 async function loadRoomsForMotel() {
     const [motelResponse, roomsResponse, imagesResponse] = await Promise.all([
         fetch(`http://localhost:8080/motels/${encodeURIComponent(motelId)}`),
-        fetch("http://localhost:8080/roms"),
+        fetch("http://localhost:8080/rooms"),
         fetch("http://localhost:8080/room-images")
     ]);
     const [motel, rooms, images] = await Promise.all([

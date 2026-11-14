@@ -14,8 +14,8 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
-@RequestMapping("/roms")
-public class RomController {
+@RequestMapping("/rooms")
+public class RoomController {
 
     @Autowired
     private RoomService roomService;
@@ -69,7 +69,7 @@ public class RomController {
     }
 
 //    lọc phòng theo diện tích
-    @GetMapping("/filter-by-price")
+    @GetMapping("/filter-by-area")
     public ApiResponse<List<RoomResponse>> filterRoomsByRoomArea(
             @RequestParam double areaMin,
             @RequestParam double  areaMax) {

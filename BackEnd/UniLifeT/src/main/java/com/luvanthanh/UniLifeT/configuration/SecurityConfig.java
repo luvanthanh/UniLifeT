@@ -73,10 +73,10 @@ public class SecurityConfig {
             "/amenities/*",
             "/services",
             "/services/*",
-            "/roms",
-            "/roms/{roomId}",
+            "/rooms",
+            "/rooms/{roomId}",
             "/room-service",
-            "/room-service/{romServiceId}",
+            "/room-service/{roomServiceId}",
             "/room-service/get-room-service/{roomId}",
 
             "/room-amenity",

@@ -2,7 +2,7 @@ import { escapeHtml, formatVnd, parseApiResponse, safeHttpUrl } from "./common.j
 
 export async function loadRooms() {
     const [rooms, motels, images] = await Promise.all([
-        fetch("http://localhost:8080/roms").then(parseApiResponse),
+        fetch("http://localhost:8080/rooms").then(parseApiResponse),
         fetch("http://localhost:8080/motels").then(parseApiResponse),
         fetch("http://localhost:8080/room-images").then(parseApiResponse)
     ]);

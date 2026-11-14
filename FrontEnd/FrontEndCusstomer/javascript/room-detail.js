@@ -71,7 +71,7 @@ async function init() {
     }
 
     try {
-        const roomResponse = await fetch(`http://localhost:8080/roms/${encodeURIComponent(roomId)}`);
+        const roomResponse = await fetch(`http://localhost:8080/rooms/${encodeURIComponent(roomId)}`);
         const room = await parseApiResponse(roomResponse);
         const [motelsResult, imagesResult, roomServicesResult, servicesResult, roomAmenitiesResult, amenitiesResult] = await Promise.allSettled([
             fetch(`http://localhost:8080/motels/${encodeURIComponent(room.motelId)}`).then(parseApiResponse),
